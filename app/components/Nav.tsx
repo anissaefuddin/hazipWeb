@@ -16,7 +16,7 @@ export const Nav = () => {
         className={`${styles.link} ${pathname === '/' ? styles.active : ''}`}
         href="/"
       >
-        Home
+        Study Data
       </Link>
       <Link
         className={`${styles.link} ${
@@ -24,7 +24,7 @@ export const Nav = () => {
         }`}
         href="/verify"
       >
-        Verify
+        Hazard Type
       </Link>
       <Link
         className={`${styles.link} ${
@@ -32,7 +32,23 @@ export const Nav = () => {
         }`}
         href="/testMenu"
       >
-        Test Menu
+        Guide Word
+      </Link>
+      <Link
+        className={`${styles.link} ${
+          pathname === '/TestMenu' ? styles.active : ''
+        }`}
+        href="/testMenu"
+      >
+        Lopa Workshee
+      </Link>
+      <Link
+        className={`${styles.link} ${
+          pathname === '/TestMenu' ? styles.active : ''
+        }`}
+        href="/testMenu"
+      >
+        Recommendati
       </Link>
     </nav>
   )

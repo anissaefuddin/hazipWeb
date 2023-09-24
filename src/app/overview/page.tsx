@@ -1,13 +1,6 @@
 'use client'
 import { useState } from 'react'
-
 import PageHeader from "@/partials/PageHeader";
-
-import { getListPage, getSinglePage } from "@/lib/contentParser";
-
-import config from "@/config/config.json";
-const { blog_folder, pagination } = config.settings;
-import { Post } from "@/types";
 /* Instruments */
 import {
   dataAppSlice,
@@ -44,6 +37,7 @@ const Overview = () => {
     <PageHeader title="Overview" />
       <section className="section-sm">
         <div className="container">
+          
           <div className="row">
             <div className="">
               <form method="POST">

@@ -1,6 +1,6 @@
 /* Core */
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
-import { appDataSliceState, ModeData, Overview  } from '../../../model/interfaceData';
+import { appDataSliceState, ModeData, Overview, Team_Members  } from '../../../model/interfaceData';
 
 /* Instruments */
 import { addDataOverViewAsync } from './thunks'
@@ -24,6 +24,18 @@ const initialState: appDataSliceState = {
       Project_Number:"",
       Project_Description:"",
       General_Notes: ""
+    },
+    Team_Members:{
+      ID	:	"",
+      Name	:	"",
+      Company	:	"",
+      Title	:	"",
+      Department	:	"",
+      Expertise	:	"",
+      Experience	:"",	
+      Phone_Number	:	"",
+      E__Mail_Address	:	"",
+      Team_Member_Comments	:""
     }
   },
   status: 'idle',

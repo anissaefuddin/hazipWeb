@@ -5,7 +5,8 @@ export interface appDataSliceState {
   }
   
   export interface ModeData {
-    Overview : Overview
+    Overview : Overview,
+    Team_Members : Team_Members
   }
   
   
@@ -27,3 +28,22 @@ export interface appDataSliceState {
     Project_Description:string,
     General_Notes:string
   }
+
+  export interface Team_Members {
+    ID	:	string,
+    Name	:	string,
+    Company	:	string,
+    Title	:	string,
+    Department	:	string,
+    Expertise	:	string,
+    Experience	:string,	
+    Phone_Number	:	string,
+    E__Mail_Address	:	string,
+    Team_Member_Comments	:string
+  }
+
+  export interface TeamMembersState {
+    data: Team_Members[],
+    status: 'idle' | 'loading' | 'failed'
+  }
+  

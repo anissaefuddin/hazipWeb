@@ -1,29 +1,111 @@
-# Redux Toolkit TypeScript Example
+<h1 align=center>Nextjs + Tailwind CSS + TypeScript Starter and Boilerplate</h1>
 
-This example shows how to integrate Next.js with [Redux Toolkit](https://redux-toolkit.js.org).
+<p align=center>Nextplate is a free starter template built with Nextjs, TailwindCSS & TypeScript, providing everything you need to jumpstart your Next project and save valuable time.</p>
 
-The **Redux Toolkit** is a standardized way to write Redux logic (create actions and reducers, setup the store with some default middlewares like redux devtools extension). This example demonstrates each of these features with Next.js
+<p align=center>Made with ♥ by<a href="https://zeon.studio/"> Zeon Studio</a></p>
+<p align=center> If you find this project useful, please give it a ⭐ to show your support. </p>
 
-## Deploy your own
+<h2 align="center"> <a target="_blank" href="https://nextplate.netlify.app/" rel="nofollow">👀 Demo</a> | <a  target="_blank" href="https://pagespeed.web.dev/analysis/https-nextplate-netlify-app/zttnq0z42d?form_factor=desktop">Page Speed (100%)🚀</a>
+</h2>
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+<p align=center>
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-redux&project-name=with-redux&repository-name=with-redux)
+  <a href="https://github.com/vercel/next.js/releases/tag/v13.5.1" alt="Contributors">
+    <img src="https://img.shields.io/static/v1?label=NEXTJS&message=13.4&color=000&logo=nextjs" />
+  </a>
 
-## How to use
+  <a href="https://github.com/zeon-studio/nextplate/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/zeon-studio/nextplate" alt="license"></a>
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+  <img src="https://img.shields.io/github/languages/code-size/zeon-studio/nextplate" alt="code size">
+
+  <a href="https://github.com/zeon-studio/nextplate/graphs/contributors">
+    <img src="https://img.shields.io/github/contributors/zeon-studio/nextplate" alt="contributors"></a>
+</p>
+
+## 📌 Key Features
+
+- 👥 Multi-Authors
+- 🎯 Similar Posts Suggestion
+- 🔍 Search Functionality
+- 🌑 Dark Mode
+- 🏷️ Tags & Categories
+- 🔗 Netlify setting pre-configured
+- 📞 Support contact form
+- 📱 Fully responsive
+- 📝 Write and update content in Markdown / MDX
+- 💬 Disqus Comment
+- 🔳 Syntax Highlighting
+
+### 📄 15+ Pre-designed Pages
+
+- 🏠 Homepage
+- 👤 About
+- 📞 Contact
+- 👥 Authors
+- 👤 Author Single
+- 📝 Blog
+- 📝 Blog Single
+- 🚫 Custom 404
+- 💡 Elements
+- 📄 Privacy Policy
+- 🏷️ Tags
+- 🏷️ Tag Single
+- 🗂️ Categories
+- 🗂️ Category Single
+- 🔍 Search
+
+## 🚀 Getting Started
+
+### 📦 Dependencies
+
+- next 13.4+
+- node v18+
+- npm v9.5+
+- tailwind v3.3+
+
+### 👉 Install Dependencies
 
 ```bash
-npx create-next-app --example with-redux with-redux-app
+npm install
 ```
+
+### 👉 Development Command
 
 ```bash
-yarn create next-app --example with-redux with-redux-app
+npm run dev
 ```
+
+### 👉 Build Command
 
 ```bash
-pnpm create next-app --example with-redux with-redux-app
+npm run build
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+### 👉 Build and Run With Docker
+
+```bash
+docker build -t nextplate .
+docker run -p 3000:3000 nextplate
+```
+
+<!-- reporting issue -->
+
+## 🐞 Reporting Issues
+
+We use GitHub Issues as the official bug tracker for this Template. Please Search [existing issues](https://github.com/zeon-studio/nextplate/issues). It’s possible someone has already reported the same problem.
+If your problem or idea has not been addressed yet, feel free to [open a new issue](https://github.com/zeon-studio/nextplate/issues).
+
+<!-- licence -->
+
+## 📝 License
+
+Copyright (c) 2023 - Present, Designed & Developed by [Zeon Studio](https://zeon.studio/)
+
+**Code License:** Released under the [MIT](https://github.comzeon-studio/nextplate/blob/main/LICENSE) license.
+
+**Image license:** The images are only for demonstration purposes. They have their license, we don't have permission to share those images.
+
+## 💻 Need Custom Development Services?
+
+If you need a custom theme, theme customization, or complete website development services from scratch you can [Hire Us](https://zeon.studio/).

@@ -1,22 +1,88 @@
 {
   "main": [
     {
-      "name": "Home",
-      "url": "/"
+      "name": "Study Data",
+      "url": "",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "Overview",
+          "url": "/overview"
+        },
+        {
+          "name": "Team Members",
+          "url": "/team-members"
+        },
+        {
+          "name": "Session",
+          "url": "/session"
+        },
+        {
+          "name": "Attendance",
+          "url": "/attendance"
+        },
+        {
+          "name": "Document",
+          "url": "/document"
+        },
+        {
+          "name": "Column Setting",
+          "url": "/column-setting"
+        }
+      ]
     },
     {
-      "name": "About",
+      "name": "Hazard Type",
+      "url": "/nodes"
+    },
+    {
+      "name": "Guide Word",
       "url": "/about"
     },
     {
-      "name": "Elements",
-      "url": "/elements"
+      "name": "PHA Worksheet",
+      "url": "/pha-worksheet"
+    },
+    {
+      "name": "Recommendation",
+      "url": "/recommendation"
+    },
+    {
+      "name": "Safeguard",
+      "url": "/recommendation"
+    },
+    {
+      "name": "Risk Matrix",
+      "url": "",
+      "hasChildren":true,
+      "children" :[
+        {"name": "risk-matrix",
+        "url":"/risk-matrix"
+        },
+        {"name": "Likelihood categories",
+        "url":"/likelihood"
+        },
+        {"name": "Consequence categories",
+        "url":"/consequence"
+        },
+        {"name": "Risk Ranking",
+        "url":"/risk-ranking"
+        }
+      ]
     },
     {
       "name": "Pages",
       "url": "",
       "hasChildren": true,
       "children": [
+        {
+          "name": "Home",
+          "url": "/"
+        },
+        {
+          "name": "About",
+          "url": "/about"
+        },
         {
           "name": "Contact",
           "url": "/contact"

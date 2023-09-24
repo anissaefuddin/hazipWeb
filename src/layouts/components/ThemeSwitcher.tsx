@@ -18,7 +18,7 @@ const ThemeSwitcher = ({ className }: { className: string }) => {
             id="theme-switcher"
             type="checkbox"
             defaultChecked={
-              mounted && (theme === "dark" || resolvedTheme === "dark")
+              mounted && (theme === "light" || resolvedTheme === "light")
             }
             onClick={() =>
               setTheme(

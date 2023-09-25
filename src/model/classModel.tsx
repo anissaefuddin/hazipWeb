@@ -1,8 +1,8 @@
 export class DataGlobal {
   constructor(
-    public overview : Overview, 
-    public team_members: Team_Members[] = [],
-    public sessions: Sessions[] = [],
+    public Overview : Overview, 
+    public Team_Members: Team_Members[] = [],
+    public Sessions: Sessions[] = [],
     public Team_Members_Sessions : Team_Members_Sessions[] =[],
     public Revalidation_History : Revalidation_History [] = [],
     public Nodes : Nodes [] = [],
@@ -175,7 +175,7 @@ export class Team_Members {
 }
 export class Sessions {
   constructor(
-    public ID?	:string,
+    public ID	:string,
     public Date?	:string,
     public Duration?	:string,
     public Session?	:string,

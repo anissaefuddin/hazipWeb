@@ -7,7 +7,7 @@ import { useDataGlobal } from '../../model/DataGlobalContext';
 import { Sessions } from '@/model/classModel';
 const Session: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
-  const initialSessions: Sessions[] = dataGlobal.sessions;
+  const initialSessions: Sessions[] = dataGlobal.Sessions;
   const [sessions, setSessions] = useState<Sessions[]>(initialSessions);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
@@ -15,7 +15,7 @@ const Session: React.FC  = () => {
     const newSessions = { ID: uuidv4()};
     setSessions([...sessions, newSessions]);
     updateDataGlobal(dataGlobal);
-    dataGlobal.sessions = sessions;
+    dataGlobal.Sessions = sessions;
   };
   const handleCloseError = () => {
     setShowError(false)
@@ -25,7 +25,7 @@ const Session: React.FC  = () => {
       const updatedSessions = [...sessions];
       updatedSessions.splice(activeRow, 1);
       setSessions(updatedSessions);
-      dataGlobal.sessions = sessions;
+      dataGlobal.Sessions = sessions;
       setActiveRow(null);
       setShowError(false);
     }else{
@@ -43,7 +43,7 @@ const Session: React.FC  = () => {
       updatedSessions[activeRow] =updatedSessions[activeRow-1];
       updatedSessions[activeRow-1]= temp;
       setSessions(updatedSessions);
-      dataGlobal.sessions = sessions;
+      dataGlobal.Sessions = sessions;
       setActiveRow(activeRow-1);
       setShowError(false);
       }
@@ -60,7 +60,7 @@ const Session: React.FC  = () => {
       updatedsessions[activeRow] =updatedsessions[activeRow+1];
       updatedsessions[activeRow+1]= temp;
       setSessions(updatedsessions);
-      dataGlobal.sessions = sessions;
+      dataGlobal.Sessions = sessions;
       setActiveRow(activeRow+1);
       setShowError(false);
       }
@@ -111,8 +111,8 @@ const Session: React.FC  = () => {
       const jsonData = JSON.parse(fileContents);
       console.log(jsonData.overview)
       updateDataGlobal(jsonData);
-      console.log(dataGlobal.overview)
-      console.log(dataGlobal.team_members)
+      console.log(dataGlobal.Overview)
+      console.log(dataGlobal.Team_Members)
     } catch (error) {
       console.error('Gagal membaca file JSON:', error);
     }

@@ -8,7 +8,7 @@ import { useDataGlobal } from '../../model/DataGlobalContext';
 import { Team_Members } from '@/model/classModel';
 const Teammember: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
-  const initialTeamMembers: Team_Members[] = dataGlobal.team_members;
+  const initialTeamMembers: Team_Members[] = dataGlobal.Team_Members;
   const [teamMembers, setTeamMembers] = useState<Team_Members[]>(initialTeamMembers);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
@@ -16,7 +16,7 @@ const Teammember: React.FC  = () => {
     const newTeamMember = { ID: uuidv4()};
     setTeamMembers([...teamMembers, newTeamMember]);
     const dataApa = dataGlobal;
-    dataApa.team_members = teamMembers;
+    dataApa.Team_Members = teamMembers;
     updateDataGlobal(dataApa);
   };
   const handleCloseError = () => {
@@ -27,7 +27,7 @@ const Teammember: React.FC  = () => {
       const updatedTeamMembers = [...teamMembers];
       updatedTeamMembers.splice(activeRow, 1);
       setTeamMembers(updatedTeamMembers);
-      dataGlobal.team_members = teamMembers;
+      dataGlobal.Team_Members = teamMembers;
       setActiveRow(null);
       setShowError(false);
     }else{
@@ -45,7 +45,7 @@ const Teammember: React.FC  = () => {
       updatedTeamMembers[activeRow] =updatedTeamMembers[activeRow-1];
       updatedTeamMembers[activeRow-1]= temp;
       setTeamMembers(updatedTeamMembers);
-      dataGlobal.team_members = teamMembers;
+      dataGlobal.Team_Members = teamMembers;
       setActiveRow(activeRow-1);
       setShowError(false);
       }
@@ -62,7 +62,7 @@ const Teammember: React.FC  = () => {
       updatedTeamMembers[activeRow] =updatedTeamMembers[activeRow+1];
       updatedTeamMembers[activeRow+1]= temp;
       setTeamMembers(updatedTeamMembers);
-      dataGlobal.team_members = teamMembers;
+      dataGlobal.Team_Members = teamMembers;
       setActiveRow(activeRow+1);
       setShowError(false);
       }
@@ -75,7 +75,7 @@ const Teammember: React.FC  = () => {
     updatedTeamMembers[index].Name = e.target.value;
     setTeamMembers(updatedTeamMembers);
     const dataApa = dataGlobal;
-    dataApa.team_members = teamMembers;
+    dataApa.Team_Members = teamMembers;
     updateDataGlobal(dataApa);
   };
   const handleCompanyChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {

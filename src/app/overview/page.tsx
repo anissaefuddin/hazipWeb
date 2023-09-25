@@ -6,14 +6,14 @@ import { Overview } from '@/model/classModel';
 
 const Overviews: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
-  const initialOverview: Overview = dataGlobal.overview;
+  const initialOverview: Overview = dataGlobal.Overview;
   const [overview, setOverview] = useState<Overview>(initialOverview);
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedOverview = { ...overview };
     updatedOverview.Study_Name = e.target.value;
     setOverview(updatedOverview);
     const dataApa = dataGlobal;
-    dataApa.overview = overview;
+    dataApa.Overview = overview;
     updateDataGlobal(dataApa);
   };
   const handleCoordinatorChange = (e: React.ChangeEvent<HTMLInputElement>) => {

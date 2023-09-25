@@ -1,3 +1,4 @@
+import TeamMembers from '@/components/TeamMembers';
 import { DataGlobal,Overview } from './classModel'; // Pastikan Anda mengganti path sesuai struktur proyek Anda
 // DataGlobalContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from 'react';
@@ -19,6 +20,8 @@ export const DataGlobalProvider: React.FC<DataGlobalProviderProps> = ({ children
   );
 
   const updateDataGlobal = (updatedDataGlobal: DataGlobal) => {
+    console.log("test");
+    console.log(updatedDataGlobal)
     setDataGlobal(updatedDataGlobal);
   };
 

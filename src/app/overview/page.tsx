@@ -12,6 +12,9 @@ const Overviews: React.FC = () => {
     const updatedOverview = { ...overview };
     updatedOverview.Study_Name = e.target.value;
     setOverview(updatedOverview);
+    const dataApa = dataGlobal;
+    dataApa.overview = overview;
+    updateDataGlobal(dataApa);
   };
   const handleCoordinatorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedOverview = { ...overview };
@@ -88,6 +91,8 @@ const Overviews: React.FC = () => {
     updatedOverview.General_Notes = e.target.value;
     setOverview(updatedOverview);
   };
+  console.log("testOV")
+  console.log(dataGlobal)
   return (
     <>
     <PageHeader title="Overview" />

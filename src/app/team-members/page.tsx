@@ -15,7 +15,9 @@ const Teammember: React.FC  = () => {
   const handleAddRow = () => {
     const newTeamMember = { ID: uuidv4()};
     setTeamMembers([...teamMembers, newTeamMember]);
-    dataGlobal.team_members = teamMembers;
+    const dataApa = dataGlobal;
+    dataApa.team_members = teamMembers;
+    updateDataGlobal(dataApa);
   };
   const handleCloseError = () => {
     setShowError(false)
@@ -72,6 +74,9 @@ const Teammember: React.FC  = () => {
     const updatedTeamMembers = [...teamMembers];
     updatedTeamMembers[index].Name = e.target.value;
     setTeamMembers(updatedTeamMembers);
+    const dataApa = dataGlobal;
+    dataApa.team_members = teamMembers;
+    updateDataGlobal(dataApa);
   };
   const handleCompanyChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const updatedTeamMembers = [...teamMembers];
@@ -120,8 +125,7 @@ const Teammember: React.FC  = () => {
         <div className="container">
         <div className="row">
             <div className="w-1/6">
-              <div className="">
-              <ul className="mt-4 overflow-x-hidden">
+              <ul>
                 <li className="mb-4 lg:mb-2"><a href="/overview" className="block hover:text-gray-900 font-medium text-gray-600">Overview</a></li>
                 <li className="mb-4 lg:mb-2"><a href="/team-members" className="block hover:text-gray-900 font-medium text-lg text-black">Team Member</a></li>
                 <li className="mb-4 lg:mb-2"><a href="/sessions" className="block hover:text-gray-900 font-medium text-gray-600">Sessions</a></li>
@@ -130,21 +134,12 @@ const Teammember: React.FC  = () => {
                 <li className="mb-4 lg:mb-2"><a href="/setting-columns" className="block hover:text-gray-900 font-medium text-gray-600">Setting Column</a></li>
                 </ul>
                 </div>
-                </div>
             <div className="w-5/6">
-                <div className="flex mb-4">
-                  <div className="w-1/4 h-12">
       <h1>Team Members</h1>
-      <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center" onClick={handleAddRow}>
-        <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
-        <span>Add</span>
-      </button>
-      <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center" onClick={handleRemoveActiveRow}>
-        <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
-        <span>Remove</span>
-      </button>
-      <button onClick={moveUp}>Move Up</button>
-      <button onClick={moveDown}>Move Down</button>
+      <button className="hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center" onClick={handleAddRow}><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-plus-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/></svg></button>
+      <button className=" hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center" onClick={handleRemoveActiveRow}><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16"><path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/></svg></button>
+      <button className=" hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center" onClick={moveUp}><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16"><path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z"/></svg></button>
+      <button className=" hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center" onClick={moveDown}><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16"><path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z"/></svg></button>
       {showError && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
   <strong className="font-bold">Tidak ada row yang dipilih!</strong>
   <span className="block sm:inline"> Pilih Row terlebih dahulu</span>
@@ -210,8 +205,6 @@ const Teammember: React.FC  = () => {
         </tbody>
       </table>
     </div>
-  </div>
-  </div>
   </div>
   </div>
 </section>

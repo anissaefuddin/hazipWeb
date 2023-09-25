@@ -2,6 +2,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { humanize } from "@/lib/utils/textConverter";
 
 const PageHeader = ({ title }: { title: string }) => {
+
   return (
     <section>
       <div className="container text-center">
@@ -10,6 +11,7 @@ const PageHeader = ({ title }: { title: string }) => {
           <Breadcrumbs className="mt-6" />
         </div>
       </div>
+      
     </section>
   );
 };

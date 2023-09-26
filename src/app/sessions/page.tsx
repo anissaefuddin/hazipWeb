@@ -4,11 +4,13 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import PageHeader from "@/partials/PageHeader";
 import { v4 as uuidv4 } from 'uuid';
 import { useDataGlobal } from '../../model/DataGlobalContext';
-import { Sessions } from '@/model/classModel';
+import { Sessions,Team_Members } from '@/model/classModel';
 const Session: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const initialSessions: Sessions[] = dataGlobal.Sessions;
+  const initialMembers: Team_Members[] = [{ID:"1",Name:"Ipung"},{ID:"2",Name:"Diana"},{ID:"3",Name:"Budi"}];
   const [sessions, setSessions] = useState<Sessions[]>(initialSessions);
+  const [members, setMembers] = useState<Team_Members[]>(initialMembers);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {
@@ -83,14 +85,14 @@ const Session: React.FC  = () => {
     updatedsessions[index].Duration = e.target.value;
     setSessions(updatedsessions);
   };
-  const handleFacilitatorIDChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleFacilitatorIDChange = (newValue:string, index: number) => {
     const updatedsessions = [...sessions];
-    updatedsessions[index].Facilitator_ID = e.target.value;
+    updatedsessions[index].Facilitator_ID = newValue;
     setSessions(updatedsessions);
   };
-  const handleScribeChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleScribeChange = (newValue:string, index: number) => {
     const updatedsessions = [...sessions];
-    updatedsessions[index].Scribe_ID = e.target.value;
+    updatedsessions[index].Scribe_ID = newValue;
     setSessions(updatedsessions);
   };
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
@@ -191,12 +193,20 @@ const Session: React.FC  = () => {
                 value={data.Session} onChange={(e) => handleSessionChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
               <td className="border px-4 py-2">
-                <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
-                value={data.Facilitator_ID} onChange={(e) => handleFacilitatorIDChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
+              <select className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none'
+                  value={data.Facilitator_ID}
+                  onChange={(e) => handleFacilitatorIDChange(e.target.value,index)} >
+                  {members.map((member) => (
+                    <option key={member.ID} value={member.ID}>{member.Name}</option>))}
+                  </select>
               </td>
               <td className="border px-4 py-2">
-                <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
-                value={data.Scribe_ID} onChange={(e) => handleScribeChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
+              <select className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none'
+                  value={data.Scribe_ID}
+                  onChange={(e) => handleScribeChange(e.target.value,index)} >
+                  {members.map((member) => (
+                    <option key={member.ID} value={member.ID}>{member.Name}</option>))}
+                  </select>
               </td>
               <td className="border px-4 py-2">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 

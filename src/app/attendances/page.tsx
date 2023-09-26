@@ -12,13 +12,7 @@ const Attendances: React.FC  = () => {
   [{ID:"101",Session:"Sesi 1", Date:"01/01/2023"},
   {ID:"102",Session:"Sesi 2", Date:"02/02/2023"}];
   const initialMembers: Team_Members[] = [{ID:"1",Name:"Ipung"},{ID:"2",Name:"Diana"},{ID:"3",Name:"Budi"}];
-  const initialAttendances: Team_Members_Sessions[] =[
-  new Team_Members_Sessions('a1', '1', '101', 'Present'),
-  new Team_Members_Sessions('a2', '2', '101', 'Absent'),
-  new Team_Members_Sessions('a3', '3', '101', 'Partial'),
-  new Team_Members_Sessions('a4', '1', '102', 'Present'),
-  new Team_Members_Sessions('a5', '2', '102', 'Absent'),
-  new Team_Members_Sessions('a6', '3', '102', 'Partial')];//dataGlobal.Team_Members_Sessions;
+  const initialAttendances: Team_Members_Sessions[] =[new Team_Members_Sessions('a1', '1', '101', 'Present'),new Team_Members_Sessions('a2', '2', '101', 'Absent'),new Team_Members_Sessions('a3', '3', '101', 'Partial'),new Team_Members_Sessions('a4', '1', '102', 'Present'),new Team_Members_Sessions('a5', '2', '102', 'Absent'),new Team_Members_Sessions('a6', '3', '102', 'Partial')];//dataGlobal.Team_Members_Sessions;
   const [sessions, setSessions] = useState<Sessions[]>(initialSessions);
   const [members, setMembers] = useState<Team_Members[]>(initialMembers);
   const [attendances, setAttendances] = useState<Team_Members_Sessions[]>(initialAttendances);

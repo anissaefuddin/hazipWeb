@@ -4,17 +4,17 @@ export class DataGlobal {
     public Team_Members: Team_Members[] = [],
     public Sessions: Sessions[] = [],
     public Team_Members_Sessions : Team_Members_Sessions[] =[],
-    public Revalidation_History : Revalidation_History [] = [],
-    public Nodes : Nodes [] = [],
-    public Safeguards : Safeguards [] = [],
+    public Revalidation_History : Revalidation_History[] = [],
+    public Nodes : Nodes[] = [],
+    public Safeguards : Safeguards[] = [],
     public Parking_Lot : Parking_Lot[]=[],
     public Drawings : Drawings[] = [],
-    public Risk_Criteria ? : Risk_Criteria,
+    public Risk_Criteria : Risk_Criteria,
   ) {}
 }
 export class Nodes{
   constructor(
-    public ID  : string,
+    public ID ?: string,
     public Node_Description ? : string,
     public Intention ? : string,
     public Boundary ? : string,
@@ -161,7 +161,7 @@ export class Overview {
 }
 export class Team_Members {
   constructor(
-    public ID:	string,
+    public ID ? :	string,
     public Name?	:	string,
     public Company?	:	string,
     public Title?	:	string,
@@ -175,7 +175,7 @@ export class Team_Members {
 }
 export class Sessions {
   constructor(
-    public ID	:string,
+    public ID ? :string,
     public Date?	:string,
     public Duration?	:string,
     public Session?	:string,
@@ -186,7 +186,7 @@ export class Sessions {
 
 export class Team_Members_Sessions{
   constructor(
-    public ID 	:string,
+    public ID ?:string,
     public Team_Member_ID ?	:string,
     public Session_ID ?	:string,
     public Value ?	:string
@@ -195,7 +195,7 @@ export class Team_Members_Sessions{
 
 export class Safeguards{
   constructor(
-    public ID 	: string,
+    public ID ?: string,
     public Safeguard ?	: string,
     public Safeguard_Type ?	: string,
     public Safeguard_Independent ?	: string,

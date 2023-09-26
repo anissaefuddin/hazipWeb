@@ -14,7 +14,7 @@ export class DataGlobal {
 }
 export class Nodes{
   constructor(
-    public ID ?: string,
+    public ID? : string,
     public Node_Description ? : string,
     public Intention ? : string,
     public Boundary ? : string,
@@ -25,7 +25,7 @@ export class Nodes{
     public Equipment_Tags ? : string,
     public Location ? : string,
     public Node_Comments ? : string,
-    public Session_IDs  : Session_IDs  [] = [],
+    public Session_IDs  : Session_IDs [] = [],
     public Drawing_IDs  : Drawing_IDs [] = [],
     public Deviations  : Deviations [] = []
   ){}

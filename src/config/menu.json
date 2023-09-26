@@ -56,17 +56,17 @@
       "url": "",
       "hasChildren":true,
       "children" :[
-        {"name": "risk-matrix",
+        {"name": "Risk matrix",
         "url":"/risk-matrix"
         },
-        {"name": "Likelihood categories",
-        "url":"/likelihood"
+        {"name": "Likelihoods",
+        "url":"/likelihoods"
         },
-        {"name": "Consequence categories",
-        "url":"/consequence"
+        {"name": "Consequences",
+        "url":"/consequences"
         },
         {"name": "Risk Ranking",
-        "url":"/risk-ranking"
+        "url":"/risk-rankings"
         }
       ]
     },

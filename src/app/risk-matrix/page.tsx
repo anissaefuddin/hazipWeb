@@ -84,7 +84,7 @@ const Riskmatrics: React.FC  = () => {
             {index === 0 ? <td rowSpan={filteredSeveritys.length} className='rotate'><b>Concequences</b></td> : ''}  
               <td className='border px-4 py-2'>{severity.RM_Description}</td>
               {likelihoods.map((likelihood) => (
-                <td key={likelihood.ID} className='border px-4 py-2' style={{ backgroundColor: getBackgroundColor(severity.ID,likelihood.ID) }}>
+                <td key={likelihood.ID} className='border px-2 py-2' style={{ backgroundColor: getBackgroundColor(severity.ID,likelihood.ID) }}>
                   <select className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none'
                   value={intersections.find(
                     (intersection) =>

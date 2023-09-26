@@ -65,19 +65,18 @@ const Riskmatrics: React.FC  = () => {
                 </ul>
                 </div>
             <div className="w-5/6">
-                
-      <h1>Risk Matrix</h1>
-      <div> 
-<select className=' bg-transparent w-full leading-tight focus:outline-none'
-                  value={severityType}
-                  onChange={(e) => handleTypeChange(e.target.value)} >
-                    <option  value="Safety">Safety</option>
-                    <option  value="Environment">Environment</option>
-                    <option  value="Asset">Asset</option>
-                    <option  value="Community">Community</option>
-                    <option  value="Reputation">Reputation</option>
-                  </select>
-</div>
+              <h1>Risk Matrix</h1>
+              <div> 
+                <select className=' bg-transparent w-full leading-tight focus:outline-none'
+                value={severityType}
+                onChange={(e) => handleTypeChange(e.target.value)} >
+                  <option  value="Safety">Safety</option>
+                <option  value="Environment">Environment</option>
+                <option  value="Asset">Asset</option>
+                <option  value="Community">Community</option>
+                <option  value="Reputation">Reputation</option>
+                    </select>
+                    </div>
       <table className='table-auto'>
       {filteredSeveritys.map((severity, index) => (
             <tr key={severity.ID}>    

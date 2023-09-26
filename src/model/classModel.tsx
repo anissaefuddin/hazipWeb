@@ -60,6 +60,7 @@ export class Causes{
     public Enabling_Events : Enabling_Events[]=[],
     public Cause_Hackable ?: string,
     public Likelihood_ID? : string,
+    public Frequency ? :string,
     public Consequences : Consequences[]=[]
   ){}
 }
@@ -67,6 +68,7 @@ export class Enabling_Events{
   constructor(
     public ID : string,
     public EE_Description ? : string,
+    public EE_Probability ? : string,
     public EE_Library_Id ? : string,
     public EE_Credit ? : string
   ){}
@@ -95,7 +97,11 @@ export class Consequences {
     public Conditional_Modifiers : Conditional_Modifiers[] = [] ,
     public Safeguard_IDs : Safeguard_IDs[] = [],
     public Lopa_Gap ? : string,
-    public Scenario_Hackable ? : string
+    public Scenario_Hackable ? : string,
+    public Tmel ? : string,
+    public Mel ? : string,
+    public Lopa_Ratio ? : string,
+    public Rrf ? :string
   ) {}
 }
 export class Conditional_Modifiers {
@@ -103,6 +109,7 @@ export class Conditional_Modifiers {
     public ID : string,
     public CM_Library_Id ? : string,
     public CM_Description ? : string,
+    public CM_Probability ? :string,
     public CM_Credit ? : string
   ){}
 }

@@ -67,9 +67,7 @@ const Attendances: React.FC  = () => {
                       attendance.Team_Member_ID === teamMember.ID &&
                       attendance.Session_ID === session.ID
                   )?.Value}
-                  onChange={(e) =>
-                    handleAttendanceChange(teamMember.ID, session.ID, e.target.value)
-                  } >
+                  onChange={(e) =>handleAttendanceChange(teamMember.ID, session.ID, e.target.value)} >
                     <option value=""></option>
                     <option value="Absent">Absent</option>
                     <option value="Partial">Partial</option>

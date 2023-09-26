@@ -15,11 +15,11 @@
         },
         {
           "name": "Session",
-          "url": "/session"
+          "url": "/sessions"
         },
         {
           "name": "Attendance",
-          "url": "/attendance"
+          "url": "/attendances"
         },
         {
           "name": "Document",
@@ -37,7 +37,7 @@
     },
     {
       "name": "Guide Word",
-      "url": "/about"
+      "url": "/deviations"
     },
     {
       "name": "PHA Worksheet",

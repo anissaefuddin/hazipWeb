@@ -217,10 +217,10 @@ const NodesPage: React.FC  = () => {
                     <option key={session.ID} value={session.ID}>{session.Session}</option>))}
                   </select>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
               
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Node_Comments} onChange={(e) => handleCommentChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
                 

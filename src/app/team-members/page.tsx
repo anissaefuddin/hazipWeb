@@ -164,39 +164,39 @@ const Teammember: React.FC  = () => {
         <tbody>
           {teamMembers.map((member,index) => (
            <tr key={member.ID} className={activeRow === index ? 'active-row' : ''}>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Name} onChange={(e) => handleNameChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Company} onChange={(e) => handleCompanyChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Title} onChange={(e) => handleTitleChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Departement} onChange={(e) => handleDepartementChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Expertise} onChange={(e) => handleExpertiseChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Experience} onChange={(e) => handleExperienceChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Phone_Number} onChange={(e) => handlePhoneChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="email" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.E__Mail_Address} onChange={(e) => handleEmailChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Team_Member_Comments} onChange={(e) => handleCommentChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>

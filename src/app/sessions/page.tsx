@@ -180,19 +180,19 @@ const Session: React.FC  = () => {
         <tbody>
           {sessions.map((data,index) => (
            <tr key={data.ID} className={activeRow === index ? 'active-row' : ''}>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="date" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Date} onChange={(e) => handleDateChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Duration} onChange={(e) => handleDurationChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Session} onChange={(e) => handleSessionChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
               <select className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none'
                   value={data.Facilitator_ID}
                   onChange={(e) => handleFacilitatorIDChange(e.target.value,index)} >
@@ -200,7 +200,7 @@ const Session: React.FC  = () => {
                     <option key={member.ID} value={member.ID}>{member.Name}</option>))}
                   </select>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
               <select className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none'
                   value={data.Scribe_ID}
                   onChange={(e) => handleScribeChange(e.target.value,index)} >
@@ -208,7 +208,7 @@ const Session: React.FC  = () => {
                     <option key={member.ID} value={member.ID}>{member.Name}</option>))}
                   </select>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Session_Comments} onChange={(e) => handleCommentChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
                 

@@ -170,7 +170,7 @@ const NodesPage: React.FC  = () => {
       <table className='table-auto'>
         <thead className='bg-slate-300'>
           <tr>
-            <td className="border px-4 py-2">Description</td>
+            <td className="border px-4 py-2" colSpan={2}>Description</td>
             <td className="border px-4 py-2">Intention</td>
             <td className="border px-4 py-2">Boundery</td>
             <td className="border px-4 py-2">Design Condition</td>
@@ -184,31 +184,32 @@ const NodesPage: React.FC  = () => {
         <tbody>
           {nodes.map((data,index) => (
            <tr key={data.ID} className={activeRow === index ? 'active-row' : ''}>
-              <td className="border px-4 py-2">
+            <td className='border-t border-b border-l'>{index+1}</td>
+              <td className='border-t border-b border-r'>
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Node_Description} onChange={(e) => handleDescriptionChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Intention} onChange={(e) => handleIntetionChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Boundary} onChange={(e) => handleBoundaryChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Design_Conditions} onChange={(e) => handleDesignConditionChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Operating_Conditions} onChange={(e) => handleOperatingConditionChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Node_Color} onChange={(e) => handleColorChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
               <select className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none'
                   //value={data.Session_IDs[0]? : ''}
                   onChange={(e) => handleSessionChange(e.target.value,index)} >

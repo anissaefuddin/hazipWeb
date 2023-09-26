@@ -158,23 +158,23 @@ const RiskRankins: React.FC  = () => {
         <tbody>
           {riskRankings.map((data,index) => (
            <tr key={data.ID} className={activeRow === index ? 'active-row' : ''}>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Code} onChange={(e) => handleCodeChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.RM_Description} onChange={(e) => handleDescriptionChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Color} onChange={(e) => handleColorChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Priority} onChange={(e) => handlePriorityChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Required_Lopa_Credits} onChange={(e) => handleLOPAChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>

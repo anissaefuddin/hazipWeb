@@ -14,6 +14,7 @@ const NodesPage: React.FC  = () => {
   const [deviation, setDeviation] = useState<Deviations[]>([]);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
+  const [firstIndex, setFirstIndex] = useState(1);
   useEffect(() => {
     if (selectedNode) {
       setDeviation(selectedNode?.Deviations || []); // Menggunakan Deviations dari selectedNode jika ada, atau array kosong jika tidak ada
@@ -139,11 +140,12 @@ const NodesPage: React.FC  = () => {
     updateDataGlobal(data);
   };
   const handleTypeChange = (value: string) => {
-    console.log(nodes)
     const selectedNode = nodes.find((node) => node.ID === value);
+    const getIndex = nodes.findIndex((node) => node.ID === value);
     if (selectedNode) {
         setSelectedNode(selectedNode);
         setDeviation(selectedNode?.Deviations);
+        setFirstIndex(getIndex+1);
       } 
     };
   return (
@@ -171,14 +173,14 @@ const NodesPage: React.FC  = () => {
                 value={selectedNode?.ID}
                 onChange={(e) => handleTypeChange(e.target.value)} >
                     {nodes.map((data, index) => (
-                        <option key={data.ID} value={data.ID}>{data.Node_Description}</option>
+                        <option key={data.ID} value={data.ID}>{index+1} {data.Node_Description}</option>
                     ))}
                     </select>
                     </div>
       <table className='table-auto'>
         <thead className='bg-slate-300'>
           <tr>
-            <td className="border px-4 py-2">Deviation</td>
+            <td className="border px-4 py-2" colSpan={2}>Deviation</td>
             <td className="border px-4 py-2">Guide Word</td>
             <td className="border px-4 py-2">Parameter</td>
             <td className="border px-4 py-2">Design Intent</td>
@@ -188,23 +190,24 @@ const NodesPage: React.FC  = () => {
         <tbody>
           {deviation.map((data,index) => (
            <tr key={data.ID} className={activeRow === index ? 'active-row' : ''}>
-              <td className="border px-4 py-2">
+            <td className='border-t border-b border-l'>{firstIndex}.{index+1}</td>
+              <td className='border-t border-b border-r'>
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Deviation} onChange={(e) => handleDeviationChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Guide_Word} onChange={(e) => handleGuideWordChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Parameter} onChange={(e) => handleParameterChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Design_Intent} onChange={(e) => handleDesignIntenChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
-              <td className="border px-4 py-2">
+              <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Deviation_Comments} onChange={(e) => handleCommentChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>

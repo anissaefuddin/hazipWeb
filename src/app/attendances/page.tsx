@@ -58,9 +58,9 @@ const Attendances: React.FC  = () => {
           {members.map((teamMember, index) => (
             <tr key={teamMember.ID}>    
             {index === 0 ? <td rowSpan={members.length} className='rotate'><b>Member</b></td> : ''}  
-              <td className='border px-4 py-2'>{teamMember.Name}</td>
+              <td className='border'>{teamMember.Name}</td>
               {sessions.map((session) => (
-                <td key={session.ID} className='border px-4 py-2'>
+                <td key={session.ID} className='border'>
                   <select className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none'
                   value={attendances.find(
                     (attendance) =>
@@ -81,13 +81,12 @@ const Attendances: React.FC  = () => {
           <td></td>
             <td></td>
             {sessions.map((session) => (
-              <td key={session.ID} className='border px-4 py-2'>{session.Date}</td>
+              <td key={session.ID} className='border'>{session.Date}</td>
             ))}
           </tr>
           <tr>
-          <td></td>
-          <td></td>
-          <td colSpan={sessions.length + 1} className='text-center'><b>Session</b></td>
+          <td colSpan={2} className='border'></td>
+          <td colSpan={sessions.length + 1} className='text-center border'><b>Session</b></td>
         </tr>
       </table>
     </div>

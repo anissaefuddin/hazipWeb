@@ -81,7 +81,7 @@ const Riskmatrics: React.FC  = () => {
       {filteredSeveritys.map((severity, index) => (
             <tr key={severity.ID}>    
             {index === 0 ? <td rowSpan={filteredSeveritys.length} className='rotate'><b>Concequences</b></td> : ''}  
-              <td className='border px-4 py-2'>{severity.RM_Description}</td>
+              <td className='border'>{severity.RM_Description}</td>
               {likelihoods.map((likelihood) => (
                 <td key={likelihood.ID} className='border px-2 py-2' style={{ backgroundColor: getBackgroundColor(severity.ID,likelihood.ID) }}>
                   <select className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none'
@@ -105,7 +105,7 @@ const Riskmatrics: React.FC  = () => {
           <td></td>
             <td></td>
             {likelihoods.map((likelihood) => (
-              <td key={likelihood.ID} className='border px-4 py-2'>{likelihood.RM_Description}</td>
+              <td key={likelihood.ID} className='border'>{likelihood.RM_Description}</td>
             ))}
           </tr>
           <tr>

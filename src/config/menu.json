@@ -45,7 +45,22 @@
     },
     {
       "name": "Recommendation",
-      "url": "/recommendation"
+      "url": "",
+      "hasChildren" :true,
+      "children" :[
+        {
+          "name": "PHA Recommendation",
+        "url":"/pha-recommendation"
+        },
+        {
+          "name": "LOPA Recommendation",
+        "url":"/lopa-recommendation"
+        },
+        {
+          "name": "Check List Recommendation",
+        "url":"/checklist-recommendation"
+        }
+      ]
     },
     {
       "name": "Safeguard",

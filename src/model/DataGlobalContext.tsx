@@ -1,5 +1,5 @@
 import TeamMembers from '@/components/TeamMembers';
-import { DataGlobal,Drawings,Nodes,Overview, Sessions,Parking_Lot, Revalidation_History,Team_Members, Risk_Criteria, Safeguards, Team_Members_Sessions } from './classModel'; // Pastikan Anda mengganti path sesuai struktur proyek Anda
+import { DataGlobal,Settings,Drawings,Nodes,Overview, Pha_Recommendations,Lopa_Recommendations,Check_Lists,Check_List_Recommendations,Pha_Comments,Lopa_Comments,Sessions,Parking_Lot, Revalidation_History,Team_Members, Risk_Criteria, Safeguards, Team_Members_Sessions } from './classModel'; // Pastikan Anda mengganti path sesuai struktur proyek Anda
 // DataGlobalContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import Session from '@/app/sessions/page';
@@ -17,7 +17,8 @@ interface DataGlobalProviderProps {
 
 export const DataGlobalProvider: React.FC<DataGlobalProviderProps> = ({ children }) => {
   const [dataGlobal, setDataGlobal] = useState<DataGlobal>(
-    new DataGlobal(new Overview(),[new Team_Members()], [new Sessions()], [new Team_Members_Sessions()], [new Revalidation_History()], [new Nodes()], [new Safeguards()], [new Parking_Lot()], [new Drawings()], new Risk_Criteria())
+    new DataGlobal(new Overview(),new Settings(),[new Team_Members()], [new Sessions()], [new Team_Members_Sessions()], [new Revalidation_History()], [new Nodes()], [new Safeguards()], 
+    [new Pha_Recommendations()],[new Pha_Comments()],[new Lopa_Recommendations()],[new Lopa_Comments()],[new Parking_Lot()], [new Drawings()], new Risk_Criteria(), [new Check_Lists()], [new Check_List_Recommendations()])
   );
 
   const updateDataGlobal = (updatedDataGlobal: DataGlobal) => {

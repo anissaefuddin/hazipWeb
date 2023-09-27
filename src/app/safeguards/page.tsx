@@ -197,14 +197,12 @@ const SageguardsPage: React.FC  = () => {
                     <option value="Partial">No</option>
                   </select>
               </td>
-              
               <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Ipl_Credit} onChange={(e) => handleSaIPLCreditChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
               <td className="border px-4 py-2">
               </td>
-             
            </tr>
             ))}
         </tbody>

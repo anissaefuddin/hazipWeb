@@ -5,6 +5,7 @@ import PageHeader from "@/partials/PageHeader";
 import { v4 as uuidv4 } from 'uuid';
 import { useDataGlobal } from '../../model/DataGlobalContext';
 import { Check_List_Recommendations } from '@/model/classModel';
+import Link from 'next/link';
 
 const ChecklistRecommendation: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
@@ -13,7 +14,7 @@ const ChecklistRecommendation: React.FC  = () => {
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {
-    const newData = { ID: uuidv4()};
+    const newData = new Check_List_Recommendations();
     setLopa([...lopas, newData]);
     const dataApa = dataGlobal;
     dataApa.Check_List_Recommendations = lopas;
@@ -126,9 +127,9 @@ const ChecklistRecommendation: React.FC  = () => {
         <div className="row">
             <div className="w-1/6">
               <ul>
-              <li className="mb-4 lg:mb-2"><a href="/pha-recommendation" className="block hover:text-gray-900 font-medium text-gray-600">PHA Recommendation</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/lopa-recommendation" className="block hover:text-gray-900 font-medium text-gray-600">LOPA Recommendation</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/checklist-recommendation" className="block hover:text-gray-900 text-lg text-black">Check List Recommendation</a></li>
+              <li className="mb-4 lg:mb-2"><Link href="/pha-recommendation" className="block hover:text-gray-900 font-medium text-gray-600">PHA Recommendation</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href="/lopa-recommendation" className="block hover:text-gray-900 font-medium text-gray-600">LOPA Recommendation</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href="/checklist-recommendation" className="block hover:text-gray-900 text-lg text-black">Check List Recommendation</Link></li>
                 </ul>
                 </div>
             <div className="w-5/6">

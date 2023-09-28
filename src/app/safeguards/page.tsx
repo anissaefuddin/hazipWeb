@@ -12,7 +12,7 @@ const SageguardsPage: React.FC  = () => {
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {
-    const newData = { ID: uuidv4()};
+    const newData = new Safeguards();
     setSafeguards([...safeguards, newData]);
     const data = dataGlobal;
     data.Safeguards = safeguards;

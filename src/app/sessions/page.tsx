@@ -38,13 +38,18 @@ const Session: React.FC  = () => {
   };
   const handleRemoveActiveRow = () => {
     if (activeRow !== null) {
-      console.log(activeRow);
+      const tempID = sessions[activeRow].ID;
       const updatedSessions = [...sessions];
-      console.log(updatedSessions);
       updatedSessions.splice(activeRow, 1);
-      console.log(updatedSessions);
-      setSessions(updatedSessions);
-      console.log(sessions);  
+      const updatedAttendances = [...attendances];
+      attendances.map((data,index) => {
+        if(tempID == data.Session_ID){
+          updatedAttendances.splice(index,1);
+        }
+      });
+      dataGlobal.Sessions = updatedSessions;
+      dataGlobal.Team_Members_Sessions = updatedAttendances;
+      updateDataGlobal(dataGlobal);
       setActiveRow(null);
       setShowError(false);
     }else{

@@ -1,33 +1,50 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
+import Link from "next/link"
 import { useForm, SubmitHandler } from 'react-hook-form';
-import PageHeader from "@/partials/PageHeader";
+import NewPageHeader from "@/partials/NewPageHeader";
 import { v4 as uuidv4 } from 'uuid';
 import { useDataGlobal } from '../../model/DataGlobalContext';
-import { Sessions,Team_Members } from '@/model/classModel';
+import { Sessions,Team_Members,Team_Members_Sessions } from '@/model/classModel';
 const Session: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const initialSessions: Sessions[] = dataGlobal.Sessions;
-  const initialMembers: Team_Members[] = [{ID:"1",Name:"Ipung"},{ID:"2",Name:"Diana"},{ID:"3",Name:"Budi"}];
-  const [sessions, setSessions] = useState<Sessions[]>(initialSessions);
+  const initialMembers: Team_Members[] = dataGlobal.Team_Members;
+  const initialAttendances: Team_Members_Sessions[] =dataGlobal.Team_Members_Sessions;
+  const [attendances, setAttendances] = useState<Team_Members_Sessions[]>(initialAttendances);
+  const [sessions, setSessions] = useState(dataGlobal.Sessions);
   const [members, setMembers] = useState<Team_Members[]>(initialMembers);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {
-    const newSessions = { ID: uuidv4()};
+    const newSessions = new Sessions();
     setSessions([...sessions, newSessions]);
-    updateDataGlobal(dataGlobal);
-    dataGlobal.Sessions = sessions;
+    members.map((member) => {
+      const newAttendance = {
+        ID:  uuidv4().toLowerCase().replace(/-/g, ''),
+        Team_Member_ID: member.ID,
+        Session_ID: newSessions.ID,
+        Value: '', // You can set the default value as needed
+      };
+      setAttendances([...attendances, newAttendance]);
+    });
+    const dataApa = dataGlobal;
+    dataApa.Team_Members_Sessions = attendances;
+    dataApa.Sessions = sessions;
+    updateDataGlobal(dataApa);
   };
   const handleCloseError = () => {
     setShowError(false)
   };
   const handleRemoveActiveRow = () => {
     if (activeRow !== null) {
+      console.log(activeRow);
       const updatedSessions = [...sessions];
+      console.log(updatedSessions);
       updatedSessions.splice(activeRow, 1);
+      console.log(updatedSessions);
       setSessions(updatedSessions);
-      dataGlobal.Sessions = sessions;
+      console.log(sessions);  
       setActiveRow(null);
       setShowError(false);
     }else{
@@ -74,87 +91,73 @@ const Session: React.FC  = () => {
     const updatedsessions = [...sessions];
     updatedsessions[index].Session = e.target.value;
     setSessions(updatedsessions);
+    const dataApa = dataGlobal;
+    dataApa.Sessions = sessions;
+    updateDataGlobal(dataApa);
   };
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const updatedsessions = [...sessions];
+    if(updatedsessions[index].ID == undefined){
+      updatedsessions[index].ID = uuidv4();
+    }
     updatedsessions[index].Date = e.target.value;
     setSessions(updatedsessions);
+    const dataApa = dataGlobal;
+    dataApa.Sessions = sessions;
+    updateDataGlobal(dataApa);
   };
   const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const updatedsessions = [...sessions];
     updatedsessions[index].Duration = e.target.value;
     setSessions(updatedsessions);
+    const dataApa = dataGlobal;
+    dataApa.Sessions = sessions;
+    updateDataGlobal(dataApa);
   };
   const handleFacilitatorIDChange = (newValue:string, index: number) => {
     const updatedsessions = [...sessions];
     updatedsessions[index].Facilitator_ID = newValue;
     setSessions(updatedsessions);
+    const dataApa = dataGlobal;
+    dataApa.Sessions = sessions;
+    updateDataGlobal(dataApa);
   };
   const handleScribeChange = (newValue:string, index: number) => {
     const updatedsessions = [...sessions];
     updatedsessions[index].Scribe_ID = newValue;
     setSessions(updatedsessions);
+    const dataApa = dataGlobal;
+    dataApa.Sessions = sessions;
+    updateDataGlobal(dataApa);
   };
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const updatedsessions = [...sessions];
     updatedsessions[index].Session_Comments = e.target.value;
     setSessions(updatedsessions);
+    const dataApa = dataGlobal;
+    dataApa.Sessions = sessions;
+    updateDataGlobal(dataApa);
   };
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("1")
-    if (!e.target || !e.target.files || e.target.files.length === 0) {
-      return;
-    }
-    const file = e.target.files[0];
-    if (!file) return;
 
-    try {
-      const fileContents = await readFileAsync(file);
-      const jsonData = JSON.parse(fileContents);
-      console.log(jsonData.overview)
-      updateDataGlobal(jsonData);
-      console.log(dataGlobal.Overview)
-      console.log(dataGlobal.Team_Members)
-    } catch (error) {
-      console.error('Gagal membaca file JSON:', error);
-    }
-  };
-  const readFileAsync = (file: File) => {
-    return new Promise<string>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        if (event.target) {
-          resolve(event.target.result as string);
-        } else {
-          reject(new Error('Gagal membaca file'));
-        }
-      };
-      reader.onerror = (error) => reject(error);
-      reader.readAsText(file);
-    });
-  };
- 
   return (
     <>
-    <PageHeader title="Sessions" />
+    <NewPageHeader/>
       <section className="section-sm">
         <div className="container">
         <div className="row">
             <div className="w-1/6">
               <ul>
-                <li className="mb-4 lg:mb-2"><a href="/overview" className="block hover:text-gray-900 font-medium text-gray-600">Overview</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/team-members" className="block hover:text-gray-900 font-medium text-gray-600">Team Member</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/sessions" className="block hover:text-gray-900 text-lg text-black">Sessions</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/attendances" className="block hover:text-gray-900 font-medium text-gray-600">Attendances</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/documents" className="block hover:text-gray-900 font-medium text-gray-600">Documents</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/setting-columns" className="block hover:text-gray-900 font-medium text-gray-600">Setting Column</a></li>
+                <li className="mb-4 lg:mb-2"><Link href={'/overview'} className="block hover:text-gray-900 font-medium text-gray-600" >Overview</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/team-members"} className="block hover:text-gray-900 font-medium text-gray-600">Team Member</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/sessions"} className="block hover:text-gray-900 text-lg text-black">Sessions</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/attendances"} className="block hover:text-gray-900 font-medium text-gray-600">Attendances</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/documents"} className="block hover:text-gray-900 font-medium text-gray-600">Documents</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/setting-columns"} className="block hover:text-gray-900 font-medium text-gray-600">Setting Column</Link></li>
                 </ul>
             </div>
             <div className="w-5/6">
       <h1>Sessions</h1>
-      <div>
-      <input type="file" accept=".json" onChange={handleFileChange} />
-    </div>
+
       <button className="hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center" onClick={handleAddRow}><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-plus-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/></svg></button>
       <button className=" hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center" onClick={handleRemoveActiveRow}><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16"><path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/></svg></button>
       <button className=" hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center" onClick={moveUp}><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16"><path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z"/></svg></button>
@@ -196,6 +199,7 @@ const Session: React.FC  = () => {
               <select className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none'
                   value={data.Facilitator_ID}
                   onChange={(e) => handleFacilitatorIDChange(e.target.value,index)} >
+                    <option value={""}></option>
                   {members.map((member) => (
                     <option key={member.ID} value={member.ID}>{member.Name}</option>))}
                   </select>
@@ -204,6 +208,7 @@ const Session: React.FC  = () => {
               <select className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none'
                   value={data.Scribe_ID}
                   onChange={(e) => handleScribeChange(e.target.value,index)} >
+                    <option value={""}></option>
                   {members.map((member) => (
                     <option key={member.ID} value={member.ID}>{member.Name}</option>))}
                   </select>

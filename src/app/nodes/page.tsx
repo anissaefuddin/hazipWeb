@@ -14,12 +14,11 @@ const NodesPage: React.FC  = () => {
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {
-    const newNodes = { ID: uuidv4(),Session_IDs:[],Drawing_IDs:[], Deviations:[]};
+    const newNodes = new Nodes();
     setNodes([...nodes, newNodes]);
     const data = dataGlobal;
     data.Nodes = nodes;
     updateDataGlobal(data);
-    
   };
   const handleCloseError = () => {
     setShowError(false)

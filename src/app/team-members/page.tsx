@@ -3,19 +3,33 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import PageHeader from "@/partials/PageHeader";
 import { v4 as uuidv4 } from 'uuid';
-
+import Link from "next/link"
 import { useDataGlobal } from '../../model/DataGlobalContext';
-import { Team_Members } from '@/model/classModel';
+import { Team_Members ,Sessions,Team_Members_Sessions} from '@/model/classModel';
 const Teammember: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
+  const initialSessions: Sessions[] = dataGlobal.Sessions;
   const initialTeamMembers: Team_Members[] = dataGlobal.Team_Members;
+  const initialAttendances: Team_Members_Sessions[] =dataGlobal.Team_Members_Sessions;
   const [teamMembers, setTeamMembers] = useState<Team_Members[]>(initialTeamMembers);
+  const [sessions, setSessions] = useState<Sessions[]>(initialSessions);
+  const [attendances, setAttendances] = useState<Team_Members_Sessions[]>(initialAttendances);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {
-    const newTeamMember = { ID: uuidv4()};
+    const newTeamMember = new Team_Members();
     setTeamMembers([...teamMembers, newTeamMember]);
+    sessions.map((session) => {
+      const newAttendance = {
+        ID:  uuidv4().toLowerCase().replace(/-/g, ''),
+        Team_Member_ID: newTeamMember.ID,
+        Session_ID: session.ID,
+        Value: "", // You can set the default value as needed
+      };
+      setAttendances([...attendances, newAttendance]);
+    });
     const dataApa = dataGlobal;
+    dataApa.Team_Members_Sessions = attendances;
     dataApa.Team_Members = teamMembers;
     updateDataGlobal(dataApa);
   };
@@ -27,7 +41,10 @@ const Teammember: React.FC  = () => {
       const updatedTeamMembers = [...teamMembers];
       updatedTeamMembers.splice(activeRow, 1);
       setTeamMembers(updatedTeamMembers);
-      dataGlobal.Team_Members = teamMembers;
+      const dataApa = dataGlobal;
+      dataApa.Team_Members_Sessions = attendances;
+      dataApa.Team_Members = teamMembers;
+      updateDataGlobal(dataApa);
       setActiveRow(null);
       setShowError(false);
     }else{
@@ -72,6 +89,7 @@ const Teammember: React.FC  = () => {
   };
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const updatedTeamMembers = [...teamMembers];
+    
     updatedTeamMembers[index].Name = e.target.value;
     setTeamMembers(updatedTeamMembers);
     const dataApa = dataGlobal;
@@ -82,41 +100,65 @@ const Teammember: React.FC  = () => {
     const updatedTeamMembers = [...teamMembers];
     updatedTeamMembers[index].Company = e.target.value;
     setTeamMembers(updatedTeamMembers);
+    const dataApa = dataGlobal;
+    dataApa.Team_Members = teamMembers;
+    updateDataGlobal(dataApa);
   };
   const handleDepartementChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const updatedTeamMembers = [...teamMembers];
     updatedTeamMembers[index].Departement = e.target.value;
     setTeamMembers(updatedTeamMembers);
+    const dataApa = dataGlobal;
+    dataApa.Team_Members = teamMembers;
+    updateDataGlobal(dataApa);
   };
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const updatedTeamMembers = [...teamMembers];
     updatedTeamMembers[index].Title = e.target.value;
     setTeamMembers(updatedTeamMembers);
+    const dataApa = dataGlobal;
+    dataApa.Team_Members = teamMembers;
+    updateDataGlobal(dataApa);
   };
   const handleExpertiseChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const updatedTeamMembers = [...teamMembers];
     updatedTeamMembers[index].Expertise = e.target.value;
     setTeamMembers(updatedTeamMembers);
+    const dataApa = dataGlobal;
+    dataApa.Team_Members = teamMembers;
+    updateDataGlobal(dataApa);
   };
   const handleExperienceChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const updatedTeamMembers = [...teamMembers];
     updatedTeamMembers[index].Experience = e.target.value;
     setTeamMembers(updatedTeamMembers);
+    const dataApa = dataGlobal;
+    dataApa.Team_Members = teamMembers;
+    updateDataGlobal(dataApa);
   };
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const updatedTeamMembers = [...teamMembers];
     updatedTeamMembers[index].E__Mail_Address = e.target.value;
     setTeamMembers(updatedTeamMembers);
+    const dataApa = dataGlobal;
+    dataApa.Team_Members = teamMembers;
+    updateDataGlobal(dataApa);
   };
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const updatedTeamMembers = [...teamMembers];
     updatedTeamMembers[index].Phone_Number = e.target.value;
     setTeamMembers(updatedTeamMembers);
+    const dataApa = dataGlobal;
+    dataApa.Team_Members = teamMembers;
+    updateDataGlobal(dataApa);
   };
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const updatedTeamMembers = [...teamMembers];
     updatedTeamMembers[index].Team_Member_Comments = e.target.value;
     setTeamMembers(updatedTeamMembers);
+    const dataApa = dataGlobal;
+    dataApa.Team_Members = teamMembers;
+    updateDataGlobal(dataApa);
   };
   return (
     <>
@@ -126,12 +168,12 @@ const Teammember: React.FC  = () => {
         <div className="row">
             <div className="w-1/6">
               <ul>
-                <li className="mb-4 lg:mb-2"><a href="/overview" className="block hover:text-gray-900 font-medium text-gray-600">Overview</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/team-members" className="block hover:text-gray-900 font-medium text-lg text-black">Team Member</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/sessions" className="block hover:text-gray-900 font-medium text-gray-600">Sessions</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/attendances" className="block hover:text-gray-900 font-medium text-gray-600">Attendances</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/documents" className="block hover:text-gray-900 font-medium text-gray-600">Documents</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/setting-columns" className="block hover:text-gray-900 font-medium text-gray-600">Setting Column</a></li>
+              <li className="mb-4 lg:mb-2"><Link href={'/overview'} className="block hover:text-gray-900 font-medium text-gray-600" >Overview</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/team-members"} className="block hover:text-gray-900 text-lg text-black">Team Member</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/sessions"} className="block hover:text-gray-900 font-medium text-gray-600">Sessions</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/attendances"} className="block hover:text-gray-900 font-medium text-gray-600">Attendances</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/documents"} className="block hover:text-gray-900 font-medium text-gray-600">Documents</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/setting-columns"} className="block hover:text-gray-900 font-medium text-gray-600">Setting Column</Link></li>
                 </ul>
                 </div>
             <div className="w-5/6">

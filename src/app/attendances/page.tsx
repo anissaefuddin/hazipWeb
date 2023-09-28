@@ -2,17 +2,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import PageHeader from "@/partials/PageHeader";
-import { v4 as uuidv4 } from 'uuid';
 import { useDataGlobal } from '../../model/DataGlobalContext';
 import { Sessions, Team_Members, Team_Members_Sessions } from '@/model/classModel';
-import { Transform } from 'stream';
+import Link from 'next/link';
 const Attendances: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
-  const initialSessions: Sessions[] = 
-  [{ID:"101",Session:"Sesi 1", Date:"01/01/2023"},
-  {ID:"102",Session:"Sesi 2", Date:"02/02/2023"}];
-  const initialMembers: Team_Members[] = [{ID:"1",Name:"Ipung"},{ID:"2",Name:"Diana"},{ID:"3",Name:"Budi"}];
-  const initialAttendances: Team_Members_Sessions[] =[new Team_Members_Sessions('a1', '1', '101', 'Present'),new Team_Members_Sessions('a2', '2', '101', 'Absent'),new Team_Members_Sessions('a3', '3', '101', 'Partial'),new Team_Members_Sessions('a4', '1', '102', 'Present'),new Team_Members_Sessions('a5', '2', '102', 'Absent'),new Team_Members_Sessions('a6', '3', '102', 'Partial')];//dataGlobal.Team_Members_Sessions;
+  const initialSessions: Sessions[] = dataGlobal.Sessions;
+  const initialMembers: Team_Members[] = dataGlobal.Team_Members;
+  const initialAttendances: Team_Members_Sessions[] = dataGlobal.Team_Members_Sessions;
   const [sessions, setSessions] = useState<Sessions[]>(initialSessions);
   const [members, setMembers] = useState<Team_Members[]>(initialMembers);
   const [attendances, setAttendances] = useState<Team_Members_Sessions[]>(initialAttendances);
@@ -24,7 +21,6 @@ const Attendances: React.FC  = () => {
   const handleActiveRow = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
    setActiveRow(index)
   };
-
   const handleAttendanceChange = (teamMemberID : string, sessionID: string, newValue:string) => {
     // Update the attendanceData state based on user selection
     const updatedData = attendances.map((attendance) => {
@@ -34,6 +30,9 @@ const Attendances: React.FC  = () => {
       return attendance;
     });
     setAttendances(updatedData);
+    const data = dataGlobal;
+    data.Team_Members_Sessions =  attendances;
+    updateDataGlobal(data);
   };
   return (
     <>
@@ -43,12 +42,12 @@ const Attendances: React.FC  = () => {
         <div className="row">
             <div className="w-1/6">
               <ul>
-                <li className="mb-4 lg:mb-2"><a href="/overview" className="block hover:text-gray-900 font-medium text-gray-600">Overview</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/team-members" className="block hover:text-gray-900 font-medium text-gray-600">Team Member</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/sessions" className="block hover:text-gray-900 font-medium text-gray-600">Sessions</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/attendances" className="block hover:text-gray-900 text-lg text-black">Attendances</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/documents" className="block hover:text-gray-900 font-medium text-gray-600">Documents</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/setting-columns" className="block hover:text-gray-900 font-medium text-gray-600">Setting Column</a></li>
+              <li className="mb-4 lg:mb-2"><Link href={'/overview'} className="block hover:text-gray-900 font-medium text-gray-600" >Overview</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/team-members"} className="block hover:text-gray-900 font-medium text-gray-600">Team Member</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/sessions"} className="block hover:text-gray-900 font-medium text-gray-600">Sessions</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/attendances"} className="block hover:text-gray-900  text-lg text-black">Attendances</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/documents"} className="block hover:text-gray-900 font-medium text-gray-600">Documents</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/setting-columns"} className="block hover:text-gray-900 font-medium text-gray-600">Setting Column</Link></li>
                 </ul>
             </div>
             <div className="w-5/6">

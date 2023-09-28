@@ -3,6 +3,7 @@ import { useState } from 'react'
 import PageHeader from "@/partials/PageHeader";
 import { useDataGlobal } from '../../model/DataGlobalContext';
 import { Overview } from '@/model/classModel';
+import Link from 'next/link';
 
 const Overviews: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
@@ -20,76 +21,121 @@ const Overviews: React.FC = () => {
     const updatedOverview = { ...overview };
     updatedOverview.Study_Coordinator = e.target.value;
     setOverview(updatedOverview);
+    const dataApa = dataGlobal;
+    dataApa.Overview = overview;
+    updateDataGlobal(dataApa);
   };
   const handleCoordinatorContactChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedOverview = { ...overview };
     updatedOverview.Study_Coordinator_Contact_Info = e.target.value;
     setOverview(updatedOverview);
+    const dataApa = dataGlobal;
+    dataApa.Overview = overview;
+    updateDataGlobal(dataApa);
   };
   const handleFacilityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedOverview = { ...overview };
     updatedOverview.Facility = e.target.value;
     setOverview(updatedOverview);
+    const dataApa = dataGlobal;
+    dataApa.Overview = overview;
+    updateDataGlobal(dataApa);
   };
   const handleFacilityLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedOverview = { ...overview };
     updatedOverview.Facility_Location = e.target.value;
     setOverview(updatedOverview);
+    const dataApa = dataGlobal;
+    dataApa.Overview = overview;
+    updateDataGlobal(dataApa);
   };
   const handleFacilityOwnerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedOverview = { ...overview };
     updatedOverview.Facility_Owner = e.target.value;
     setOverview(updatedOverview);
+    const dataApa = dataGlobal;
+    dataApa.Overview = overview;
+    updateDataGlobal(dataApa);
   };
   const handleCompanyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedOverview = { ...overview };
     updatedOverview.Overview_Company = e.target.value;
     setOverview(updatedOverview);
+    const dataApa = dataGlobal;
+    dataApa.Overview = overview;
+    updateDataGlobal(dataApa);
   };
   const handleSiteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedOverview = { ...overview };
     updatedOverview.Site = e.target.value;
     setOverview(updatedOverview);
+    const dataApa = dataGlobal;
+    dataApa.Overview = overview;
+    updateDataGlobal(dataApa);
   };
   const handlePlantChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedOverview = { ...overview };
     updatedOverview.Plant = e.target.value;
     setOverview(updatedOverview);
+    const dataApa = dataGlobal;
+    dataApa.Overview = overview;
+    updateDataGlobal(dataApa);
   };
   const handleUnitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedOverview = { ...overview };
     updatedOverview.Unit = e.target.value;
     setOverview(updatedOverview);
+    const dataApa = dataGlobal;
+    dataApa.Overview = overview;
+    updateDataGlobal(dataApa);
   };
   const handleUnitGrupChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedOverview = { ...overview };
     updatedOverview.Unit__Group = e.target.value;
     setOverview(updatedOverview);
+    const dataApa = dataGlobal;
+    dataApa.Overview = overview;
+    updateDataGlobal(dataApa);
   };
   const handleSubUnitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedOverview = { ...overview };
     updatedOverview.Sub__Unit = e.target.value;
     setOverview(updatedOverview);
+    const dataApa = dataGlobal;
+    dataApa.Overview = overview;
+    updateDataGlobal(dataApa);
   };
   const handleReportNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedOverview = { ...overview };
     updatedOverview.Report_Number = e.target.value;
     setOverview(updatedOverview);
+    const dataApa = dataGlobal;
+    dataApa.Overview = overview;
+    updateDataGlobal(dataApa);
   };
   const handleProjectNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedOverview = { ...overview };
     updatedOverview.Project_Number = e.target.value;
     setOverview(updatedOverview);
+    const dataApa = dataGlobal;
+    dataApa.Overview = overview;
+    updateDataGlobal(dataApa);
   };
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const updatedOverview = { ...overview };
     updatedOverview.Project_Description = e.target.value;
     setOverview(updatedOverview);
+    const dataApa = dataGlobal;
+    dataApa.Overview = overview;
+    updateDataGlobal(dataApa);
   };
   const handleNotesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const updatedOverview = { ...overview };
     updatedOverview.General_Notes = e.target.value;
     setOverview(updatedOverview);
+    const dataApa = dataGlobal;
+    dataApa.Overview = overview;
+    updateDataGlobal(dataApa);
   };
   console.log("testOV")
   console.log(dataGlobal)
@@ -101,12 +147,12 @@ const Overviews: React.FC = () => {
             <div className="row">
             <div className="w-1/6 sticky">
               <ul className="mt-4 overflow-x-hidden">
-                <li className="mb-4 lg:mb-2"><a href="/overview" className="block hover:text-gray-900 font-medium text-lg text-black">Overview</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/team-members" className="block hover:text-gray-900 font-medium text-gray-600">Team Member</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/sessions" className="block hover:text-gray-900 font-medium text-gray-600">Sessions</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/attendances" className="block hover:text-gray-900 font-medium text-gray-600">Attendances</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/documents" className="block hover:text-gray-900 font-medium text-gray-600">Documents</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/setting-columns" className="block hover:text-gray-900 font-medium text-gray-600">Setting Column</a></li>
+              <li className="mb-4 lg:mb-2"><Link href={'/overview'} className="block hover:text-gray-900 text-lg text-black" >Overview</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/team-members"} className="block hover:text-gray-900 font-medium text-gray-600">Team Member</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/sessions"} className="block hover:text-gray-900 font-medium text-gray-600">Sessions</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/attendances"} className="block hover:text-gray-900 font-medium text-gray-600">Attendances</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/documents"} className="block hover:text-gray-900 font-medium text-gray-600">Documents</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href={"/setting-columns"} className="block hover:text-gray-900 font-medium text-gray-600">Setting Column</Link></li>
                 </ul>
                 </div>
             <div className="w-5/6">

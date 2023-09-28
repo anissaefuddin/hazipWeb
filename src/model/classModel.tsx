@@ -1,7 +1,8 @@
+import { v4 as uuidv4 } from 'uuid';
 export class DataGlobal {
   constructor(
     public Overview : Overview,
-    public Settings: Settings, 
+    // public Settings: Settings, 
     public Team_Members: Team_Members[] = [],
     public Sessions: Sessions[] = [],
     public Team_Members_Sessions : Team_Members_Sessions[] =[],
@@ -15,111 +16,111 @@ export class DataGlobal {
     public Parking_Lot : Parking_Lot[]=[],
     public Drawings : Drawings[] = [],
     public Risk_Criteria : Risk_Criteria,
-    public Check_Lists : Check_Lists[]=[],
+    // public Check_Lists : Check_Lists[]=[],
     public Check_List_Recommendations : Check_List_Recommendations[]=[],
   ) {}
 }
 
 export class Check_Lists{
   constructor(
-    public ID?:string,
-    public Check_List_Description?:string,
-    public Check_List_Comments?:string,
-    public Check_List_Questions?:Check_List_Questions
+    public ID:string = uuidv4().toLowerCase().replace(/-/g, ''),
+    public Check_List_Description:string = "",
+    public Check_List_Comments:string = "",
+    public Check_List_Questions:Check_List_Questions
   ){}
 }
 export class Check_List_Questions{
   constructor( 
-    public ID?: string,
-    public Check_List_Question?: string,
-    public Check_List_Answer?: string,
-    public Check_List_Justification?: string,
-    public Check_List_Recommendation_IDs?: Check_List_Recommendation_IDs,
-    public Safeguard_IDs?: Safeguard_IDs,
+    public ID: string = "",
+    public Check_List_Question: string = "",
+    public Check_List_Answer: string = "",
+    public Check_List_Justification: string = "",
+    public Check_List_Recommendation_IDs: Check_List_Recommendation_IDs,
+    public Safeguard_IDs: Safeguard_IDs,
   ){}
 }
 
 export class Check_List_Recommendation_IDs{
   constructor(
-    public ID : string
+    public ID : string = ""
 ){}
 }
 export class Check_List_Recommendations{
   constructor( 
-  public ID? : string,
-  public Check_List_Recommendation? : string,
-  public Check_List_Recommendation_Priority? : string,
-  public Check_List_Recommendation_Responsible_Party? : string,
-  public Check_List_Recommendation_Status? : string,
-  public Check_List_Recommendation_Comments? : string
+  public ID : string = "",
+  public Check_List_Recommendation : string = "",
+  public Check_List_Recommendation_Priority : string = "",
+  public Check_List_Recommendation_Responsible_Party : string = "",
+  public Check_List_Recommendation_Status : string = "",
+  public Check_List_Recommendation_Comments : string = ""
   ){}   
 }
 export class Pha_Recommendations{
   constructor( 
-  public ID? : string,
-  public Pha_Recommendation? : string,
-  public Pha_Recommendation_Priority? : string,
-  public Pha_Recommendation_Responsible_Party? : string,
-  public Pha_Recommendation_Status? : string,
-  public Pha_Recommendation_Comments? : string
+  public ID : string = "",
+  public Pha_Recommendation : string = "",
+  public Pha_Recommendation_Priority : string = "",
+  public Pha_Recommendation_Responsible_Party : string = "",
+  public Pha_Recommendation_Status : string = "",
+  public Pha_Recommendation_Comments : string = ""
   ){}   
 }
 export class Pha_Comments{
   constructor( 
-    public ID? : string,
-    public Pha_Comment? : string
+    public ID : string = "",
+    public Pha_Comment : string = ""
   ){}
 }
 export class Lopa_Recommendations{
   constructor( 
-  public ID? : string,
-  public Lopa_Recommendation? : string,
-  public Lopa_Recommendation_Priority? : string,
-  public Lopa_Recommendation_Responsible_Party? : string,
-  public Lopa_Recommendation_Status? : string,
-  public Lopa_Recommendation_Comments? : string
+  public ID : string = "",
+  public Lopa_Recommendation : string = "",
+  public Lopa_Recommendation_Priority : string = "",
+  public Lopa_Recommendation_Responsible_Party : string = "",
+  public Lopa_Recommendation_Status : string = "",
+  public Lopa_Recommendation_Comments : string = ""
   ){}   
 }
 export class Lopa_Comments{
   constructor( 
-    public ID? : string,
-    public Pha_Comment? : string
+    public ID : string = "",
+    public Pha_Comment : string = ""
   ){}
 }
 export class Settings {
   constructor(
-  public Ds_Rev ?: number,
-  public Analysis_Mode? : string,
-  public Lopa_Mode? : string,
-  public Column_Widths? :  Column_Widths,
-  public Encrypt? : boolean,
-  public Numbering ?: Numbering,
-  public Study_Library_Id ?: string,
-  public Column_Visibility ?: Column_Visibility,
-  public Tab_Visibility ?: Tab_Visibility,
-  public Presenter_Mode? : boolean,
-  public Column_Header ?: Column_Headers
+  public Ds_Rev : number,
+  public Analysis_Mode : string = "",
+  public Lopa_Mode : string = "",
+  public Column_Widths :  Column_Widths,
+  public Encrypt : boolean = false,
+  public Numbering : Numbering,
+  public Study_Library_Id : string = "",
+  public Column_Visibility : Column_Visibility,
+  public Tab_Visibility : Tab_Visibility,
+  public Presenter_Mode : boolean,
+  public Column_Header : Column_Headers
   ){}
 }
 export class Column_Headers{
   constructor(
-    public Overview :string,
-    public Settings :string,
-    public Team_Members :string,
-    public Sessions :string,
-    public Team_Members_Sessions :string,
-    public Revalidation_History :string,
-    public Nodes :string,
-    public Safeguards :string,
-    public Pha_Recommendations :string,
-    public Pha_Comments :string,
-    public Lopa_Recommendations :string,
-    public Lopa_Comments :string,
-    public Parking_Lot :string,
-    public Drawings :string,
-    public Risk_Criteria :string,
-    public Check_Lists :string,
-    public Check_List_Recommendations :string,
+    public Overview :string = "",
+    public Settings :string = "",
+    public Team_Members :string = "",
+    public Sessions :string = "",
+    public Team_Members_Sessions :string = "",
+    public Revalidation_History :string = "",
+    public Nodes :string = "",
+    public Safeguards :string = "",
+    public Pha_Recommendations :string = "",
+    public Pha_Comments :string = "",
+    public Lopa_Recommendations :string = "",
+    public Lopa_Comments :string = "",
+    public Parking_Lot :string = "",
+    public Drawings :string = "",
+    public Risk_Criteria :string = "",
+    public Check_Lists :string = "",
+    public Check_List_Recommendations :string = "",
     public Overview_Children : Overview_ChildrenString,
     public Team_Members_Children : Team_Members_ChildrenString,
     public Sessions_Children : Sessions_ChildrenString,
@@ -139,230 +140,230 @@ export class Column_Headers{
 
 export class Overview_ChildrenString{
   constructor(
-    public Study_Name?:string ,
-    public Study_Coordinator?:string ,
-    public Study_Coordinator_Contact_Info?:string ,
-    public Facility?:string ,
-    public Facility_Location?:string ,
-    public Facility_Owner?:string,
-    public Overview_Company?:string,
-    public Site?:string,
-    public Plant?:string,
-    public Unit__Group?:string,
-    public Unit?:string,
-    public Sub__Unit?:string,
-    public Report_Number?:string ,
-    public Project_Number?:string ,
-    public Project_Description?:string ,
-    public General_Notes?:string 
+    public Study_Name:string = "" ,
+    public Study_Coordinator:string = "" ,
+    public Study_Coordinator_Contact_Info:string = "" ,
+    public Facility:string = "" ,
+    public Facility_Location:string = "" ,
+    public Facility_Owner:string = "",
+    public Overview_Company:string = "",
+    public Site:string = "",
+    public Plant:string = "",
+    public Unit__Group:string = "",
+    public Unit:string = "",
+    public Sub__Unit:string = "",
+    public Report_Number:string = "" ,
+    public Project_Number:string = "" ,
+    public Project_Description:string = "" ,
+    public General_Notes:string = "" 
   ){}
 }
 export class Team_Members_ChildrenString{
   constructor(
-    public Name?: string ,
-    public Company?: string ,
-    public Title?: string ,
-    public Department?: string ,
-    public Expertise?: string ,
-    public Experience?: string ,
-    public Phone_Number?: string ,
-    public E__Mail_Address?: string ,
-    public Team_Member_Comments?: string 
+    public Name: string = "" ,
+    public Company: string = "" ,
+    public Title: string = "" ,
+    public Department: string = "" ,
+    public Expertise: string = "" ,
+    public Experience: string = "" ,
+    public Phone_Number: string = "" ,
+    public E__Mail_Address: string = "" ,
+    public Team_Member_Comments: string = "" 
   ){}
 }
 export class Sessions_ChildrenString{
   constructor(
-    public Date?:string ,
-    public Duration?:string ,
-    public Session?:string ,
-    public Facilitator_ID?:string ,
-    public Scribe_ID?:string ,
-    public Session_Comments?:string 
+    public Date:string = "" ,
+    public Duration:string = "" ,
+    public Session:string = "" ,
+    public Facilitator_ID:string = "" ,
+    public Scribe_ID:string = "" ,
+    public Session_Comments:string = "" 
   ){}
 }
 export class Revalidation_History_ChildrenString{
   constructor(
-    public Start_Date?: string ,
-    public End_Date?: string ,
-    public Revalidation_Comments?: string 
+    public Start_Date: string = "" ,
+    public End_Date: string = "" ,
+    public Revalidation_Comments: string = "" 
   ){}
 }
 export class Nodes_ChildrenString{
   constructor(
-    public Node_Description?: string ,
-    public Intention?: string ,
-    public Boundary?: string ,
-    public Design_Conditions?: string ,
-    public Operating_Conditions?: string ,
-    public Node_Color?: string ,
-    public Hazardous_Materials?: string ,
-    public Equipment_Tags?: string ,
-    public Location?: string ,
-    public Node_Comments?: string ,
-    public Session_IDs?: string ,
-    public Drawing_IDs?: string ,
-    public Deviations?: string ,
-    public Deviations_Children?: Deviations_ChildrenString
+    public Node_Description: string = "" ,
+    public Intention: string = "" ,
+    public Boundary: string = "" ,
+    public Design_Conditions: string = "" ,
+    public Operating_Conditions: string = "" ,
+    public Node_Color: string = "" ,
+    public Hazardous_Materials: string = "" ,
+    public Equipment_Tags: string = "" ,
+    public Location: string = "" ,
+    public Node_Comments: string = "" ,
+    public Session_IDs: string = "" ,
+    public Drawing_IDs: string = "" ,
+    public Deviations: string = "" ,
+    public Deviations_Children: Deviations_ChildrenString
   ){}
 }
 export class Deviations_ChildrenString{
   constructor(
-    public Deviation?:string,
-    public Guide_Word?:string,
-    public Parameter?:string,
-    public Design_Intent?:string,
-    public Deviation_Comments?:string,
-    public Causes?:string,
-    public Causes_Children?:Causes_ChildrenString
+    public Deviation:string = "",
+    public Guide_Word:string = "",
+    public Parameter:string = "",
+    public Design_Intent:string = "",
+    public Deviation_Comments:string = "",
+    public Causes:string = "",
+    public Causes_Children:Causes_ChildrenString
   ){}
 }
 export class Causes_ChildrenString{
   constructor(
-    public Cause?:string,
-    public Cause_Type?:string,
-    public Enabling_Events?:string,
-    public Cause_Hackable?:string,
-    public Frequency?:string,
-    public Consequences?:string,
-    public Enabling_Events_Children?:Enabling_Events_ChildrenString,
-    public Consequences_Children?: Consequences_ChildrenString,
+    public Cause:string = "",
+    public Cause_Type:string = "",
+    public Enabling_Events:string = "",
+    public Cause_Hackable:string = "",
+    public Frequency:string = "",
+    public Consequences:string = "",
+    public Enabling_Events_Children:Enabling_Events_ChildrenString,
+    public Consequences_Children: Consequences_ChildrenString,
   ){}
 }
 export class Enabling_Events_ChildrenString{
   constructor(
-    public EE_Description?:string,
-    public EE_Library_Id?:string,
-    public EE_Probability?:string    
+    public EE_Description:string = "",
+    public EE_Library_Id:string = "",
+    public EE_Probability:string = ""    
   ){}
 }
 export class Consequences_ChildrenString{
   constructor(
-    public Consequence?:string,
-    public Likelihood_ID_Before_Safeguards?:string,
-    public Risk_Rank_ID_Before_Safeguards?:string,
-    public Likelihood_ID?:string,
-    public Risk_Rank_ID?:string,
-    public Lopa_Required?:string,
-    public Recommended_Sil?:string,
-    public Pha_Recommendation_IDs?:string,
-    public Likelihood_ID_After_Recommendations?:string,
-    public Risk_Rank_ID_After_Recommendations?:string,
-    public Pha_Comment_IDs?:string,
-    public Lopa_Recommendation_IDs?:string,
-    public Lopa_Comment_IDs?:string,
-    public Consequence_Type_ID?:string,
-    public Consequence_Severity_ID_Before_Safeguards?:string,
-    public Consequence_Severity_ID?:string,
-    public Consequence_Severity_ID_After_Recommendations?:string,
-    public Lopa_Risk_Rank_ID?:string,
-    public Conditional_Modifiers?:string,
-    public Safeguard_IDs?:string,
-    public Tmel?:string,
-    public Mel?:string,
-    public Lopa_Ratio?:string,
-    public Rrf?:string,
-    public Scenario_Hackable?:string,
-    public Conditional_Modifiers_Children?:Conditional_Modifiers_ChildrenString
+    public Consequence:string = "",
+    public Likelihood_ID_Before_Safeguards:string = "",
+    public Risk_Rank_ID_Before_Safeguards:string = "",
+    public Likelihood_ID:string = "",
+    public Risk_Rank_ID:string = "",
+    public Lopa_Required:string = "",
+    public Recommended_Sil:string = "",
+    public Pha_Recommendation_IDs:string = "",
+    public Likelihood_ID_After_Recommendations:string = "",
+    public Risk_Rank_ID_After_Recommendations:string = "",
+    public Pha_Comment_IDs:string = "",
+    public Lopa_Recommendation_IDs:string = "",
+    public Lopa_Comment_IDs:string = "",
+    public Consequence_Type_ID:string = "",
+    public Consequence_Severity_ID_Before_Safeguards:string = "",
+    public Consequence_Severity_ID:string = "",
+    public Consequence_Severity_ID_After_Recommendations:string = "",
+    public Lopa_Risk_Rank_ID:string = "",
+    public Conditional_Modifiers:string = "",
+    public Safeguard_IDs:string = "",
+    public Tmel:string = "",
+    public Mel:string = "",
+    public Lopa_Ratio:string = "",
+    public Rrf:string = "",
+    public Scenario_Hackable:string = "",
+    public Conditional_Modifiers_Children:Conditional_Modifiers_ChildrenString
   ){}
 }
 export class Conditional_Modifiers_ChildrenString{
   constructor(
-    public CM_Library_Id:string,
-    public CM_Description:string,
-    public CM_Probability:string
+    public CM_Library_Id:string = "",
+    public CM_Description:string = "",
+    public CM_Probability:string = ""
   ){}
 }
 export class Safeguards_ChildrenString{
   constructor(
-    public Safeguard?:string ,
-    public Safeguard_Type?:string ,
-    public Safeguard_Independent?:string ,
-    public Safeguard_Auditable?:string ,
-    public Safeguard_Effective?:string ,
-    public Safeguard_Hackable?:string ,
-    public Is_Safeguard?:string ,
-    public Is_Ipl?:string ,
-    public Ipl_Tag?:string ,
-    public Safety_Critical?:string ,
-    public Selected_Sil?:string ,
-    public Required_Response_Time?:string ,
-    public Test_Interval?:string ,
-    public Safeguard_Library_Id?:string ,
-    public Safeguard_Category?:string ,
-    public Safeguard_Comments?:string ,
-    public Pfd?:string 
+    public Safeguard:string = "" ,
+    public Safeguard_Type:string = "" ,
+    public Safeguard_Independent:string = "" ,
+    public Safeguard_Auditable:string = "" ,
+    public Safeguard_Effective:string = "" ,
+    public Safeguard_Hackable:string = "" ,
+    public Is_Safeguard:string = "" ,
+    public Is_Ipl:string = "" ,
+    public Ipl_Tag:string = "" ,
+    public Safety_Critical:string = "" ,
+    public Selected_Sil:string = "" ,
+    public Required_Response_Time:string = "" ,
+    public Test_Interval:string = "" ,
+    public Safeguard_Library_Id:string = "" ,
+    public Safeguard_Category:string = "" ,
+    public Safeguard_Comments:string = "" ,
+    public Pfd:string = "" 
   ){}
 }
 export class Pha_Recommendations_ChildrenString{
   constructor(
-    public Pha_Recommendation?: string ,
-    public Pha_Recommendation_Priority?: string ,
-    public Pha_Recommendation_Responsible_Party?: string ,
-    public Pha_Recommendation_Status?: string ,
-    public Pha_Recommendation_Comments?: string 
+    public Pha_Recommendation: string = "" ,
+    public Pha_Recommendation_Priority: string = "" ,
+    public Pha_Recommendation_Responsible_Party: string = "" ,
+    public Pha_Recommendation_Status: string = "" ,
+    public Pha_Recommendation_Comments: string = "" 
   ){}
 }
 export class Pha_Comments_ChildrenString{
   constructor(
-    public Pha_Comment?: string  
+    public Pha_Comment: string = ""  
   ){}
 }
 export class Lopa_Recommendations_ChildrenString{
   constructor(
-    public Lopa_Recommendation?: string ,
-    public Lopa_Recommendation_Priority?: string ,
-    public Lopa_Recommendation_Responsible_Party?: string ,
-    public Lopa_Recommendation_Status?: string ,
-    public Lopa_Recommendation_Comments?: string 
+    public Lopa_Recommendation: string = "" ,
+    public Lopa_Recommendation_Priority: string = "" ,
+    public Lopa_Recommendation_Responsible_Party: string = "" ,
+    public Lopa_Recommendation_Status: string = "" ,
+    public Lopa_Recommendation_Comments: string = "" 
   ){}
 }
 export class Lopa_Comments_ChildrenString{
   constructor(
-    public Pha_Comment?: string
+    public Pha_Comment: string = ""
   ){}
 }
 export class Parking_Lot_ChildrenString{
   constructor(
-    public Parking_Lot_Issue? :string ,
-    public Response? :string ,
-    public Responsible_Party? :string ,
-    public Start_Date? :string ,
-    public End_Date? :string 
+    public Parking_Lot_Issue :string = "" ,
+    public Response :string = "" ,
+    public Responsible_Party :string = "" ,
+    public Start_Date :string = "" ,
+    public End_Date :string = "" 
   ){}
 }
 export class Drawings_ChildrenString{
   constructor(
-    public Drawing?: string ,
-    public Revision?: string ,
-    public Document_Type?: string ,
-    public Drawing_Description?: string ,
-    public Link?: string 
+    public Drawing: string = "" ,
+    public Revision: string = "" ,
+    public Document_Type: string = "" ,
+    public Drawing_Description: string = "" ,
+    public Link: string = "" 
   ){}
 }
 export class Check_Lists_ChildrenString{
   constructor(
-    public Check_List_Description?:string ,
-    public Check_List_Comments?:string ,
-    public Check_List_Questions?:string ,
-    public Check_List_Questions_Children?:Check_List_Questions_ChildrenString 
+    public Check_List_Description:string = "" ,
+    public Check_List_Comments:string = "" ,
+    public Check_List_Questions:string = "" ,
+    public Check_List_Questions_Children:Check_List_Questions_ChildrenString 
   ){}
 }
 export class Check_List_Questions_ChildrenString{
   constructor(
-    public Check_List_Question?:string,
-    public Check_List_Answer?:string,
-    public Check_List_Justification?:string,
-    public Check_List_Recommendation_IDs?:string,
-    public Safeguard_IDs?:string
+    public Check_List_Question:string = "",
+    public Check_List_Answer:string = "",
+    public Check_List_Justification:string = "",
+    public Check_List_Recommendation_IDs:string = "",
+    public Safeguard_IDs:string = ""
   ){}
 }
 export class Check_List_Recommendations_ChildreString{
   constructor(
-    public Check_List_Recommendation?: string ,
-    public Check_List_Recommendation_Priority?: string ,
-    public Check_List_Recommendation_Responsible_Party?: string ,
-    public Check_List_Recommendation_Status?: string ,
-    public Check_List_Recommendation_Comments?: string 
+    public Check_List_Recommendation: string = "" ,
+    public Check_List_Recommendation_Priority: string = "" ,
+    public Check_List_Recommendation_Responsible_Party: string = "" ,
+    public Check_List_Recommendation_Status: string = "" ,
+    public Check_List_Recommendation_Comments: string = "" 
   ){}
 }
 export class Tab_Visibility{
@@ -714,17 +715,17 @@ export class Overview_Children{
 }
 export class Nodes{
   constructor(
-    public ID? : string,
-    public Node_Description ? : string,
-    public Intention ? : string,
-    public Boundary ? : string,
-    public Design_Conditions ? : string,
-    public Operating_Conditions ? : string,
-    public Node_Color ? : string,
-    public Hazardous_Materials ? : string,
-    public Equipment_Tags ? : string,
-    public Location ? : string,
-    public Node_Comments ? : string,
+    public ID : string = uuidv4().toLowerCase().replace(/-/g, ''),
+    public Node_Description  : string = "",
+    public Intention  : string = "",
+    public Boundary  : string = "",
+    public Design_Conditions  : string = "",
+    public Operating_Conditions  : string = "",
+    public Node_Color  : string = "",
+    public Hazardous_Materials  : string = "",
+    public Equipment_Tags  : string = "",
+    public Location  : string = "",
+    public Node_Comments  : string = "",
     public Session_IDs  : Session_IDs [] = [],
     public Drawing_IDs  : Drawing_IDs [] = [],
     public Deviations  : Deviations [] = []
@@ -733,193 +734,193 @@ export class Nodes{
 
 export class Drawing_IDs{
   constructor(
-    public ID ? : string
+    public ID  : string = ""
   ){}
 }
 export class Session_IDs{
   constructor(
-    public ID ? : string
+    public ID  : string = ""
   ){}
 }
 export class Deviations{
   constructor(
-    public ID : string,
-    public Deviation ? : string,
-    public Guide_Word ? : string,
-    public Parameter ? : string,
-    public Design_Intent ? : string,
-    public Deviation_Comments ? : string,
+    public ID : string = "",
+    public Deviation  : string = "",
+    public Guide_Word  : string = "",
+    public Parameter  : string = "",
+    public Design_Intent  : string = "",
+    public Deviation_Comments  : string = "",
     public Causes : Causes[] = []
   ){}
 }
 export class Causes{
   constructor(
-    public ID : string,
-    public Cause ?: string,
-    public Cause_Type ?: string,
+    public ID : string = "",
+    public Cause : string = "",
+    public Cause_Type : string = "",
     public Enabling_Events : Enabling_Events[]=[],
-    public Cause_Hackable ?: string,
-    public Likelihood_ID? : string,
-    public Frequency ? :string,
+    public Cause_Hackable : string = "",
+    public Likelihood_ID : string = "",
+    public Frequency  :string = "",
     public Consequences : Consequences[]=[]
   ){}
 }
 export class Enabling_Events{
   constructor(
-    public ID : string,
-    public EE_Description ? : string,
-    public EE_Probability ? : string,
-    public EE_Library_Id ? : string,
-    public EE_Credit ? : string
+    public ID : string = "",
+    public EE_Description  : string = "",
+    public EE_Probability  : string = "",
+    public EE_Library_Id  : string = "",
+    public EE_Credit  : string = ""
   ){}
 }
 export class Consequences {
   constructor(
-    public ID  : string,
-    public Consequence ? : string,
-    public Likelihood_ID_Before_Safeguards ? : string,
-    public Risk_Rank_ID_Before_Safeguards ? : string,
-    public Likelihood_ID ? : string,
-    public Risk_Rank_ID ? : string,
-    public Lopa_Required ? : string,
-    public Recommended_Sil ? : string,
+    public ID  : string = "",
+    public Consequence  : string = "",
+    public Likelihood_ID_Before_Safeguards  : string = "",
+    public Risk_Rank_ID_Before_Safeguards  : string = "",
+    public Likelihood_ID  : string = "",
+    public Risk_Rank_ID  : string = "",
+    public Lopa_Required  : string = "",
+    public Recommended_Sil  : string = "",
     public Pha_Recommendation_IDs : Pha_Recommendation_IDs[] = [] ,
-    public Likelihood_ID_After_Recommendations ? : string,
-    public Risk_Rank_ID_After_Recommendations ? : string,
+    public Likelihood_ID_After_Recommendations  : string = "",
+    public Risk_Rank_ID_After_Recommendations  : string = "",
     public Pha_Comment_IDs  : Pha_Comment_IDs[] = [],
     public Lopa_Recommendation_IDs  :Lopa_Recommendation_IDs[] = [] ,
     public Lopa_Comment_IDs : Lopa_Comment_IDs[] = [],
-    public Consequence_Type_ID ? : string,
-    public Consequence_Severity_ID_Before_Safeguards ? : string,
-    public Consequence_Severity_ID ? : string,
-    public Consequence_Severity_ID_After_Recommendations ? : string,
-    public Lopa_Risk_Rank_ID ? : string,
+    public Consequence_Type_ID  : string = "",
+    public Consequence_Severity_ID_Before_Safeguards  : string = "",
+    public Consequence_Severity_ID  : string = "",
+    public Consequence_Severity_ID_After_Recommendations  : string = "",
+    public Lopa_Risk_Rank_ID  : string = "",
     public Conditional_Modifiers : Conditional_Modifiers[] = [] ,
     public Safeguard_IDs : Safeguard_IDs[] = [],
-    public Lopa_Gap ? : string,
-    public Scenario_Hackable ? : string,
-    public Tmel ? : string,
-    public Mel ? : string,
-    public Lopa_Ratio ? : string,
-    public Rrf ? :string
+    public Lopa_Gap  : string = "",
+    public Scenario_Hackable  : string = "",
+    public Tmel  : string = "",
+    public Mel  : string = "",
+    public Lopa_Ratio  : string = "",
+    public Rrf  :string = ""
   ) {}
 }
 export class Conditional_Modifiers {
   constructor(
-    public ID : string,
-    public CM_Library_Id ? : string,
-    public CM_Description ? : string,
-    public CM_Probability ? :string,
-    public CM_Credit ? : string
+    public ID : string = "",
+    public CM_Library_Id  : string = "",
+    public CM_Description  : string = "",
+    public CM_Probability  :string = "",
+    public CM_Credit  : string = ""
   ){}
 }
 export class Safeguard_IDs{
   constructor(
-    public ID ? : string
+    public ID  : string = ""
   ){}
 }
 export class Pha_Recommendation_IDs{
   constructor(
-    public ID ? : string
+    public ID  : string = ""
   ){}
 }
 export class Pha_Comment_IDs{
   constructor(
-    public ID ? : string
+    public ID  : string = ""
   ){}
 }
 export class Lopa_Recommendation_IDs{
   constructor(
-    public ID ? : string
+    public ID  : string = ""
   ){}
 }
 export class Lopa_Comment_IDs{
   constructor(
-    public ID ? : string
+    public ID  : string = ""
   ){}
 }
 
 export class Revalidation_History {
   constructor(
-  public ID ?	: string,
-  public Start_Date ?	: string,
-  public End_Date ?	: string,
-  public Revalidation_Comments ?	: string
+  public ID 	: string = "",
+  public Start_Date 	: string = "",
+  public End_Date 	: string = "",
+  public Revalidation_Comments 	: string = ""
   ){}}
 export class Overview {
   constructor(
-    public Study_Name ?: string, 
-    public Study_Coordinator ?: string, 
-    public Study_Coordinator_Contact_Info ?: string,
-    public Facility ?: string,
-    public Facility_Location ?: string,
-    public Facility_Owner ?: string,
-    public Overview_Company ?: string,
-    public Site ?: string,
-    public Plant ?: string,
-    public Unit__Group ?: string,
-    public Unit ?: string,
-    public Sub__Unit ?: string,
-    public Report_Number ?: string,
-    public Project_Number ?: string,
-    public Project_Description ?: string,
-    public General_Notes ?: string
+    public Study_Name : string = "", 
+    public Study_Coordinator : string = "", 
+    public Study_Coordinator_Contact_Info : string = "",
+    public Facility : string = "",
+    public Facility_Location : string = "",
+    public Facility_Owner : string = "",
+    public Overview_Company : string = "",
+    public Site : string = "",
+    public Plant : string = "",
+    public Unit__Group : string = "",
+    public Unit : string = "",
+    public Sub__Unit : string = "",
+    public Report_Number : string = "",
+    public Project_Number : string = "",
+    public Project_Description : string = "",
+    public General_Notes : string = ""
     ) {}
 }
 export class Team_Members {
   constructor(
-    public ID ? :	string,
-    public Name?	:	string,
-    public Company?	:	string,
-    public Title?	:	string,
-    public Departement?	:	string,
-    public Expertise?	:	string,
-    public Experience?	:string,
-    public Phone_Number?	:	string,
-    public E__Mail_Address?	:	string,
-    public Team_Member_Comments?	:string,
+    public ID  :	string = uuidv4().toLowerCase().replace(/-/g, ''),
+    public Name	:	string = "",
+    public Company	:	string = "",
+    public Title	:	string = "",
+    public Departement	:	string = "",
+    public Expertise	:	string = "",
+    public Experience	:string = "",
+    public Phone_Number	:	string = "",
+    public E__Mail_Address	:	string = "",
+    public Team_Member_Comments	:string = "",
     ) {}
 }
 export class Sessions {
   constructor(
-    public ID ? :string,
-    public Date?	:string,
-    public Duration?	:string,
-    public Session?	:string,
-    public Facilitator_ID?	:string,
-    public Scribe_ID?	:string,
-    public Session_Comments?	:string) {}
+    public ID :string = uuidv4().toLowerCase().replace(/-/g, ''),
+    public Date	:string = "",
+    public Duration	:string = "",
+    public Session	:string = "",
+    public Facilitator_ID	:string = "",
+    public Scribe_ID	:string = "",
+    public Session_Comments	:string = "") {}
 }
 
 export class Team_Members_Sessions{
   constructor(
-    public ID ?:string,
-    public Team_Member_ID ?	:string,
-    public Session_ID ?	:string,
-    public Value ?	:string
+    public ID :string = uuidv4().toLowerCase().replace(/-/g, ''),
+    public Team_Member_ID 	:string = "",
+    public Session_ID 	:string = "",
+    public Value 	:string = ""
   ){}
 }
 
 export class Safeguards{
   constructor(
-    public ID ?: string,
-    public Safeguard ?	: string,
-    public Safeguard_Type ?	: string,
-    public Safeguard_Independent ?	: string,
-    public Safeguard_Auditable ?	: string,
-    public Safeguard_Effective ?	: string,
-    public Safeguard_Hackable ?	: string,
-    public Is_Safeguard ?	: string,
-    public Is_Ipl ?	: string,
-    public Ipl_Tag ?	: string,
-    public Safety_Critical ?	: string,
-    public Selected_Sil ?	: string,
-    public Required_Response_Time ?	: string,
-    public Test_Interval ?	: string,
-    public Safeguard_Library_Id ?	: string,
-    public Ipl_Credit ?	: string,
-    public Safeguard_Category ?	: string,
-    public Safeguard_Comments ?	:string
+    public ID : string = "",
+    public Safeguard 	: string = "",
+    public Safeguard_Type 	: string = "",
+    public Safeguard_Independent 	: string = "",
+    public Safeguard_Auditable 	: string = "",
+    public Safeguard_Effective 	: string = "",
+    public Safeguard_Hackable 	: string = "",
+    public Is_Safeguard 	: string = "",
+    public Is_Ipl 	: string = "",
+    public Ipl_Tag 	: string = "",
+    public Safety_Critical 	: string = "",
+    public Selected_Sil 	: string = "",
+    public Required_Response_Time 	: string = "",
+    public Test_Interval 	: string = "",
+    public Safeguard_Library_Id 	: string = "",
+    public Ipl_Credit 	: string = "",
+    public Safeguard_Category 	: string = "",
+    public Safeguard_Comments 	:string = ""
   ){}
 }
 
@@ -933,56 +934,56 @@ export class Risk_Criteria{
 }
 export class Parking_Lot{
   constructor(
-    public ID ?	:string,
-    public Parking_Lot_Issue ?	:string,
-    public Response ?	:string,
-    public Responsible_Party ?	:string,
-    public Start_Date ?	:string,
-    public End_Date ?	: string
+    public ID 	:string = "",
+    public Parking_Lot_Issue 	:string = "",
+    public Response 	:string = "",
+    public Responsible_Party 	:string = "",
+    public Start_Date 	:string = "",
+    public End_Date 	: string = ""
 ){}
 }
 export class Drawings{
   constructor(
-    public ID ?	: string,
-    public Drawing ?	: string,
-    public Revision ?	: string,
-    public Document_Type ?	: string,
-    public Drawing_Description ?	: string,
-    public Link ?	: string
+    public ID 	: string = "",
+    public Drawing 	: string = "",
+    public Revision 	: string = "",
+    public Document_Type 	: string = "",
+    public Drawing_Description 	: string = "",
+    public Link 	: string = ""
   ){}
 }
 export class Intersections{
   constructor(
-    public ID	 : string,
-    public Severity_ID	? : string,
-    public Likelihood_ID	? : string,
-    public Risk_Rank_ID	? : string
+    public ID	 : string = "",
+    public Severity_ID	 : string = "",
+    public Likelihood_ID	 : string = "",
+    public Risk_Rank_ID	 : string = ""
   ){}
 }
 export class Likelihoods{
   constructor(
-    public ID	 : string,
-    public RM_Description	? : string,
-    public Frequency	? : string,
-    public Code	? : string
+    public ID	 : string = "",
+    public RM_Description	 : string = "",
+    public Frequency	 : string = "",
+    public Code	 : string = ""
   ){}
 }
 export class Severities{
   constructor(
-    public ID	 : string,
-    public Severity_Type	? : string,
-    public RM_Description	? : string,
-    public RM_Tmel	? : string,
-    public Code ? : string
+    public ID	 : string = "",
+    public Severity_Type	 : string = "",
+    public RM_Description	 : string = "",
+    public RM_Tmel	 : string = "",
+    public Code  : string = ""
   ){}
 }
 export class Risk_Rankings{
   constructor(
-    public ID	 : string,
-    public RM_Description	? : string,
-    public Code	? : string,
-    public Color	? : string,
-    public Priority ? : string,
-    public Required_Lopa_Credits ? : string
+    public ID	 : string = "",
+    public RM_Description	 : string = "",
+    public Code	 : string = "",
+    public Color	 : string = "",
+    public Priority  : string = "",
+    public Required_Lopa_Credits  : string = ""
   ){}
 }

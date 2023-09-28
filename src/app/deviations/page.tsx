@@ -24,12 +24,15 @@ const NodesPage: React.FC  = () => {
   }, [selectedNode]);
   const handleAddRow = () => {
     if (deviation !== undefined) {
-        const newDeviation = { ID: uuidv4(), Causes: [] };
+        const newDeviation =new Deviations();
         setDeviation([...deviation, newDeviation]);
-      }
-    const data = dataGlobal;
-    data.Nodes = nodes;
-    updateDataGlobal(data);
+    }
+    if(selectedNode !== null){
+      const index = nodes.findIndex((node) => node.ID === selectedNode.ID);
+      const datas = dataGlobal;
+    datas.Nodes[index].Deviations = deviation;
+    updateDataGlobal(datas);
+    }
   };
   const handleCloseError = () => {
     setShowError(false)
@@ -90,10 +93,13 @@ const NodesPage: React.FC  = () => {
         updatedDeviations = [...deviation];
         updatedDeviations[index].Deviation = e.target.value;
         setDeviation(updatedDeviations);
+        if(selectedNode !== null){
+          const index = nodes.findIndex((node) => node.ID === selectedNode.ID);
+          const datas = dataGlobal;
+        datas.Nodes[index].Deviations = updatedDeviations;
+        updateDataGlobal(datas);
+        }
     }
-    const data = dataGlobal;
-    data.Nodes = nodes;
-    updateDataGlobal(data);
   };
   const handleGuideWordChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     let updatedDeviations = [];
@@ -101,10 +107,13 @@ const NodesPage: React.FC  = () => {
         updatedDeviations = [...deviation];
         updatedDeviations[index].Guide_Word = e.target.value;
         setDeviation(updatedDeviations);
+        if(selectedNode !== null){
+          const index = nodes.findIndex((node) => node.ID === selectedNode.ID);
+          const datas = dataGlobal;
+        datas.Nodes[index].Deviations = updatedDeviations;
+        updateDataGlobal(datas);
+        }
     }
-    const data = dataGlobal;
-    data.Nodes = nodes;
-    updateDataGlobal(data);
   };
   const handleParameterChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     let updatedDeviations = [];
@@ -112,10 +121,13 @@ const NodesPage: React.FC  = () => {
         updatedDeviations = [...deviation];
         updatedDeviations[index].Parameter = e.target.value;
         setDeviation(updatedDeviations);
+        if(selectedNode !== null){
+          const index = nodes.findIndex((node) => node.ID === selectedNode.ID);
+          const datas = dataGlobal;
+        datas.Nodes[index].Deviations = updatedDeviations;
+        updateDataGlobal(datas);
+        }
     }
-    const data = dataGlobal;
-    data.Nodes = nodes;
-    updateDataGlobal(data);
   };
   const handleDesignIntenChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     let updatedDeviations = [];
@@ -123,10 +135,13 @@ const NodesPage: React.FC  = () => {
         updatedDeviations = [...deviation];
         updatedDeviations[index].Design_Intent = e.target.value;
         setDeviation(updatedDeviations);
+        if(selectedNode !== null){
+          const index = nodes.findIndex((node) => node.ID === selectedNode.ID);
+          const datas = dataGlobal;
+        datas.Nodes[index].Deviations = updatedDeviations;
+        updateDataGlobal(datas);
+        }
     }
-    const data = dataGlobal;
-    data.Nodes = nodes;
-    updateDataGlobal(data);
   };
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     let updatedDeviations = [];
@@ -223,4 +238,3 @@ const NodesPage: React.FC  = () => {
 };
 
 export default NodesPage;
-

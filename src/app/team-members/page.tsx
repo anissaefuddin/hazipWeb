@@ -38,11 +38,18 @@ const Teammember: React.FC  = () => {
   };
   const handleRemoveActiveRow = () => {
     if (activeRow !== null) {
+      const tempID = teamMembers[activeRow].ID;
       const updatedTeamMembers = [...teamMembers];
       updatedTeamMembers.splice(activeRow, 1);
       setTeamMembers(updatedTeamMembers);
+      const updatedAttendances = [...attendances];
+      attendances.map((data,index) => {
+        if(tempID == data.Team_Member_ID){
+          updatedAttendances.splice(index,1);
+        }
+      });
       const dataApa = dataGlobal;
-      dataApa.Team_Members_Sessions = attendances;
+      dataApa.Team_Members_Sessions = updatedAttendances;
       dataApa.Team_Members = teamMembers;
       updateDataGlobal(dataApa);
       setActiveRow(null);

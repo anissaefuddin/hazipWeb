@@ -47,7 +47,7 @@ export class Check_List_Recommendation_IDs{
 }
 export class Check_List_Recommendations{
   constructor( 
-  public ID : string = "",
+  public ID : string = uuidv4().toLowerCase().replace(/-/g, ''),
   public Check_List_Recommendation : string = "",
   public Check_List_Recommendation_Priority : string = "",
   public Check_List_Recommendation_Responsible_Party : string = "",
@@ -57,7 +57,7 @@ export class Check_List_Recommendations{
 }
 export class Pha_Recommendations{
   constructor( 
-  public ID : string = "",
+  public ID : string = uuidv4().toLowerCase().replace(/-/g, ''),
   public Pha_Recommendation : string = "",
   public Pha_Recommendation_Priority : string = "",
   public Pha_Recommendation_Responsible_Party : string = "",
@@ -73,7 +73,7 @@ export class Pha_Comments{
 }
 export class Lopa_Recommendations{
   constructor( 
-  public ID : string = "",
+  public ID : string = uuidv4().toLowerCase().replace(/-/g, ''),
   public Lopa_Recommendation : string = "",
   public Lopa_Recommendation_Priority : string = "",
   public Lopa_Recommendation_Responsible_Party : string = "",
@@ -744,7 +744,7 @@ export class Session_IDs{
 }
 export class Deviations{
   constructor(
-    public ID : string = "",
+    public ID : string =uuidv4().toLowerCase().replace(/-/g, ''),
     public Deviation  : string = "",
     public Guide_Word  : string = "",
     public Parameter  : string = "",
@@ -903,7 +903,7 @@ export class Team_Members_Sessions{
 
 export class Safeguards{
   constructor(
-    public ID : string = "",
+    public ID : string = uuidv4().toLowerCase().replace(/-/g, ''),
     public Safeguard 	: string = "",
     public Safeguard_Type 	: string = "",
     public Safeguard_Independent 	: string = "",

@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import PageHeader from "@/partials/PageHeader";
 import { useDataGlobal } from '../../model/DataGlobalContext';
 import { Likelihoods,Intersections,Severities } from '@/model/classModel';
+import Link from 'next/link';
 const LikelihoodCategories: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const [likelihoods, setLikelihoods] = useState<Likelihoods[]>(dataGlobal.Risk_Criteria.Likelihoods);
@@ -125,10 +126,10 @@ const LikelihoodCategories: React.FC  = () => {
         <div className="row">
             <div className="w-1/6">
               <ul>
-                <li className="mb-4 lg:mb-2"><a href="/risk-matrix" className="block hover:text-gray-900 font-medium text-gray-600">Risk Matrix</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/likelihoods" className="block hover:text-gray-900 font-medium text-lg text-black">Likelihood Categories</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/concequences" className="block hover:text-gray-900 font-medium text-gray-600">Concequences Categorys</a></li>
-                <li className="mb-4 lg:mb-2"><a href="/risk-rankings" className="block hover:text-gray-900 font-medium text-gray-600">Risk Ranking</a></li>
+                <li className="mb-4 lg:mb-2"><Link href="/risk-matrix" className="block hover:text-gray-900 font-medium text-gray-600">Risk Matrix</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href="/likelihoods" className="block hover:text-gray-900 font-medium text-lg text-black">Likelihood Categories</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href="/concequences" className="block hover:text-gray-900 font-medium text-gray-600">Concequences Categorys</Link></li>
+                <li className="mb-4 lg:mb-2"><Link href="/risk-rankings" className="block hover:text-gray-900 font-medium text-gray-600">Risk Ranking</Link></li>
                 </ul>
                 </div>
             <div className="w-5/6">

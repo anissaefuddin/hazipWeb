@@ -970,7 +970,7 @@ export class Likelihoods{
 }
 export class Severities{
   constructor(
-    public ID	 : string = "",
+    public ID	 : string =  uuidv4().toLowerCase().replace(/-/g, ''),
     public Severity_Type	 : string = "",
     public RM_Description	 : string = "",
     public RM_Tmel	 : string = "",

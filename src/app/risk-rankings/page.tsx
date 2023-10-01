@@ -167,7 +167,7 @@ const RiskRankins: React.FC = () => {
                           value={data.RM_Description} onChange={(e) => handleDescriptionChange(e, index)} onFocus={(e) => handleActiveRow(e, index)} />
                       </td>
                       <td className="border">
-                      <input type="color" onChange={(e) => handleColorChange(e, index)} onFocus={(e) => handleActiveRow(e, index)} className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' />
+                      <input type="color" value={data.Color} onChange={(e) => handleColorChange(e, index)} onFocus={(e) => handleActiveRow(e, index)} className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' />
                       </td>
                       <td className="border">
                         <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none'

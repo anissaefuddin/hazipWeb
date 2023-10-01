@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import PageHeader from "@/partials/PageHeader";
 import { v4 as uuidv4 } from 'uuid';
 import { useDataGlobal } from '../../model/DataGlobalContext';
-import { Likelihoods, Severities,Intersections } from '@/model/classModel';
+import { Likelihoods, Severities, Intersections } from '@/model/classModel';
 import Link from 'next/link';
 const Concequencess: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
@@ -20,22 +20,23 @@ const Concequencess: React.FC  = () => {
     newData.Severity_Type = severityType;
     setseverities([...severities, newData]);
     if(likelihoods.length>0){
-    likelihoods.map((data) => {
-      const newIntersection = {
-        ID:  uuidv4().toLowerCase().replace(/-/g, ''),
-        Likelihood_ID: data.ID,
-        Severity_ID: newData.ID,
-        Risk_Rank_ID: '', // You can set the default value as needed
-      };
-      setIntersections([...intersections, newIntersection]);
-    });
-  }
+      likelihoods.map((data) => {
+        const newIntersection = {
+          ID:  uuidv4().toLowerCase().replace(/-/g, ''),
+          Likelihood_ID: data.ID,
+          Severity_ID: newData.ID,
+          Risk_Rank_ID: '', 
+        };
+        setIntersections([...intersections, newIntersection]);
+      });
+    }
     const dataApa = dataGlobal;
     dataApa.Risk_Criteria.Severities = severities;
     dataApa.Risk_Criteria.Intersections = intersections;
     const filteredData = severities.filter((severity) => severity.Severity_Type === severityType);
     setFilteredSeverities(filteredData);
     updateDataGlobal(dataApa);
+    console.log(severities)
   };
   const handleCloseError = () => {
     setShowError(false)

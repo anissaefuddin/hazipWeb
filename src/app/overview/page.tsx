@@ -401,7 +401,7 @@ const Overviews: React.FC = () => {
                 <div className="flex mb-4">
                   <div className="w-1/4 h-12">
                   <label htmlFor="general-notes" className="form-label">
-                    Gneral Notes 
+                    General Notes 
                   </label></div>
                   <div className="w-3/4">
                   <textarea

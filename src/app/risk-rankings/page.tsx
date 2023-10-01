@@ -9,12 +9,9 @@ import Link from 'next/link';
 
 const RiskRankins: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
-  const initialRisk_Rankings: Risk_Rankings[] = [{ "ID": "dnjaxs1hxqbavk46by310c", "RM_Description": "VeryHigh", "Code": "5", "Color": "Maroon", "Priority": "1", "Required_Lopa_Credits": "3" }, { "ID": "fjiqx3rvx4uh6rgxm60qf8", "RM_Description": "High", "Code": "4", "Color": "Red", "Priority": "2", "Required_Lopa_Credits": "2" }, { "ID": "q4mtabb543wzlbkia252", "RM_Description": "Medium", "Code": "3", "Color": "Orange", "Priority": "3", "Required_Lopa_Credits": "1" }, { "ID": "ld9f06nbvcxia4dbzhma", "RM_Description": "Low", "Code": "2", "Color": "Yellow", "Priority": "4", "Required_Lopa_Credits": "0" }, { "ID": "k567sqcskwjgr50n5vshbh", "RM_Description": "VeryLow", "Code": "1", "Color": "Green", "Priority": "5", "Required_Lopa_Credits": "0" }];
-  //dataGlobal.Risk_Criteria.Risk_Rankings;
-  const [riskRankings, setriskRankings] = useState<Risk_Rankings[]>(initialRisk_Rankings);
+  const [riskRankings, setriskRankings] = useState<Risk_Rankings[]>(dataGlobal.Risk_Criteria.Risk_Rankings);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
-  const [selectedColor, setSelectedColor] = useState("");
 
   const handleAddRow = () => {
     const newData = new Risk_Rankings();
@@ -171,15 +168,6 @@ const RiskRankins: React.FC = () => {
                       </td>
                       <td className="border">
                       <input type="color" onChange={(e) => handleColorChange(e, index)} onFocus={(e) => handleActiveRow(e, index)} className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' />
-                        {/* <div style={styles.swatch} onClick={() => handleClickColor()}>
-                          <div style={styles.color} />
-                        </div>
-                        { displayColorPicker ? <div style={{ position: 'absolute', zIndex: '2' }}>
-                          <div style={{ position: 'fixed', top: '0px', right: '0px', bottom: '0px', left: '0px', }} onClick={()=> handleCloseColor()} />
-                          <SketchPicker onChange={() => handleChangeColor({})} />
-                        </div> : null} */}
-                        {/* <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
-                value={data.Color} onChange={(e) => handleColorChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/> */}
                       </td>
                       <td className="border">
                         <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none'

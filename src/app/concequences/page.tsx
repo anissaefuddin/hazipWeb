@@ -4,21 +4,31 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import PageHeader from "@/partials/PageHeader";
 import { v4 as uuidv4 } from 'uuid';
 import { useDataGlobal } from '../../model/DataGlobalContext';
-import { Likelihoods, Severities } from '@/model/classModel';
+import { Likelihoods, Severities,Intersections } from '@/model/classModel';
 const Concequencess: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
-//   const initialSeverities: Severities[] = dataGlobal.Risk_Criteria.Severities;
-  const initialSeverities : Severities[] = [{"ID":"a6cv4ejnfjlayd8u9ar2rj","Severity_Type":"Asset","RM_Description":"VeryHigh","RM_Tmel":"1E-5","Code":"VH"},{"ID":"v5ekras0gfqxc6bmmys01","Severity_Type":"Asset","RM_Description":"High","RM_Tmel":"1E-4","Code":"H"},{"ID":"d05fztk5uhep0g4esbpmd","Severity_Type":"Asset","RM_Description":"Medium","RM_Tmel":"1E-3","Code":"M"},{"ID":"q5ql18g78jsvpo46zy9l8","Severity_Type":"Asset","RM_Description":"Low","RM_Tmel":"1E-2","Code":"L"},{"ID":"j64sjwayqhol4alcdf0f1o","Severity_Type":"Asset","RM_Description":"VeryLow","RM_Tmel":"1E-1","Code":"VL"},{"ID":"tzvyjz1r0sr317f42porig","Severity_Type":"Environment","RM_Description":"VeryHigh","RM_Tmel":"1E-5","Code":"VH"},{"ID":"skxun25lxpf555t1u5aw92","Severity_Type":"Environment","RM_Description":"High","RM_Tmel":"1E-4","Code":"H"},{"ID":"50v34s3s7kr10ws5j1o11wf","Severity_Type":"Environment","RM_Description":"Medium","RM_Tmel":"1E-3","Code":"M"},{"ID":"08i220uakn3n174z2fiix0w","Severity_Type":"Environment","RM_Description":"Low","RM_Tmel":"1E-2","Code":"L"},{"ID":"o6uqvq045j8xcqzml9drsc","Severity_Type":"Environment","RM_Description":"VeryLow","RM_Tmel":"1E-1","Code":"VL"},{"ID":"v75ck4ib7f8b0mrk7q4q","Severity_Type":"Safety","RM_Description":"VeryHigh","RM_Tmel":"1E-5","Code":"VH"},{"ID":"9xhhc8g374brb89fcbk1","Severity_Type":"Safety","RM_Description":"High","RM_Tmel":"1E-4","Code":"H"},{"ID":"k7a4ep9fpnt3po6ch0mcsp","Severity_Type":"Safety","RM_Description":"Medium","RM_Tmel":"1E-3","Code":"M"},{"ID":"1bj3zzi72gy5qp5l12wx2","Severity_Type":"Safety","RM_Description":"Low","RM_Tmel":"1E-2","Code":"L"},{"ID":"8o85eu5aw0gnxnenbt2bc","Severity_Type":"Safety","RM_Description":"VeryLow","RM_Tmel":"1E-1","Code":"VL"},{"ID":"428y9degv31tkjwzdyq1zi","Severity_Type":"Reputation","RM_Description":"VeryHigh","RM_Tmel":"1E-5","Code":"VH"},{"ID":"ihzajjauqdovjpf84je0o","Severity_Type":"Reputation","RM_Description":"High","RM_Tmel":"1E-4","Code":"H"},{"ID":"7xac0r4pt1jt7ul69zli2","Severity_Type":"Reputation","RM_Description":"Medium","RM_Tmel":"1E-3","Code":"M"},{"ID":"fuffimi3vg82nss62a7gsa","Severity_Type":"Reputation","RM_Description":"Low","RM_Tmel":"1E-2","Code":"L"},{"ID":"exrf2g78q96z5uzlta5vm","Severity_Type":"Reputation","RM_Description":"VeryLow","RM_Tmel":"1E-1","Code":"VL"},{"ID":"9rh48drs8xwuraarc1va59","Severity_Type":"Community","RM_Description":"VeryHigh","RM_Tmel":"1E-5","Code":"VH"},{"ID":"msojgmqhemcofwsyhiudon","Severity_Type":"Community","RM_Description":"High","RM_Tmel":"1E-4","Code":"H"},{"ID":"2fnac8bishxz8wgfzusmo","Severity_Type":"Community","RM_Description":"Medium","RM_Tmel":"1E-3","Code":"M"},{"ID":"914r6sz9py80qh31qoenob","Severity_Type":"Community","RM_Description":"Low","RM_Tmel":"1E-2","Code":"L"},{"ID":"rmmodofd6j8pema7sszysh","Severity_Type":"Community","RM_Description":"VeryLow","RM_Tmel":"1E-1","Code":"VL"}];
-  const [severities, setseverities] = useState<Severities[]>(initialSeverities);
+  const [likelihoods, setLikelihoods] = useState<Likelihoods[]>(dataGlobal.Risk_Criteria.Likelihoods);
+  const [intersections, setIntersections] = useState<Intersections[]>(dataGlobal.Risk_Criteria.Intersections);
+  const [severities, setseverities] = useState<Severities[]>(dataGlobal.Risk_Criteria.Severities);
   const [filteredSeverities, setFilteredSeverities] = useState(severities);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const [severityType, setSeverityType] = useState("Safety");
   const handleAddRow = () => {
-    const newData = { ID: uuidv4(), Severity_Type:severityType};
+    const newData = new Severities();
     setseverities([...severities, newData]);
+    likelihoods.map((data) => {
+      const newIntersection = {
+        ID:  uuidv4().toLowerCase().replace(/-/g, ''),
+        Likelihood_ID: data.ID,
+        Severity_ID: newData.ID,
+        Risk_Rank_ID: '', // You can set the default value as needed
+      };
+      setIntersections([...intersections, newIntersection]);
+    });
     const dataApa = dataGlobal;
     dataApa.Risk_Criteria.Severities = severities;
+    dataApa.Risk_Criteria.Intersections = intersections;
     updateDataGlobal(dataApa);
   };
   const handleCloseError = () => {
@@ -26,12 +36,20 @@ const Concequencess: React.FC  = () => {
   };
   const handleRemoveActiveRow = () => {
     if (activeRow !== null) {
+      const tempID = severities[activeRow].ID;
       const updatedData = [...severities];
       updatedData.splice(activeRow, 1);
       setseverities(updatedData);
+      const updatedIntersections = [...intersections];
+      intersections.map((data,index) => {
+        if(tempID == data.Severity_ID){
+          updatedIntersections.splice(index,1);
+        }
+      });
       const dataApa = dataGlobal;
-    dataApa.Risk_Criteria.Severities = severities;
-    updateDataGlobal(dataApa);
+      dataApa.Risk_Criteria.Intersections = updatedIntersections;
+      dataApa.Risk_Criteria.Severities = severities;
+      updateDataGlobal(dataApa);
       setActiveRow(null);
       setShowError(false);
     }else{

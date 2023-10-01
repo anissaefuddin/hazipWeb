@@ -1,23 +1,31 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import PageHeader from "@/partials/PageHeader";
 import { v4 as uuidv4 } from 'uuid';
-
+import PageHeader from "@/partials/PageHeader";
 import { useDataGlobal } from '../../model/DataGlobalContext';
-import { Likelihoods } from '@/model/classModel';
+import { Likelihoods,Intersections,Severities } from '@/model/classModel';
 const LikelihoodCategories: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
-  const initialLikelihood: Likelihoods[] = [{"ID":"bl1v8u4tw3mzxagfltoay","RM_Description":"VeryLow","Frequency":"1E-4","Code":"VL"},{"ID":"drp6qkyi1tsddx3l49vown","RM_Description":"Low","Frequency":"1E-3","Code":"L"},{"ID":"y677s2k2osdgyhbq2879vg","RM_Description":"Medium","Frequency":"1E-2","Code":"M"},{"ID":"67kvjl76oxevh1kwp3v1uo","RM_Description":"High","Frequency":"1E-1","Code":"H"},{"ID":"qkefftnb5udhdb6nj3q6g","RM_Description":"VeryHigh","Frequency":"1E+0","Code":"VH"}];
-  dataGlobal.Risk_Criteria.Likelihoods;
-  const [likelihoods, setLikelihoods] = useState<Likelihoods[]>(initialLikelihood);
+  const [likelihoods, setLikelihoods] = useState<Likelihoods[]>(dataGlobal.Risk_Criteria.Likelihoods);
+  const [intersections, setIntersections] = useState<Intersections[]>(dataGlobal.Risk_Criteria.Intersections);
+  const [severities, setseverities] = useState<Severities[]>(dataGlobal.Risk_Criteria.Severities);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {
-    const newData = { ID: uuidv4()};
+    const newData = new Likelihoods();
     setLikelihoods([...likelihoods, newData]);
+    severities.map((data) => {
+      const newIntersection = {
+        ID:  uuidv4().toLowerCase().replace(/-/g, ''),
+        Likelihood_ID: newData.ID,
+        Severity_ID: data.ID,
+        Risk_Rank_ID: '', // You can set the default value as needed
+      };
+      setIntersections([...intersections, newIntersection]);
+    });
     const dataApa = dataGlobal;
     dataApa.Risk_Criteria.Likelihoods = likelihoods;
+    dataApa.Risk_Criteria.Intersections = intersections;
     updateDataGlobal(dataApa);
   };
   const handleCloseError = () => {
@@ -25,12 +33,20 @@ const LikelihoodCategories: React.FC  = () => {
   };
   const handleRemoveActiveRow = () => {
     if (activeRow !== null) {
+      const tempID = likelihoods[activeRow].ID;
       const updatedData = [...likelihoods];
       updatedData.splice(activeRow, 1);
       setLikelihoods(updatedData);
+      const updatedIntersections = [...intersections];
+      intersections.map((data,index) => {
+        if(tempID == data.Likelihood_ID){
+          updatedIntersections.splice(index,1);
+        }
+      });
       const dataApa = dataGlobal;
-    dataApa.Risk_Criteria.Likelihoods = likelihoods;
-    updateDataGlobal(dataApa);
+      dataApa.Risk_Criteria.Intersections = updatedIntersections;    
+      dataApa.Risk_Criteria.Likelihoods = likelihoods;
+      updateDataGlobal(dataApa);
       setActiveRow(null);
       setShowError(false);
     }else{

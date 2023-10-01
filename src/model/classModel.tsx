@@ -755,7 +755,7 @@ export class Deviations{
 }
 export class Causes{
   constructor(
-    public ID : string = "",
+    public ID : string =uuidv4().toLowerCase().replace(/-/g, ''),
     public Cause : string = "",
     public Cause_Type : string = "",
     public Enabling_Events : Enabling_Events[]=[],
@@ -776,7 +776,7 @@ export class Enabling_Events{
 }
 export class Consequences {
   constructor(
-    public ID  : string = "",
+    public ID  : string = uuidv4().toLowerCase().replace(/-/g, ''),
     public Consequence  : string = "",
     public Likelihood_ID_Before_Safeguards  : string = "",
     public Risk_Rank_ID_Before_Safeguards  : string = "",
@@ -934,7 +934,7 @@ export class Risk_Criteria{
 }
 export class Parking_Lot{
   constructor(
-    public ID 	:string = "",
+    public ID 	:string = uuidv4().toLowerCase().replace(/-/g, ''),
     public Parking_Lot_Issue 	:string = "",
     public Response 	:string = "",
     public Responsible_Party 	:string = "",
@@ -944,7 +944,7 @@ export class Parking_Lot{
 }
 export class Drawings{
   constructor(
-    public ID 	: string = "",
+    public ID 	: string = uuidv4().toLowerCase().replace(/-/g, ''),
     public Drawing 	: string = "",
     public Revision 	: string = "",
     public Document_Type 	: string = "",
@@ -954,7 +954,7 @@ export class Drawings{
 }
 export class Intersections{
   constructor(
-    public ID	 : string = "",
+    public ID	 : string = uuidv4().toLowerCase().replace(/-/g, ''),
     public Severity_ID	 : string = "",
     public Likelihood_ID	 : string = "",
     public Risk_Rank_ID	 : string = ""
@@ -962,7 +962,7 @@ export class Intersections{
 }
 export class Likelihoods{
   constructor(
-    public ID	 : string = "",
+    public ID	 : string = uuidv4().toLowerCase().replace(/-/g, ''),
     public RM_Description	 : string = "",
     public Frequency	 : string = "",
     public Code	 : string = ""
@@ -979,7 +979,7 @@ export class Severities{
 }
 export class Risk_Rankings{
   constructor(
-    public ID	 : string = "",
+    public ID	 : string = uuidv4().toLowerCase().replace(/-/g, ''),
     public RM_Description	 : string = "",
     public Code	 : string = "",
     public Color	 : string = "",

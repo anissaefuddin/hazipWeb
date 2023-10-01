@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import PageHeader from "@/partials/PageHeader";
 import { v4 as uuidv4 } from 'uuid';
 import { useDataGlobal } from '../../model/DataGlobalContext';
-import { Sessions,Team_Members, Nodes } from '@/model/classModel';
+import { Sessions,Team_Members, Nodes, Deviations } from '@/model/classModel';
 const NodesPage: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const initialSessions: Sessions[] = dataGlobal.Sessions;
@@ -15,6 +15,7 @@ const NodesPage: React.FC  = () => {
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {
     const newNodes = new Nodes();
+    newNodes.Deviations = [new Deviations()];
     setNodes([...nodes, newNodes]);
     const data = dataGlobal;
     data.Nodes = nodes;
@@ -171,7 +172,7 @@ const NodesPage: React.FC  = () => {
           <tr>
             <td className="border px-4 py-2" colSpan={2}>Description</td>
             <td className="border px-4 py-2">Intention</td>
-            <td className="border px-4 py-2">Boundery</td>
+            <td className="border px-4 py-2">Boundary</td>
             <td className="border px-4 py-2">Design Condition</td>
             <td className="border px-4 py-2">Operating Condition</td>
             <td className="border px-4 py-2">Color</td>

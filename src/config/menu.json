@@ -2,34 +2,8 @@
   "main": [
     {
       "name": "Study Data",
-      "url": "",
-      "hasChildren": true,
-      "children": [
-        {
-          "name": "Overview",
-          "url": "/overview"
-        },
-        {
-          "name": "Team Members",
-          "url": "/team-members"
-        },
-        {
-          "name": "Session",
-          "url": "/sessions"
-        },
-        {
-          "name": "Attendance",
-          "url": "/attendances"
-        },
-        {
-          "name": "Document",
-          "url": "/document"
-        },
-        {
-          "name": "Column Setting",
-          "url": "/column-setting"
-        }
-      ]
+      "url": "/overview",
+      "hasChildren": false
     },
     {
       "name": "Hazard Type",
@@ -45,22 +19,9 @@
     },
     {
       "name": "Recommendation",
-      "url": "",
-      "hasChildren" :true,
-      "children" :[
-        {
-          "name": "PHA Recommendation",
-        "url":"/pha-recommendation"
-        },
-        {
-          "name": "LOPA Recommendation",
-        "url":"/lopa-recommendation"
-        },
-        {
-          "name": "Check List Recommendation",
-        "url":"/checklist-recommendation"
-        }
-      ]
+      "url": "pha-recommendation",
+      "hasChildren" :false
+      
     },
     {
       "name": "Safeguard",
@@ -68,61 +29,8 @@
     },
     {
       "name": "Risk Matrix",
-      "url": "",
-      "hasChildren":true,
-      "children" :[
-        {"name": "Risk matrix",
-        "url":"/risk-matrix"
-        },
-        {"name": "Likelihoods",
-        "url":"/likelihoods"
-        },
-        {"name": "Consequences",
-        "url":"/consequences"
-        },
-        {"name": "Risk Ranking",
-        "url":"/risk-rankings"
-        }
-      ]
-    },
-    {
-      "name": "Pages",
-      "url": "",
-      "hasChildren": true,
-      "children": [
-        {
-          "name": "Home",
-          "url": "/"
-        },
-        {
-          "name": "About",
-          "url": "/about"
-        },
-        {
-          "name": "Contact",
-          "url": "/contact"
-        },
-        {
-          "name": "Blog",
-          "url": "/blog"
-        },
-        {
-          "name": "Authors",
-          "url": "/authors"
-        },
-        {
-          "name": "Categories",
-          "url": "/categories"
-        },
-        {
-          "name": "Search",
-          "url": "/search"
-        },
-        {
-          "name": "404 Page",
-          "url": "/404"
-        }
-      ]
+      "url": "/risk-matrix",
+      "hasChildren":false
     }
   ],
   "footer": [

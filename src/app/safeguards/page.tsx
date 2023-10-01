@@ -7,8 +7,7 @@ import { useDataGlobal } from '../../model/DataGlobalContext';
 import { Safeguards } from '@/model/classModel';
 const SageguardsPage: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
-  const initialSafeguards: Safeguards[] = dataGlobal.Safeguards;
-  const [safeguards, setSafeguards] = useState<Safeguards[]>(initialSafeguards);
+  const [safeguards, setSafeguards] = useState<Safeguards[]>(dataGlobal.Safeguards);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {

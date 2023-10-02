@@ -4,19 +4,19 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import PageHeader from "@/partials/PageHeader";
 import { v4 as uuidv4 } from 'uuid';
 import { useDataGlobal } from '../../model/DataGlobalContext';
-import { Check_List_Recommendations,Nodes, Deviations, Consequences,Risk_Rankings, Severities, Likelihoods,Pha_Recommendations } from '@/model/classModel';
+import { Check_List_Recommendations,Nodes, Deviations,Team_Members, Consequences,Risk_Rankings, Severities, Likelihoods,Pha_Recommendations, Lopa_Recommendations } from '@/model/classModel';
 
 const PHAWorksheet: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
-  const initialLopa_Recommendation: Check_List_Recommendations[] = dataGlobal.Check_List_Recommendations;
-  const [lopas, setLopa] = useState<Check_List_Recommendations[]>(initialLopa_Recommendation);
+  const [lopas, setLopa] = useState<Lopa_Recommendations[]>(dataGlobal.Lopa_Recommendations);
+  const [members, setMembers] = useState<Team_Members[]>(dataGlobal.Team_Members);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {
-    const newData = { ID: uuidv4()};
+    const newData = new Lopa_Recommendations();
     setLopa([...lopas, newData]);
     const dataApa = dataGlobal;
-    dataApa.Check_List_Recommendations = lopas;
+    dataApa.Lopa_Recommendations = lopas;
     updateDataGlobal(dataApa);
   };
   const handleCloseError = () => {
@@ -28,7 +28,7 @@ const PHAWorksheet: React.FC  = () => {
       updatedData.splice(activeRow, 1);
       setLopa(updatedData);
       const dataApa = dataGlobal;
-      dataApa.Check_List_Recommendations = lopas;
+      dataApa.Lopa_Recommendations = lopas;
       updateDataGlobal(dataApa);
       setActiveRow(null);
       setShowError(false);
@@ -48,7 +48,7 @@ const PHAWorksheet: React.FC  = () => {
       updatedData[activeRow-1]= temp;
       setLopa(updatedData);
       const dataApa = dataGlobal;
-      dataApa.Check_List_Recommendations = lopas;
+      dataApa.Lopa_Recommendations = lopas;
       updateDataGlobal(dataApa);
       setActiveRow(activeRow-1);
       setShowError(false);
@@ -67,7 +67,7 @@ const PHAWorksheet: React.FC  = () => {
       updatedData[activeRow+1]= temp;
       setLopa(updatedData);
       const dataApa = dataGlobal;
-      dataApa.Check_List_Recommendations = lopas;
+      dataApa.Lopa_Recommendations = lopas;
       updateDataGlobal(dataApa);
       setActiveRow(activeRow+1);
       setShowError(false);
@@ -78,46 +78,46 @@ const PHAWorksheet: React.FC  = () => {
   };
   const handleRecommendationChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const updatedData = [...lopas];
-    updatedData[index].Check_List_Recommendation = e.target.value;
+    updatedData[index].Lopa_Recommendation = e.target.value;
     setLopa(updatedData);
     const dataApa = dataGlobal;
-    dataApa.Check_List_Recommendations = lopas;
+    dataApa.Lopa_Recommendations = lopas;
     updateDataGlobal(dataApa);
   };
   const handlePriorityChange = (e:string, index: number) => {
     const updatedData = [...lopas];
-    updatedData[index].Check_List_Recommendation_Priority = e;
+    updatedData[index].Lopa_Recommendation_Priority = e;
     setLopa(updatedData);
     const dataApa = dataGlobal;
-    dataApa.Check_List_Recommendations = lopas;
+    dataApa.Lopa_Recommendations = lopas;
     updateDataGlobal(dataApa);
   };
-  const handlePartyChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-    const updatedData = [...lopas];
-    updatedData[index].Check_List_Recommendation_Responsible_Party = e.target.value;
-    setLopa(updatedData);
-    const dataApa = dataGlobal;
-    dataApa.Check_List_Recommendations = lopas;
-    updateDataGlobal(dataApa);
-  };
+ 
   const handleStatusChange = (e: string, index: number) => {
     const updatedData = [...lopas];
-    updatedData[index].Check_List_Recommendation_Status = e;
+    updatedData[index].Lopa_Recommendation_Status = e;
     setLopa(updatedData);
     const dataApa = dataGlobal;
-    dataApa.Check_List_Recommendations = lopas;
+    dataApa.Lopa_Recommendations = lopas;
     updateDataGlobal(dataApa);
   };
   
   const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const updatedData = [...lopas];
-    updatedData[index].Check_List_Recommendation_Comments = e.target.value;
+    updatedData[index].Lopa_Recommendation_Comments = e.target.value;
     setLopa(updatedData);
     const dataApa = dataGlobal;
-    dataApa.Check_List_Recommendations = lopas;
+    dataApa.Lopa_Recommendations = lopas;
     updateDataGlobal(dataApa);
   };
-  
+  const handleActionPartyChange = (newValue:string, index: number) => {
+    const updatedData = [...lopas];
+    updatedData[index].Lopa_Recommendation_Responsible_Party = newValue;
+    setLopa(updatedData);
+    const dataApa = dataGlobal;
+    dataApa.Lopa_Recommendations = lopas;
+    updateDataGlobal(dataApa);
+  };
   return (
     <>
     <PageHeader title="LOPA Recommendation" />
@@ -159,43 +159,48 @@ const PHAWorksheet: React.FC  = () => {
            <tr key={data.ID} className={activeRow === index ? 'active-row' : ''}>
               <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
-                value={data.Check_List_Recommendation} onChange={(e) => handleRecommendationChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
+                value={data.Lopa_Recommendation} onChange={(e) => handleRecommendationChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
               <td className="border">
                 <select className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
-                value={data.Check_List_Recommendation_Priority}
+                value={data.Lopa_Recommendation_Priority}
                 onChange={(e) => handlePriorityChange(e.target.value, index)} 
                 >
-                    <option></option>
-                    <option>High</option>
-                    <option>Medium</option>
-                    <option>Low</option>
+                    <option value={""}></option>
+                    <option value={"High"}>High</option>
+                    <option value={"Medium"}>Medium</option>
+                    <option value={"Low"}>Low</option>
                 </select>
               </td>
               <td className="border">
-                <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
-                value={data.Check_List_Recommendation_Responsible_Party} onChange={(e) => handlePartyChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
+              <select className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none'
+                  value={data.Lopa_Recommendation_Responsible_Party}
+                  onChange={(e) => handleActionPartyChange(e.target.value,index)} >
+                    <option value={""}></option>
+                  {members.map((member) => (
+                    <option key={member.ID} value={member.ID}>{member.Name}</option>))}
+                  </select>
               </td>
               <td className="border">
               <select className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
-                value={data.Check_List_Recommendation_Status}
+                value={data.Lopa_Recommendation_Status}
                 onChange={(e) => handleStatusChange(e.target.value, index)} 
                 >
-                    <option></option>
-                    <option>Proposed</option>
-                    <option>Pending</option>
-                    <option>Under Review</option>
-                    <option>In Progress</option>
-                    <option>Completed</option>
-                    <option>Implemented</option>
-                    <option>Closed</option>
-                    <option>Removed</option>
-                    <option>Not Aplicable</option>
+                   <option value={""}></option>
+                    <option value={"Proposed"}>Proposed</option>
+                    <option value={"Pending"}>Pending</option>
+                    <option value={"Under Review"}>Under Review</option>
+                    <option value={"In Progress"}>In Progress</option>
+                    <option value={"Completed"}>Completed</option>
+                    <option value={"Implemented"}>Implemented</option>
+                    <option value={"Closed"}>Closed</option>
+                    <option value={"Removed"}>Removed</option>
+                    <option value={"Not Aplicable"}>Not Aplicable</option>
                 </select>
               </td>
               <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
-                value={data.Check_List_Recommendation_Comments} onChange={(e) => handleCommentChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
+                value={data.Lopa_Recommendation_Comments} onChange={(e) => handleCommentChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
            </tr>
             ))}

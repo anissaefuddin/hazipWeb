@@ -8,12 +8,10 @@ import { useDataGlobal } from '../../model/DataGlobalContext';
 import { Sessions,Team_Members,Team_Members_Sessions } from '@/model/classModel';
 const Session: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
-  const initialSessions: Sessions[] = dataGlobal.Sessions;
-  const initialMembers: Team_Members[] = dataGlobal.Team_Members;
   const initialAttendances: Team_Members_Sessions[] =dataGlobal.Team_Members_Sessions;
   const [attendances, setAttendances] = useState<Team_Members_Sessions[]>(initialAttendances);
   const [sessions, setSessions] = useState(dataGlobal.Sessions);
-  const [members, setMembers] = useState<Team_Members[]>(initialMembers);
+  const [members, setMembers] = useState<Team_Members[]>(dataGlobal.Team_Members);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {

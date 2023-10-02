@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import PageHeader from "@/partials/PageHeader";
 import { v4 as uuidv4 } from 'uuid';
 import { useDataGlobal } from '../../model/DataGlobalContext';
-import { Sessions,Team_Members, Nodes, Deviations } from '@/model/classModel';
+import { Sessions,Team_Members,Consequences, Safeguard_IDs,Nodes, Pha_Recommendation_IDs,Deviations, Causes } from '@/model/classModel';
 const NodesPage: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const initialSessions: Sessions[] = dataGlobal.Sessions;
@@ -16,6 +16,10 @@ const NodesPage: React.FC  = () => {
   const handleAddRow = () => {
     const newNodes = new Nodes();
     newNodes.Deviations = [new Deviations()];
+    newNodes.Deviations[0].Causes = [new Causes()];
+    newNodes.Deviations[0].Causes[0].Consequences = [new Consequences()];
+    newNodes.Deviations[0].Causes[0].Consequences[0].Safeguard_IDs = [new Safeguard_IDs()];
+    newNodes.Deviations[0].Causes[0].Consequences[0].Pha_Recommendation_IDs = [new Pha_Recommendation_IDs()];
     setNodes([...nodes, newNodes]);
     const data = dataGlobal;
     data.Nodes = nodes;

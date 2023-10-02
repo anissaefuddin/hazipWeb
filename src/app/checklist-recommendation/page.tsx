@@ -4,13 +4,14 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import PageHeader from "@/partials/PageHeader";
 import { v4 as uuidv4 } from 'uuid';
 import { useDataGlobal } from '../../model/DataGlobalContext';
-import { Check_List_Recommendations } from '@/model/classModel';
+import { Check_List_Recommendations,Team_Members } from '@/model/classModel';
 import Link from 'next/link';
 
 const ChecklistRecommendation: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const initialLopa_Recommendation: Check_List_Recommendations[] = dataGlobal.Check_List_Recommendations;
   const [lopas, setLopa] = useState<Check_List_Recommendations[]>(initialLopa_Recommendation);
+  const [members, setMembers] = useState<Team_Members[]>(dataGlobal.Team_Members);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {
@@ -93,9 +94,9 @@ const ChecklistRecommendation: React.FC  = () => {
     dataApa.Check_List_Recommendations = lopas;
     updateDataGlobal(dataApa);
   };
-  const handlePartyChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleActionPartyChange = (newValue:string, index: number) => {
     const updatedData = [...lopas];
-    updatedData[index].Check_List_Recommendation_Responsible_Party = e.target.value;
+    updatedData[index].Check_List_Recommendation_Responsible_Party = newValue;
     setLopa(updatedData);
     const dataApa = dataGlobal;
     dataApa.Check_List_Recommendations = lopas;
@@ -167,31 +168,36 @@ const ChecklistRecommendation: React.FC  = () => {
                 value={data.Check_List_Recommendation_Priority}
                 onChange={(e) => handlePriorityChange(e.target.value, index)} 
                 >
-                    <option></option>
-                    <option>High</option>
-                    <option>Medium</option>
-                    <option>Low</option>
+                    <option value={""}></option>
+                    <option value={"High"}>High</option>
+                    <option value={"Medium"}>Medium</option>
+                    <option value={"Low"}>Low</option>
                 </select>
               </td>
               <td className="border">
-                <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
-                value={data.Check_List_Recommendation_Responsible_Party} onChange={(e) => handlePartyChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
+              <select className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none'
+                  value={data.Check_List_Recommendation_Responsible_Party}
+                  onChange={(e) => handleActionPartyChange(e.target.value,index)} >
+                    <option value={""}></option>
+                  {members.map((member) => (
+                    <option key={member.ID} value={member.ID}>{member.Name}</option>))}
+                  </select>
               </td>
               <td className="border">
               <select className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={data.Check_List_Recommendation_Status}
                 onChange={(e) => handleStatusChange(e.target.value, index)} 
                 >
-                    <option></option>
-                    <option>Proposed</option>
-                    <option>Pending</option>
-                    <option>Under Review</option>
-                    <option>In Progress</option>
-                    <option>Completed</option>
-                    <option>Implemented</option>
-                    <option>Closed</option>
-                    <option>Removed</option>
-                    <option>Not Aplicable</option>
+                    <option value={""}></option>
+                    <option value={"Proposed"}>Proposed</option>
+                    <option value={"Pending"}>Pending</option>
+                    <option value={"Under Review"}>Under Review</option>
+                    <option value={"In Progress"}>In Progress</option>
+                    <option value={"Completed"}>Completed</option>
+                    <option value={"Implemented"}>Implemented</option>
+                    <option value={"Closed"}>Closed</option>
+                    <option value={"Removed"}>Removed</option>
+                    <option value={"Not Aplicable"}>Not Aplicable</option>
                 </select>
               </td>
               <td className="border">

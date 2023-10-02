@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import PageHeader from "@/partials/PageHeader";
 import { v4 as uuidv4 } from 'uuid';
 import { useDataGlobal } from '../../model/DataGlobalContext';
-import { Sessions,Team_Members, Nodes, Deviations, Causes, Consequences, Safeguard_IDs } from '@/model/classModel';
+import { Sessions,Team_Members, Nodes, Deviations, Causes, Consequences, Safeguard_IDs, Pha_Recommendation_IDs } from '@/model/classModel';
 const NodesPage: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const initialNodes: Nodes[] = dataGlobal.Nodes;
@@ -28,6 +28,7 @@ const NodesPage: React.FC  = () => {
         newDeviation.Causes = [new Causes];
         newDeviation.Causes[0].Consequences = [new Consequences()];
         newDeviation.Causes[0].Consequences[0].Safeguard_IDs = [new Safeguard_IDs()];
+        newDeviation.Causes[0].Consequences[0].Pha_Recommendation_IDs = [new Pha_Recommendation_IDs()];
         setDeviation([...deviation, newDeviation]);
     }
     if(selectedNode !== null){
@@ -73,7 +74,6 @@ const NodesPage: React.FC  = () => {
       setShowError(true);
     }
   };
-
   const moveDown = () => {
     if (activeRow !== null && deviation !== undefined) {
       if(activeRow< nodes.length - 1){
@@ -99,8 +99,8 @@ const NodesPage: React.FC  = () => {
         if(selectedNode !== null){
           const index = nodes.findIndex((node) => node.ID === selectedNode.ID);
           const datas = dataGlobal;
-        datas.Nodes[index].Deviations = updatedDeviations;
-        updateDataGlobal(datas);
+          datas.Nodes[index].Deviations = updatedDeviations;
+          updateDataGlobal(datas);
         }
     }
   };

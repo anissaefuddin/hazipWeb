@@ -132,7 +132,6 @@ const LikelihoodCategories: React.FC = () => {
   };
   return (
     <>
-      <PageHeader title="Likelihood Categorys" />
       <section className="section-sm">
         <div className="container">
           <div className="row">

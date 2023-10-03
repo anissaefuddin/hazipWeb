@@ -22,7 +22,6 @@ const Attendances: React.FC  = () => {
    setActiveRow(index)
   };
   const handleAttendanceChange = (teamMemberID : string, sessionID: string, newValue:string) => {
-    // Update the attendanceData state based on user selection
     const updatedData = attendances.map((attendance) => {
       if (attendance.Team_Member_ID === teamMemberID && attendance.Session_ID === sessionID) {
         return { ...attendance, Value: newValue };
@@ -36,7 +35,6 @@ const Attendances: React.FC  = () => {
   };
   return (
     <>
-    <PageHeader title="Attendances" />
       <section className="section-sm">
         <div className="container">
         <div className="row">

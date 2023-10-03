@@ -135,7 +135,7 @@ export class Column_Headers{
     public Parking_Lot_Children : Parking_Lot_ChildrenString,
     public Drawings_Children : Drawings_ChildrenString,
     public Check_Lists_Children : Check_Lists_ChildrenString,
-    public Check_List_Recommendations_Children : Check_List_Recommendations_ChildreString
+    public Check_List_Recommendations_Children : Check_List_Recommendations_ChildrenString
   ){}
 }
 
@@ -358,7 +358,7 @@ export class Check_List_Questions_ChildrenString{
     public Safeguard_IDs:string = ""
   ){}
 }
-export class Check_List_Recommendations_ChildreString{
+export class Check_List_Recommendations_ChildrenString{
   constructor(
     public Check_List_Recommendation: string = "" ,
     public Check_List_Recommendation_Priority: string = "" ,

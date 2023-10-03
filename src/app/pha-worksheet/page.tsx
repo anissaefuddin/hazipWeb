@@ -1,15 +1,13 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import PageHeader from "@/partials/PageHeader";
-import { v4 as uuidv4 } from "uuid";
 import { useDataGlobal } from "../../model/DataGlobalContext";
-import { Pha_Recommendations, Nodes, Deviations, Causes, Consequences, Safeguard_IDs, Intersections, Severities, Risk_Rankings, Likelihoods, Safeguards, Pha_Recommendation_IDs, Team_Members } from "@/model/classModel";
+import { Pha_Recommendations, Nodes, Deviations, Causes, Consequences,Column_Visibility, Safeguard_IDs, Intersections, Severities, Risk_Rankings, Likelihoods, Safeguards, Pha_Recommendation_IDs, Team_Members } from "@/model/classModel";
 
 const PhaWerksheet: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const [nodes, setNode] = useState<Nodes[]>(dataGlobal.Nodes);
   const [members, setMembers] = useState<Team_Members[]>(dataGlobal.Team_Members);
+  const [columnVisibility, setColumnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
   const [intersections, setIntersections] = useState<Intersections[]>(dataGlobal.Risk_Criteria.Intersections,);
   const [severities, setseverities] = useState<Severities[]>(dataGlobal.Risk_Criteria.Severities,);
   const [likelihoods, setLikelihoods] = useState<Likelihoods[]>(dataGlobal.Risk_Criteria.Likelihoods,);
@@ -700,7 +698,7 @@ const PhaWerksheet: React.FC = () => {
               <table className="w-full h-max">
                 <thead className="bg-slate-300 sticky top-0">
                   <tr>
-                    <td className="border px-4 py-2 text-center text-sm">Hazard Type</td>
+                    <td className="border px-4 py-2 text-center text-sm">HAZARD TYPE</td>
                     <td className="border px-4 py-2 text-center text-sm">GUIDE WORD<br />CATEGORY</td>
                     <td className="border px-4 py-2 text-center text-sm">GUIDE WORD</td>
                     <td className="border px-4 py-2 text-center text-sm">POSSIBLE <br />HAZARD</td>

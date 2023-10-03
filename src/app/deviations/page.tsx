@@ -4,20 +4,12 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import PageHeader from "@/partials/PageHeader";
 import { v4 as uuidv4 } from "uuid";
 import { useDataGlobal } from "../../model/DataGlobalContext";
-import {
-  Sessions,
-  Team_Members,
-  Nodes,
-  Deviations,
-  Causes,
-  Consequences,
-  Safeguard_IDs,
-  Pha_Recommendation_IDs,
-} from "@/model/classModel";
+import { Sessions, Team_Members, Nodes, Deviations, Causes, Consequences, Safeguard_IDs, Pha_Recommendation_IDs, Column_Visibility} from "@/model/classModel";
 const NodesPage: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const initialNodes: Nodes[] = dataGlobal.Nodes;
   const [nodes, setNodes] = useState<Nodes[]>(initialNodes);
+  const [columnVisibility, setColumnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
   const [selectedNode, setSelectedNode] = useState(
     nodes.length > 0 ? nodes[0] : null,
   );
@@ -271,13 +263,11 @@ const NodesPage: React.FC = () => {
             <table className="table-auto">
               <thead className="bg-slate-300">
                 <tr>
-                  <td className="border px-4 py-2" colSpan={2}>
-                    Deviation
-                  </td>
-                  <td className="border px-4 py-2">Guide Word</td>
-                  <td className="border px-4 py-2">Parameter</td>
-                  <td className="border px-4 py-2">Design Intent</td>
-                  <td className="border px-4 py-2">Comments</td>
+                  {columnVisibility?.Nodes_Children.Deviations_Children.Deviation ? (<td className="border px-4 py-2" colSpan={2}>Deviation</td>) : null}
+                  {columnVisibility?.Nodes_Children.Deviations_Children.Guide_Word ? (<td className="border px-4 py-2">Guide Word</td>) : null}
+                  {columnVisibility?.Nodes_Children.Deviations_Children.Parameter ? (<td className="border px-4 py-2">Parameter</td>) : null}
+                  {columnVisibility?.Nodes_Children.Deviations_Children.Design_Intent ? (<td className="border px-4 py-2">Design Intent</td>) : null}
+                  {columnVisibility?.Nodes_Children.Deviations_Children.Deviation_Comments ? (<td className="border px-4 py-2">Comments</td>) : null}
                 </tr>
               </thead>
               <tbody>
@@ -286,9 +276,12 @@ const NodesPage: React.FC = () => {
                     key={data.ID}
                     className={activeRow === index ? "active-row" : ""}
                   >
+                    {columnVisibility?.Nodes_Children.Deviations_Children.Deviation ? (
                     <td className="border-t border-b border-l">
                       {firstIndex}.{index + 1}
                     </td>
+                    ) : null}
+                    {columnVisibility?.Nodes_Children.Deviations_Children.Deviation ? (
                     <td className="border-t border-b border-r">
                       <input
                         type="text"
@@ -298,6 +291,8 @@ const NodesPage: React.FC = () => {
                         onFocus={(e) => handleActiveRow(e, index)}
                       />
                     </td>
+                    ) : null}
+                    {columnVisibility?.Nodes_Children.Deviations_Children.Guide_Word ? (
                     <td className="border">
                       <input
                         type="text"
@@ -307,6 +302,8 @@ const NodesPage: React.FC = () => {
                         onFocus={(e) => handleActiveRow(e, index)}
                       />
                     </td>
+                    ) : null}
+                    {columnVisibility?.Nodes_Children.Deviations_Children.Parameter ? (
                     <td className="border">
                       <input
                         type="text"
@@ -316,6 +313,8 @@ const NodesPage: React.FC = () => {
                         onFocus={(e) => handleActiveRow(e, index)}
                       />
                     </td>
+                    ) : null}
+                    {columnVisibility?.Nodes_Children.Deviations_Children.Design_Intent ? (
                     <td className="border">
                       <input
                         type="text"
@@ -325,6 +324,8 @@ const NodesPage: React.FC = () => {
                         onFocus={(e) => handleActiveRow(e, index)}
                       />
                     </td>
+                    ) : null}
+                    {columnVisibility?.Nodes_Children.Deviations_Children.Deviation_Comments ? (
                     <td className="border">
                       <input
                         type="text"
@@ -334,6 +335,7 @@ const NodesPage: React.FC = () => {
                         onFocus={(e) => handleActiveRow(e, index)}
                       />
                     </td>
+                    ) : null}
                   </tr>
                 ))}
               </tbody>

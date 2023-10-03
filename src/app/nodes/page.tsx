@@ -4,16 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import PageHeader from "@/partials/PageHeader";
 import { v4 as uuidv4 } from "uuid";
 import { useDataGlobal } from "../../model/DataGlobalContext";
-import {
-  Sessions,
-  Team_Members,
-  Consequences,
-  Safeguard_IDs,
-  Nodes,
-  Pha_Recommendation_IDs,
-  Deviations,
-  Causes,
-} from "@/model/classModel";
+import {Sessions,Team_Members,Consequences,Safeguard_IDs,Nodes,Pha_Recommendation_IDs,Deviations,Causes,Column_Visibility} from "@/model/classModel";
 const NodesPage: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const initialSessions: Sessions[] = dataGlobal.Sessions;
@@ -21,6 +12,7 @@ const NodesPage: React.FC = () => {
   const [sessions, setSessions] = useState<Sessions[]>(initialSessions);
   const [nodes, setNodes] = useState<Nodes[]>(initialNodes);
   const [activeRow, setActiveRow] = useState<number | null>(null);
+  const [columnVisibility, setColumnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {
     const newNodes = new Nodes();
@@ -201,14 +193,7 @@ const NodesPage: React.FC = () => {
                 className="hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center"
                 onClick={handleAddRow}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="26"
-                  height="26"
-                  fill="currentColor"
-                  className="bi bi-plus-circle-fill"
-                  viewBox="0 0 16 16"
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-plus-circle-fill" viewBox="0 0 16 16" >
                   <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
                 </svg>
               </button>
@@ -216,14 +201,7 @@ const NodesPage: React.FC = () => {
                 className=" hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center"
                 onClick={handleRemoveActiveRow}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="26"
-                  height="26"
-                  fill="currentColor"
-                  className="bi bi-trash-fill"
-                  viewBox="0 0 16 16"
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16" >
                   <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                 </svg>
               </button>
@@ -231,14 +209,7 @@ const NodesPage: React.FC = () => {
                 className=" hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center"
                 onClick={moveUp}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="26"
-                  height="26"
-                  fill="currentColor"
-                  className="bi bi-arrow-up-square-fill"
-                  viewBox="0 0 16 16"
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16" >
                   <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z" />
                 </svg>
               </button>
@@ -246,14 +217,7 @@ const NodesPage: React.FC = () => {
                 className=" hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center"
                 onClick={moveDown}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="26"
-                  height="26"
-                  fill="currentColor"
-                  className="bi bi-arrow-down-square-fill"
-                  viewBox="0 0 16 16"
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16" >
                   <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
                 </svg>
               </button>
@@ -288,17 +252,15 @@ const NodesPage: React.FC = () => {
             <table className="table-auto">
               <thead className="bg-slate-300">
                 <tr>
-                  <td className="border px-4 py-2" colSpan={2}>
-                    Description
-                  </td>
-                  <td className="border px-4 py-2">Intention</td>
-                  <td className="border px-4 py-2">Boundary</td>
-                  <td className="border px-4 py-2">Design Condition</td>
-                  <td className="border px-4 py-2">Operating Condition</td>
-                  <td className="border px-4 py-2">Color</td>
-                  <td className="border px-4 py-2">Session</td>
-                  <td className="border px-4 py-2">Drawing</td>
-                  <td className="border px-4 py-2">Comments</td>
+                  {columnVisibility?.Nodes_Children.Node_Description ? (<td className="border px-4 py-2" colSpan={2}>Description</td>) : null}
+                  {columnVisibility?.Nodes_Children.Intention ? (<td className="border px-4 py-2">Intention</td> ) : null}
+                  {columnVisibility?.Nodes_Children.Boundary ? (<td className="border px-4 py-2">Boundary</td> ) : null}
+                  {columnVisibility?.Nodes_Children.Design_Conditions ? (<td className="border px-4 py-2">Design Condition</td> ) : null}
+                  {columnVisibility?.Nodes_Children.Operating_Conditions ? (<td className="border px-4 py-2">Operating Condition</td> ) : null}
+                  {columnVisibility?.Nodes_Children.Node_Color ? (<td className="border px-4 py-2">Color</td> ) : null}
+                  {columnVisibility?.Nodes_Children.Session_IDs ? (<td className="border px-4 py-2">Session</td> ) : null}
+                  {columnVisibility?.Nodes_Children.Drawing_IDs ? (<td className="border px-4 py-2">Drawing</td> ) : null}
+                  {columnVisibility?.Nodes_Children.Node_Comments ? (<td className="border px-4 py-2">Comments</td> ) : null}
                 </tr>
               </thead>
               <tbody>
@@ -307,7 +269,9 @@ const NodesPage: React.FC = () => {
                     key={data.ID}
                     className={activeRow === index ? "active-row" : ""}
                   >
-                    <td className="border-t border-b border-l">{index + 1}</td>
+                    {columnVisibility?.Nodes_Children.Node_Description ? (
+                    <td className="border-t border-b border-l">{index + 1}</td>) : null}
+                    {columnVisibility?.Nodes_Children.Node_Description ? (
                     <td className="border-t border-b border-r">
                       <input
                         type="text"
@@ -317,6 +281,8 @@ const NodesPage: React.FC = () => {
                         onFocus={(e) => handleActiveRow(e, index)}
                       />
                     </td>
+                    ) : null}
+                    {columnVisibility?.Nodes_Children.Intention ? (
                     <td className="border">
                       <input
                         type="text"
@@ -326,6 +292,8 @@ const NodesPage: React.FC = () => {
                         onFocus={(e) => handleActiveRow(e, index)}
                       />
                     </td>
+                    ) : null}
+                    {columnVisibility?.Nodes_Children.Boundary ? (
                     <td className="border">
                       <input
                         type="text"
@@ -335,6 +303,8 @@ const NodesPage: React.FC = () => {
                         onFocus={(e) => handleActiveRow(e, index)}
                       />
                     </td>
+                    ) : null}
+                    {columnVisibility?.Nodes_Children.Design_Conditions ? (
                     <td className="border">
                       <input
                         type="text"
@@ -344,6 +314,8 @@ const NodesPage: React.FC = () => {
                         onFocus={(e) => handleActiveRow(e, index)}
                       />
                     </td>
+                    ) : null}
+                    {columnVisibility?.Nodes_Children.Operating_Conditions ? (
                     <td className="border">
                       <input
                         type="text"
@@ -355,6 +327,8 @@ const NodesPage: React.FC = () => {
                         onFocus={(e) => handleActiveRow(e, index)}
                       />
                     </td>
+                    ) : null}
+                    {columnVisibility?.Nodes_Children.Node_Color ? (
                     <td className="border">
                       <input
                         type="text"
@@ -364,6 +338,8 @@ const NodesPage: React.FC = () => {
                         onFocus={(e) => handleActiveRow(e, index)}
                       />
                     </td>
+                    ) : null}
+                    {columnVisibility?.Nodes_Children.Session_IDs ? (
                     <td className="border">
                       <select
                         className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none"
@@ -379,7 +355,11 @@ const NodesPage: React.FC = () => {
                         ))}
                       </select>
                     </td>
+                    ) : null}
+                  {columnVisibility?.Nodes_Children.Drawing_IDs ? (
                     <td className="border"></td>
+                    ) : null}
+                  {columnVisibility?.Nodes_Children.Node_Comments ? (
                     <td className="border">
                       <input
                         type="text"
@@ -389,6 +369,7 @@ const NodesPage: React.FC = () => {
                         onFocus={(e) => handleActiveRow(e, index)}
                       />
                     </td>
+                    ) : null}
                   </tr>
                 ))}
               </tbody>

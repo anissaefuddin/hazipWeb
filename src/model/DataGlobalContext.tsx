@@ -15,7 +15,7 @@ interface DataGlobalProviderProps {
 
 export const DataGlobalProvider: React.FC<DataGlobalProviderProps> = ({ children }) => {
   const [dataGlobal, setDataGlobal] = useState<DataGlobal>(
-    new DataGlobal(new Overview(),[new Team_Members()], [new Sessions()], [new Team_Members_Sessions()], [new Revalidation_History()], [new Nodes()], [new Safeguards()], 
+    new DataGlobal(new Overview(),new Settings(),[new Team_Members()], [new Sessions()], [new Team_Members_Sessions()], [new Revalidation_History()], [new Nodes()], [new Safeguards()], 
     [new Pha_Recommendations()],[new Pha_Comments()],[new Lopa_Recommendations()],[new Lopa_Comments()],[new Parking_Lot()], [new Drawings()], new Risk_Criteria(), [new Check_List_Recommendations()])
   );
   useEffect(() => {

@@ -141,7 +141,6 @@ const Overviews: React.FC = () => {
   console.log(dataGlobal)
   return (
     <>
-    <PageHeader title="Overview" />
       <section className="section-sm">
         <div className="container">
             <div className="row">

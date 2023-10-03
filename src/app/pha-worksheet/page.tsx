@@ -4,29 +4,18 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import PageHeader from "@/partials/PageHeader";
 import { v4 as uuidv4 } from "uuid";
 import { useDataGlobal } from "../../model/DataGlobalContext";
-import { Pha_Recommendations, Nodes, Deviations, Causes, Consequences, Safeguard_IDs, Intersections, Severities, Risk_Rankings, Likelihoods, Safeguards, Pha_Recommendation_IDs } from "@/model/classModel";
+import { Pha_Recommendations, Nodes, Deviations, Causes, Consequences, Safeguard_IDs, Intersections, Severities, Risk_Rankings, Likelihoods, Safeguards, Pha_Recommendation_IDs, Team_Members } from "@/model/classModel";
 
 const PhaWerksheet: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const [nodes, setNode] = useState<Nodes[]>(dataGlobal.Nodes);
-  const [intersections, setIntersections] = useState<Intersections[]>(
-    dataGlobal.Risk_Criteria.Intersections,
-  );
-  const [severities, setseverities] = useState<Severities[]>(
-    dataGlobal.Risk_Criteria.Severities,
-  );
-  const [likelihoods, setLikelihoods] = useState<Likelihoods[]>(
-    dataGlobal.Risk_Criteria.Likelihoods,
-  );
-  const [riskRankings, setriskRankings] = useState<Risk_Rankings[]>(
-    dataGlobal.Risk_Criteria.Risk_Rankings,
-  );
-  const [safeguards, setSafeguards] = useState<Safeguards[]>(
-    dataGlobal.Safeguards,
-  );
-  const [recommendations, setRecommendation] = useState<Pha_Recommendations[]>(
-    dataGlobal.Pha_Recommendations,
-  );
+  const [members, setMembers] = useState<Team_Members[]>(dataGlobal.Team_Members);
+  const [intersections, setIntersections] = useState<Intersections[]>(dataGlobal.Risk_Criteria.Intersections,);
+  const [severities, setseverities] = useState<Severities[]>(dataGlobal.Risk_Criteria.Severities,);
+  const [likelihoods, setLikelihoods] = useState<Likelihoods[]>(dataGlobal.Risk_Criteria.Likelihoods,);
+  const [riskRankings, setriskRankings] = useState<Risk_Rankings[]>(dataGlobal.Risk_Criteria.Risk_Rankings,);
+  const [safeguards, setSafeguards] = useState<Safeguards[]>(dataGlobal.Safeguards,);
+  const [recommendations, setRecommendation] = useState<Pha_Recommendations[]>(dataGlobal.Pha_Recommendations,);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [idDeviation, setIdDeviation] = useState<string | "">("");
   const [idCause, setIdCause] = useState<string | "">("");
@@ -613,6 +602,26 @@ const PhaWerksheet: React.FC = () => {
       updateDataGlobal(datas);
     }
   };
+  const handleActionPartyChange = (e: React.ChangeEvent<HTMLSelectElement>,nodeIndex: number,indexDeviation: number,indexCause: number,indexConsequence: number,indexRecommendation: number,recomId:string) => {
+    const index = recommendations.findIndex((data) => data.ID === recomId);
+    const updatedData = [...recommendations];
+    updatedData[index].Pha_Recommendation_Responsible_Party = e.target.value;
+    setRecommendation(updatedData);
+    const dataApa = dataGlobal;
+    dataApa.Pha_Recommendations = recommendations;
+    updateDataGlobal(dataApa);
+  };
+
+  const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>,nodeIndex: number,indexDeviation: number,indexCause: number,indexConsequence: number,indexRecommendation: number,recomId:string) => {
+    const index = recommendations.findIndex((data) => data.ID === recomId);
+    const updatedData = [...recommendations];
+    updatedData[index].Pha_Recommendation_Status = e.target.value;
+    setRecommendation(updatedData);
+    const dataApa = dataGlobal;
+    dataApa.Pha_Recommendations = recommendations;
+    updateDataGlobal(dataApa);
+  };
+  
   const getBackgroundColor = (severityID: string, likelihoodID: string) => {
     const data = intersections.find(
       (intersection) =>
@@ -687,7 +696,7 @@ const PhaWerksheet: React.FC = () => {
               </div>
             )}{" "}
             {/* Pesan error */}
-            <div className="table-wrp block min-h-96 overflow-x-auto">
+            <div className="table-wrp block min-h-96 overflow-x-auto relative h-screen overflow-auto ">
               <table className="w-full h-max">
                 <thead className="bg-slate-300 sticky top-0">
                   <tr>
@@ -1112,9 +1121,85 @@ const PhaWerksheet: React.FC = () => {
                         ))}
                       </td>
                       {/* ACTION PARTY	 */}
-                      <td className="p-0 align-top"></td>
+                      <td className="p-0 align-top">
+                      {node.Deviations.map((deviation, indexDeviation) => (
+                          <React.Fragment key={deviation.ID}>
+                            {deviation.Causes.map((cause, indexCause) => (
+                              <table className="w-full" key={cause.ID}>
+                                {cause.Consequences.map(
+                                  (concequence, indexConsequence) => (
+                                    <React.Fragment key={concequence.ID}>
+                                      {concequence.Pha_Recommendation_IDs.map((recommendation,indexRecommendation,) => (
+                                          <tr key={recommendation.ID} className={ idSafeguard === recommendation.ID ? "active-row" : "" }
+                                          >
+                                            <td className={"border"}>
+                                              <select
+                                                className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
+                                                onChange={(e) =>handleActionPartyChange(e,indexNode,indexDeviation,indexCause,indexConsequence,indexRecommendation,recommendation.ID)}
+                                                value={recommendations.find((recom) => recom.ID === recommendation.ID)?.Pha_Recommendation_Responsible_Party} >
+                                                <option value={""}></option>
+                                                {members.map(
+                                                  (dataMember,indexDataMember,) => (
+                                                    <option
+                                                      key={dataMember.ID}
+                                                      value={dataMember.ID}
+                                                    >{dataMember.Name}
+                                                    </option>
+                                                  ),
+                                                )}
+                                              </select>
+                                            </td>
+                                          </tr>
+                                        ),
+                                      )}
+                                    </React.Fragment>
+                                  ),
+                                )}
+                              </table>
+                            ))}
+                          </React.Fragment>
+                        ))}
+                      </td>
                       {/* STATUS		 */}
-                      <td className="p-0 align-top"></td>
+                      <td className="p-0 align-top">
+                      {node.Deviations.map((deviation, indexDeviation) => (
+                          <React.Fragment key={deviation.ID}>
+                            {deviation.Causes.map((cause, indexCause) => (
+                              <table className="w-full" key={cause.ID}>
+                                {cause.Consequences.map(
+                                  (concequence, indexConsequence) => (
+                                    <React.Fragment key={concequence.ID}>
+                                      {concequence.Pha_Recommendation_IDs.map((recommendation,indexRecommendation,) => (
+                                          <tr key={recommendation.ID} className={ idSafeguard === recommendation.ID ? "active-row" : "" }
+                                          >
+                                            <td className={"border"}>
+                                              <select
+                                                className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
+                                                onChange={(e) =>handleStatusChange(e,indexNode,indexDeviation,indexCause,indexConsequence,indexRecommendation,recommendation.ID)}
+                                                value={recommendations.find((recom) => recom.ID === recommendation.ID)?.Pha_Recommendation_Status} >
+                                                <option value={""}></option>
+                                                <option value={"Proposed"}>Proposed</option>
+                                                <option value={"Pending"}>Pending</option>
+                                                <option value={"Under Review"}>Under Review</option>
+                                                <option value={"In Progress"}>In Progress</option>
+                                                <option value={"Completed"}>Completed</option>
+                                                <option value={"Implemented"}>Implemented</option>
+                                                <option value={"Closed"}>Closed</option>
+                                                <option value={"Removed"}>Removed</option>
+                                                <option value={"Not Aplicable"}>Not Aplicable</option>
+                                              </select>
+                                            </td>
+                                          </tr>
+                                        ),
+                                      )}
+                                    </React.Fragment>
+                                  ),
+                                )}
+                              </table>
+                            ))}
+                          </React.Fragment>
+                        ))}
+                      </td>
                       {/* SAVERITY AFTER*/}
                       <td className="p-0 align-top">
                         {node.Deviations.map((deviation, indexDeviation) => (

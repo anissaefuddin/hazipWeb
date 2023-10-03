@@ -5,21 +5,14 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import NewPageHeader from "@/partials/NewPageHeader";
 import { v4 as uuidv4 } from "uuid";
 import { useDataGlobal } from "../../model/DataGlobalContext";
-import {
-  Sessions,
-  Team_Members,
-  Team_Members_Sessions,
-} from "@/model/classModel";
+import {Sessions,Team_Members,Team_Members_Sessions,Column_Visibility} from "@/model/classModel";
 const Session: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
-  const initialAttendances: Team_Members_Sessions[] =
-    dataGlobal.Team_Members_Sessions;
-  const [attendances, setAttendances] =
-    useState<Team_Members_Sessions[]>(initialAttendances);
+  const initialAttendances: Team_Members_Sessions[] =dataGlobal.Team_Members_Sessions;
+  const [attendances, setAttendances] =useState<Team_Members_Sessions[]>(initialAttendances);
   const [sessions, setSessions] = useState(dataGlobal.Sessions);
-  const [members, setMembers] = useState<Team_Members[]>(
-    dataGlobal.Team_Members,
-  );
+  const [members, setMembers] = useState<Team_Members[]>(dataGlobal.Team_Members,);
+  const [columnVisibility, setColumnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {
@@ -259,12 +252,12 @@ const Session: React.FC = () => {
               <table className="table-auto">
                 <thead className="bg-slate-300">
                   <tr>
-                    <td className="border px-4 py-2">Date</td>
-                    <td className="border px-4 py-2">Duration</td>
-                    <td className="border px-4 py-2">Session</td>
-                    <td className="border px-4 py-2">Facilitator</td>
-                    <td className="border px-4 py-2">Scribe</td>
-                    <td className="border px-4 py-2">Comments</td>
+                    {columnVisibility?.Sessions_Children.Date ? (<td className="border px-4 py-2">Date</td>) : null}
+                    {columnVisibility?.Sessions_Children.Duration ? (<td className="border px-4 py-2">Duration</td>) : null}
+                    {columnVisibility?.Sessions_Children.Session ? (<td className="border px-4 py-2">Session</td>) : null}
+                    {columnVisibility?.Sessions_Children.Facilitator_ID ? (<td className="border px-4 py-2">Facilitator</td>) : null}
+                    {columnVisibility?.Sessions_Children.Scribe_ID ? (<td className="border px-4 py-2">Scribe</td>) : null}
+                    {columnVisibility?.Sessions_Children.Session_Comments ? (<td className="border px-4 py-2">Comments</td>) : null}
                   </tr>
                 </thead>
                 <tbody>
@@ -273,6 +266,7 @@ const Session: React.FC = () => {
                       key={data.ID}
                       className={activeRow === index ? "active-row" : ""}
                     >
+                      {columnVisibility?.Sessions_Children.Date ? (
                       <td className="border">
                         <input
                           type="date"
@@ -282,6 +276,8 @@ const Session: React.FC = () => {
                           onFocus={(e) => handleActiveRow(e, index)}
                         />
                       </td>
+                      ) : null}
+                      {columnVisibility?.Sessions_Children.Duration ? (
                       <td className="border">
                         <input
                           type="text"
@@ -291,6 +287,8 @@ const Session: React.FC = () => {
                           onFocus={(e) => handleActiveRow(e, index)}
                         />
                       </td>
+                      ) : null}
+                      {columnVisibility?.Sessions_Children.Session ? (
                       <td className="border">
                         <input
                           type="text"
@@ -300,13 +298,13 @@ const Session: React.FC = () => {
                           onFocus={(e) => handleActiveRow(e, index)}
                         />
                       </td>
+                      ) : null}
+                      {columnVisibility?.Sessions_Children.Facilitator_ID ? (
                       <td className="border">
                         <select
                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none"
                           value={data.Facilitator_ID}
-                          onChange={(e) =>
-                            handleFacilitatorIDChange(e.target.value, index)
-                          }
+                          onChange={(e) =>handleFacilitatorIDChange(e.target.value, index)}
                         >
                           <option value={""}></option>
                           {members.map((member) => (
@@ -316,6 +314,8 @@ const Session: React.FC = () => {
                           ))}
                         </select>
                       </td>
+                      ) : null}
+                      {columnVisibility?.Sessions_Children.Scribe_ID ? (
                       <td className="border">
                         <select
                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none"
@@ -332,6 +332,8 @@ const Session: React.FC = () => {
                           ))}
                         </select>
                       </td>
+                      ) : null}
+                      {columnVisibility?.Sessions_Children.Session_Comments ? (
                       <td className="border">
                         <input
                           type="text"
@@ -341,6 +343,7 @@ const Session: React.FC = () => {
                           onFocus={(e) => handleActiveRow(e, index)}
                         />
                       </td>
+                      ) : null}
                     </tr>
                   ))}
                 </tbody>

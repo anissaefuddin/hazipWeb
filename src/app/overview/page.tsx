@@ -2,13 +2,13 @@
 import { useState } from 'react'
 import PageHeader from "@/partials/PageHeader";
 import { useDataGlobal } from '../../model/DataGlobalContext';
-import { Overview } from '@/model/classModel';
+import { Overview, Overview_Children, Column_Visibility } from '@/model/classModel';
 import Link from 'next/link';
 
 const Overviews: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
-  const initialOverview: Overview = dataGlobal.Overview;
-  const [overview, setOverview] = useState<Overview>(initialOverview);
+  const [overview, setOverview] = useState<Overview>(dataGlobal.Overview);
+  const [columnVisibility, setColumnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedOverview = { ...overview };
     updatedOverview.Study_Name = e.target.value;
@@ -156,6 +156,7 @@ const Overviews: React.FC = () => {
                 </div>
             <div className="w-5/6">
               <h1>Overview</h1><br></br>
+              {columnVisibility?.Overview_Children.Study_Name ? (
                 <div className="flex mb-4">
                   <div className="w-1/4 h-12">
                   <label htmlFor="name" className="form-label">
@@ -174,6 +175,8 @@ const Overviews: React.FC = () => {
                   />
                   </div>
                 </div>
+                ) : null}
+                {columnVisibility?.Overview_Children.Study_Coordinator ? (
                 <div className="flex mb-4">
                   <div className="w-1/4 h-12">
                   <label htmlFor="coordinator" className="form-label">
@@ -192,6 +195,8 @@ const Overviews: React.FC = () => {
                   />
                 </div>
                 </div>
+                ) : null}
+                {columnVisibility?.Overview_Children.Study_Coordinator_Contact_Info ? (
                 <div className="flex mb-4">
                   <div className="w-1/4 h-12">
                   <label htmlFor="Study_Coordinator_Contact_Info" className="form-label">
@@ -210,6 +215,8 @@ const Overviews: React.FC = () => {
                   />
                 </div>
                 </div>
+                ) : null}
+                {columnVisibility?.Overview_Children.Facility ? (
                 <div className="flex mb-4">
                   <div className="w-1/4 h-12">
                   <label htmlFor="Facility" className="form-label">
@@ -221,6 +228,8 @@ const Overviews: React.FC = () => {
                   />
                 </div>
                 </div>
+                ) : null}
+                {columnVisibility?.Overview_Children.Facility_Location ? (
                 <div className="flex mb-4">
                   <div className="w-1/4 h-12">
                   <label htmlFor="Facility_Location" className="form-label">
@@ -239,6 +248,8 @@ const Overviews: React.FC = () => {
                   />
                 </div>
                 </div>
+                ) : null}
+                {columnVisibility?.Overview_Children.Facility_Owner ? (
                 <div className="flex mb-4">
                   <div className="w-1/4 h-12">
                   <label htmlFor="Facility_Owner" className="form-label">
@@ -257,6 +268,8 @@ const Overviews: React.FC = () => {
                   />
                 </div>
                 </div>
+                ) : null}
+                {columnVisibility?.Overview_Children.Overview_Company ? (
                 <div className="flex mb-4">
                   <div className="w-1/4 h-12">
                   <label htmlFor="Overview_Company" className="form-label">
@@ -275,6 +288,8 @@ const Overviews: React.FC = () => {
                   />
                 </div>
                 </div>
+                ) : null}
+                {columnVisibility?.Overview_Children.Site ? (
                 <div className="flex mb-4">
                   <div className="w-1/4 h-12">
                   <label htmlFor="Site" className="form-label">
@@ -293,6 +308,8 @@ const Overviews: React.FC = () => {
                   />
                 </div>
                 </div>
+                ) : null}
+                {columnVisibility?.Overview_Children.Facility_Owner ? (
                 <div className="flex mb-4">
                   <div className="w-1/4 h-12">
                   <label htmlFor="Plant" className="form-label">
@@ -311,6 +328,8 @@ const Overviews: React.FC = () => {
                   />
                 </div>
                 </div>
+                ) : null}
+                {columnVisibility?.Overview_Children.Unit__Group ? (
                 <div className="flex mb-4">
                   <div className="w-1/4 h-12">
                   <label htmlFor="Unit__Group" className="form-label">
@@ -329,6 +348,8 @@ const Overviews: React.FC = () => {
                   />
                   </div>
                 </div>
+                ) : null}
+                {columnVisibility?.Overview_Children.Unit ? (
                 <div className="flex mb-4">
                   <div className="w-1/4 h-12">
                   <label htmlFor="Unit" className="form-label">
@@ -347,6 +368,8 @@ const Overviews: React.FC = () => {
                   />
                   </div>
                 </div>
+                ) : null}
+                {columnVisibility?.Overview_Children.Report_Number ? (
                 <div className="flex mb-4">
                   <div className="w-1/4 h-12">
                   <label htmlFor="Report_Number" className="form-label">
@@ -364,6 +387,8 @@ const Overviews: React.FC = () => {
                     type="text"
                   /></div>
                 </div>
+                ) : null}
+                {columnVisibility?.Overview_Children.Project_Number ? (
                 <div className="flex mb-4">
                   <div className="w-1/4 h-12">
                   <label htmlFor="Project_Number" className="form-label">
@@ -381,6 +406,8 @@ const Overviews: React.FC = () => {
                   />
                   </div>
                 </div>
+                ) : null}
+                {columnVisibility?.Overview_Children.Project_Description ? (
                 <div className="flex mb-4">
                   <div className="w-1/4 h-12">
                   <label htmlFor="description" className="form-label">
@@ -398,6 +425,8 @@ const Overviews: React.FC = () => {
                   ></textarea>
                   </div>
                 </div>
+                ) : null}
+                {columnVisibility?.Overview_Children.General_Notes ? (
                 <div className="flex mb-4">
                   <div className="w-1/4 h-12">
                   <label htmlFor="general-notes" className="form-label">
@@ -415,6 +444,7 @@ const Overviews: React.FC = () => {
                   ></textarea>
                   </div>
                 </div>
+                ) : null}
             </div>
           </div>
         </div>

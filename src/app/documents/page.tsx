@@ -3,15 +3,14 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useDataGlobal } from "../../model/DataGlobalContext";
 import {
-  Team_Members,
-  Sessions,
-  Team_Members_Sessions,
-  Drawings
+  Column_Visibility,
+  Drawings,
 } from "@/model/classModel";
 const Documentss: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const [drawings, setDrawings] = useState<Drawings[]>(dataGlobal.Drawings);
   const [activeRow, setActiveRow] = useState<number | null>(null);
+  const [columnVisibility, setColumnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {
     const newData = new Drawings();
@@ -198,16 +197,17 @@ const Documentss: React.FC = () => {
               <table className="table-auto">
                 <thead className="bg-slate-300">
                   <tr>
-                    <td className="border px-4 py-2">Drawing</td>
-                    <td className="border px-4 py-2">Revision</td>
-                    <td className="border px-4 py-2">Document Type</td>
-                    <td className="border px-4 py-2">Description</td>
-                    <td className="border px-4 py-2">Link</td>
+                    {columnVisibility?.Drawings_Children.Drawing ? (<td className="border px-4 py-2">Drawing</td>) : null}
+                    {columnVisibility?.Drawings_Children.Revision ? (<td className="border px-4 py-2">Revision</td> ): null}
+                    {columnVisibility?.Drawings_Children.Document_Type ? (<td className="border px-4 py-2">Document Type</td> ): null}
+                    {columnVisibility?.Drawings_Children.Drawing_Description ? (<td className="border px-4 py-2">Description</td> ): null}
+                    {columnVisibility?.Drawings_Children.Link ? (<td className="border px-4 py-2">Link</td> ): null}
                   </tr>
                 </thead>
                 <tbody>
                   {drawings.map((data, index) => (
                     <tr key={data.ID} className={activeRow === index ? "active-row" : ""}>
+                      {columnVisibility?.Drawings_Children.Drawing ? (
                         <td className="border">
                         <input
                           type="text"
@@ -217,6 +217,8 @@ const Documentss: React.FC = () => {
                           onFocus={(e) => handleActiveRow(e, index)}
                         />
                       </td>
+                      ) : null}
+                      {columnVisibility?.Drawings_Children.Revision ? (
                       <td className="border">
                         <input
                           type="text"
@@ -226,6 +228,8 @@ const Documentss: React.FC = () => {
                           onFocus={(e) => handleActiveRow(e, index)}
                         />
                       </td>
+                      ): null}
+                      {columnVisibility?.Drawings_Children.Document_Type ? (
                       <td className="border">
                         <input
                           type="text"
@@ -235,6 +239,8 @@ const Documentss: React.FC = () => {
                           onFocus={(e) => handleActiveRow(e, index)}
                         />
                       </td>
+                      ): null}
+                      {columnVisibility?.Drawings_Children.Drawing_Description ? (
                       <td className="border">
                         <input
                           type="text"
@@ -244,6 +250,8 @@ const Documentss: React.FC = () => {
                           onFocus={(e) => handleActiveRow(e, index)}
                         />
                       </td>
+                      ): null}
+                      {columnVisibility?.Drawings_Children.Link ? (
                       <td className="border">
                         <input
                           type="text"
@@ -253,6 +261,7 @@ const Documentss: React.FC = () => {
                           onFocus={(e) => handleActiveRow(e, index)}
                         />
                       </td>
+                      ): null}
                     </tr>
                   ))}
                 </tbody>

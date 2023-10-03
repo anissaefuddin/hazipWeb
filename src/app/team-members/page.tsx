@@ -5,20 +5,18 @@ import PageHeader from "@/partials/PageHeader";
 import { v4 as uuidv4 } from 'uuid';
 import Link from "next/link"
 import { useDataGlobal } from '../../model/DataGlobalContext';
-import { Team_Members ,Sessions,Team_Members_Sessions} from '@/model/classModel';
+import { Team_Members ,Sessions,Team_Members_Sessions,Column_Visibility} from '@/model/classModel';
 import ExportDataToExcelBasic from '../../Components/ExportDataToExcelBasic';
 
 const Teammember: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const initialSessions: Sessions[] = dataGlobal.Sessions;
   const initialTeamMembers: Team_Members[] = dataGlobal.Team_Members;
-  const initialAttendances: Team_Members_Sessions[] =
-    dataGlobal.Team_Members_Sessions;
-  const [teamMembers, setTeamMembers] =
-    useState<Team_Members[]>(initialTeamMembers);
+  const initialAttendances: Team_Members_Sessions[] = dataGlobal.Team_Members_Sessions;
+  const [teamMembers, setTeamMembers] = useState<Team_Members[]>(initialTeamMembers);
   const [sessions, setSessions] = useState<Sessions[]>(initialSessions);
-  const [attendances, setAttendances] =
-    useState<Team_Members_Sessions[]>(initialAttendances);
+  const [columnVisibility, setColumnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
+  const [attendances, setAttendances] = useState<Team_Members_Sessions[]>(initialAttendances);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {
@@ -257,56 +255,74 @@ const Teammember: React.FC  = () => {
       <table className='table-auto'>
         <thead className='bg-slate-300'>
           <tr>
-            <td className="border px-4 py-2">Name</td>
-            <td className="border px-4 py-2">Company</td>
-            <td className="border px-4 py-2">Title</td>
-            <td className="border px-4 py-2">Departement</td>
-            <td className="border px-4 py-2">Expertise</td>
-            <td className="border px-4 py-2">Experience</td>
-            <td className="border px-4 py-2">Phone Number</td>
-            <td className="border px-4 py-2">Email</td>
-            <td className="border px-4 py-2">Comment</td>
+            {columnVisibility?.Team_Members_Children.Name ? (<td className="border px-4 py-2">Name</td>) : null}
+            {columnVisibility?.Team_Members_Children.Company ? (<td className="border px-4 py-2">Company</td>) : null}
+            {columnVisibility?.Team_Members_Children.Title ? (<td className="border px-4 py-2">Title</td>) : null}
+            {columnVisibility?.Team_Members_Children.Department ? (<td className="border px-4 py-2">Departement</td>) : null}
+            {columnVisibility?.Team_Members_Children.Expertise ? (<td className="border px-4 py-2">Expertise</td>) : null}
+            {columnVisibility?.Team_Members_Children.Experience ? (<td className="border px-4 py-2">Experience</td>) : null}
+            {columnVisibility?.Team_Members_Children.Phone_Number ? (<td className="border px-4 py-2">Phone Number</td>) : null}
+            {columnVisibility?.Team_Members_Children.E__Mail_Address ? (<td className="border px-4 py-2">Email</td>) : null}
+            {columnVisibility?.Team_Members_Children.Team_Member_Comments ? (<td className="border px-4 py-2">Comment</td>) : null}
           </tr>
         </thead>
         <tbody>
           {teamMembers.map((member,index) => (
            <tr key={member.ID} className={activeRow === index ? 'active-row' : ''}>
+            {columnVisibility?.Team_Members_Children.Name ? (
               <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Name} onChange={(e) => handleNameChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
+              ) : null}
+              {columnVisibility?.Team_Members_Children.Company ? (
               <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Company} onChange={(e) => handleCompanyChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
+              ) : null}
+              {columnVisibility?.Team_Members_Children.Title ? (
               <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Title} onChange={(e) => handleTitleChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
+              ) : null}
+              {columnVisibility?.Team_Members_Children.Department ? (
               <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Departement} onChange={(e) => handleDepartementChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
+              ) : null}
+              {columnVisibility?.Team_Members_Children.Expertise ? (
               <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Expertise} onChange={(e) => handleExpertiseChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
+              ) : null}
+              {columnVisibility?.Team_Members_Children.Experience ? (
               <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Experience} onChange={(e) => handleExperienceChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
+              ) : null}
+              {columnVisibility?.Team_Members_Children.Phone_Number ? (
               <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Phone_Number} onChange={(e) => handlePhoneChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
+              ) : null}
+              {columnVisibility?.Team_Members_Children.E__Mail_Address ? (
               <td className="border">
                 <input type="email" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.E__Mail_Address} onChange={(e) => handleEmailChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
+              ) : null}
+              {columnVisibility?.Team_Members_Children.Team_Member_Comments ? (
               <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Team_Member_Comments} onChange={(e) => handleCommentChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
+              ) : null}
            </tr>
             ))}
         </tbody>

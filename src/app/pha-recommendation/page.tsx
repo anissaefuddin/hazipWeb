@@ -2,13 +2,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import PageHeader from "@/partials/PageHeader";
 import { useDataGlobal } from "../../model/DataGlobalContext";
-import { Pha_Recommendations, Team_Members } from "@/model/classModel";
+import { Pha_Recommendations, Team_Members,Column_Visibility } from "@/model/classModel";
 import Link from "next/link";
 
 const PhaRecommendation: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const initialLopa_Recommendation: Pha_Recommendations[] =dataGlobal.Pha_Recommendations;
   const [lopas, setLopa] = useState<Pha_Recommendations[]>(initialLopa_Recommendation,);
+  const [columnVisibility, setColumnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
   const [members, setMembers] = useState<Team_Members[]>(dataGlobal.Team_Members,);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
@@ -196,13 +197,7 @@ const PhaRecommendation: React.FC = () => {
                     Pilih Row terlebih dahulu
                   </span>
                   <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
-                    <svg
-                      className="fill-current h-6 w-6 text-red-500"
-                      role="button"
-                      onClick={handleCloseError}
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                    >
+                    <svg className="fill-current h-6 w-6 text-red-500" role="button" onClick={handleCloseError} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                       <title>Close</title>
                       <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
                     </svg>
@@ -213,28 +208,22 @@ const PhaRecommendation: React.FC = () => {
               <table className="table-auto">
                 <thead className="bg-slate-300">
                   <tr>
-                    <td
-                      className="border px-4 py-2 text-center"
-                      colSpan={2}
-                      rowSpan={2}
-                    >
-                      Recommendation
-                    </td>
-                    <td className="border px-4 py-2 text-center" rowSpan={2}>
-                      Priority
-                    </td>
-                    <td className="border px-4 py-2 text-center" rowSpan={2}>
-                      Responsible Party
-                    </td>
-                    <td className="border px-4 py-2 text-center" rowSpan={2}>
-                      Status
-                    </td>
-                    <td className="border px-4 py-2 text-center" rowSpan={2}>
-                      Comments
-                    </td>
-                    <td className="border px-4 py-2 text-center" colSpan={5}>
-                      Referenced Location
-                    </td>
+                    {columnVisibility?.Pha_Recommendations_Children.Pha_Recommendation ? (
+                    <td className="border px-4 py-2 text-center" colSpan={2} rowSpan={2} >Recommendation</td>
+                    ) : null}
+                    {columnVisibility?.Pha_Recommendations_Children.Pha_Recommendation_Priority ? (
+                    <td className="border px-4 py-2 text-center" rowSpan={2}>Priority</td>
+                    ) : null}
+                    {columnVisibility?.Pha_Recommendations_Children.Pha_Recommendation_Responsible_Party ? (
+                    <td className="border px-4 py-2 text-center" rowSpan={2}>Responsible Party</td>
+                    ) : null}
+                    {columnVisibility?.Pha_Recommendations_Children.Pha_Recommendation_Status ? (
+                    <td className="border px-4 py-2 text-center" rowSpan={2}>Status</td>
+                    ) : null}
+                    {columnVisibility?.Pha_Recommendations_Children.Pha_Recommendation_Comments ? (
+                    <td className="border px-4 py-2 text-center" rowSpan={2}>Comments</td>
+                    ) : null}
+                    <td className="border px-4 py-2 text-center" colSpan={5}>Referenced Location</td>
                   </tr>
                   <tr>
                     <td className="border px-4 py-2 text-center">Reference</td>
@@ -250,9 +239,12 @@ const PhaRecommendation: React.FC = () => {
                       key={data.ID}
                       className={activeRow === index ? "active-row" : ""}
                     >
+                    {columnVisibility?.Pha_Recommendations_Children.Pha_Recommendation ? (
                       <td className="border-t border-b border-l">
                         {index + 1}
                       </td>
+                      ) : null}
+                      {columnVisibility?.Pha_Recommendations_Children.Pha_Recommendation ? (
                       <td className="border-t border-b border-r">
                         <input
                           type="text"
@@ -262,6 +254,8 @@ const PhaRecommendation: React.FC = () => {
                           onFocus={(e) => handleActiveRow(e, index)}
                         />
                       </td>
+                      ) : null}
+                      {columnVisibility?.Pha_Recommendations_Children.Pha_Recommendation_Priority ? (
                       <td className="border">
                         <select
                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none"
@@ -276,6 +270,8 @@ const PhaRecommendation: React.FC = () => {
                           <option value={"Low"}>Low</option>
                         </select>
                       </td>
+                      ) : null}
+                      {columnVisibility?.Pha_Recommendations_Children.Pha_Recommendation_Responsible_Party ? (
                       <td className="border">
                         <select
                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none"
@@ -292,6 +288,8 @@ const PhaRecommendation: React.FC = () => {
                           ))}
                         </select>
                       </td>
+                      ) : null}
+                      {columnVisibility?.Pha_Recommendations_Children.Pha_Recommendation_Status ? (
                       <td className="border">
                         <select
                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none"
@@ -310,6 +308,8 @@ const PhaRecommendation: React.FC = () => {
                           <option value={"Not Aplicable"}>Not Aplicable</option>
                         </select>
                       </td>
+                      ) : null}
+                      {columnVisibility?.Pha_Recommendations_Children.Pha_Recommendation_Comments ? (
                       <td className="border">
                         <input
                           type="text"
@@ -319,6 +319,7 @@ const PhaRecommendation: React.FC = () => {
                           onFocus={(e) => handleActiveRow(e, index)}
                         />
                       </td>
+                      ) : null}
                       <td className="border"></td>
                       <td className="border"></td>
                       <td className="border"></td>

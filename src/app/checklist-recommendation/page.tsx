@@ -4,12 +4,13 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import PageHeader from "@/partials/PageHeader";
 import { v4 as uuidv4 } from "uuid";
 import { useDataGlobal } from "../../model/DataGlobalContext";
-import { Check_List_Recommendations, Team_Members } from "@/model/classModel";
+import { Check_List_Recommendations, Team_Members,Column_Visibility } from "@/model/classModel";
 import Link from "next/link";
 
 const ChecklistRecommendation: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const initialLopa_Recommendation: Check_List_Recommendations[] =dataGlobal.Check_List_Recommendations;
+  const [columnVisibility, setColumnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
   const [lopas, setLopa] = useState<Check_List_Recommendations[]>(initialLopa_Recommendation,);
   const [members, setMembers] = useState<Team_Members[]>(dataGlobal.Team_Members,);
   const [activeRow, setActiveRow] = useState<number | null>(null);
@@ -211,11 +212,21 @@ const ChecklistRecommendation: React.FC = () => {
               <table className="table-auto">
                 <thead className="bg-slate-300">
                   <tr>
+                  {columnVisibility?.Check_List_Recommendations_Children.Check_List_Recommendation ? (
                     <td className="border px-4 py-2">Recommendation</td>
+                    ) : null}
+                    {columnVisibility?.Check_List_Recommendations_Children.Check_List_Recommendation_Priority ? (
                     <td className="border px-4 py-2">Priority</td>
+                    ) : null}
+                    {columnVisibility?.Check_List_Recommendations_Children.Check_List_Recommendation_Responsible_Party ? (
                     <td className="border px-4 py-2">Responsible Party</td>
+                    ) : null}
+                    {columnVisibility?.Check_List_Recommendations_Children.Check_List_Recommendation_Status ? (
                     <td className="border px-4 py-2">Status</td>
+                    ) : null}
+                    {columnVisibility?.Check_List_Recommendations_Children.Check_List_Recommendation_Comments ? (
                     <td className="border px-4 py-2">Comments</td>
+                    ) : null}
                   </tr>
                 </thead>
                 <tbody>
@@ -224,6 +235,7 @@ const ChecklistRecommendation: React.FC = () => {
                       key={data.ID}
                       className={activeRow === index ? "active-row" : ""}
                     >
+                    {columnVisibility?.Check_List_Recommendations_Children.Check_List_Recommendation ? (
                       <td className="border">
                         <input
                           type="text"
@@ -233,6 +245,8 @@ const ChecklistRecommendation: React.FC = () => {
                           onFocus={(e) => handleActiveRow(e, index)}
                         />
                       </td>
+                    ) : null}
+                    {columnVisibility?.Check_List_Recommendations_Children.Check_List_Recommendation_Priority ? (
                       <td className="border">
                         <select
                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none"
@@ -244,6 +258,8 @@ const ChecklistRecommendation: React.FC = () => {
                           <option value={"Low"}>Low</option>
                         </select>
                       </td>
+                    ) : null}
+                    {columnVisibility?.Check_List_Recommendations_Children.Check_List_Recommendation_Responsible_Party ? (
                       <td className="border">
                         <select
                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none"
@@ -257,6 +273,8 @@ const ChecklistRecommendation: React.FC = () => {
                           ))}
                         </select>
                       </td>
+                    ) : null}
+                    {columnVisibility?.Check_List_Recommendations_Children.Check_List_Recommendation_Priority ? (
                       <td className="border">
                         <select
                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none"
@@ -274,6 +292,8 @@ const ChecklistRecommendation: React.FC = () => {
                           <option value={"Not Aplicable"}>Not Aplicable</option>
                         </select>
                       </td>
+                    ) : null}
+                    {columnVisibility?.Check_List_Recommendations_Children.Check_List_Recommendation_Comments ? (
                       <td className="border">
                         <input
                           type="text"
@@ -283,6 +303,7 @@ const ChecklistRecommendation: React.FC = () => {
                           onFocus={(e) => handleActiveRow(e, index)}
                         />
                       </td>
+                      ) : null}
                     </tr>
                   ))}
                 </tbody>

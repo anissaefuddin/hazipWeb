@@ -4,16 +4,14 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import PageHeader from "@/partials/PageHeader";
 import { v4 as uuidv4 } from "uuid";
 import { useDataGlobal } from "../../model/DataGlobalContext";
-import { Lopa_Recommendations } from "@/model/classModel";
+import { Lopa_Recommendations,Column_Visibility } from "@/model/classModel";
 import Link from "next/link";
 
 const LopaRecommendation: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
-  const initialLopa_Recommendation: Lopa_Recommendations[] =
-    dataGlobal.Lopa_Recommendations;
-  const [lopas, setLopa] = useState<Lopa_Recommendations[]>(
-    initialLopa_Recommendation,
-  );
+  const initialLopa_Recommendation: Lopa_Recommendations[] = dataGlobal.Lopa_Recommendations;
+  const [columnVisibility, setColumnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
+  const [lopas, setLopa] = useState<Lopa_Recommendations[]>(initialLopa_Recommendation,);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {
@@ -217,11 +215,21 @@ const LopaRecommendation: React.FC = () => {
               <table className="table-auto">
                 <thead className="bg-slate-300">
                   <tr>
-                    <td className="border px-4 py-2 text-center" colSpan={2} rowSpan={2} >Recommendation</td>
+                  {columnVisibility?.Lopa_Recommendations_Children.Lopa_Recommendation ? (
+                  <td className="border px-4 py-2 text-center" colSpan={2} rowSpan={2} >Recommendation</td>
+                  ) : null}
+                  {columnVisibility?.Lopa_Recommendations_Children.Lopa_Recommendation_Priority ? (
                     <td className="border px-4 py-2 text-center" rowSpan={2}>Priority</td>
+                    ) : null}
+                    {columnVisibility?.Lopa_Recommendations_Children.Lopa_Recommendation_Responsible_Party ? (
                     <td className="border px-4 py-2 text-center" rowSpan={2}>Responsible Party</td>
+                    ) : null}
+                    {columnVisibility?.Lopa_Recommendations_Children.Lopa_Recommendation_Status ? (
                     <td className="border px-4 py-2 text-center" rowSpan={2}>Status</td>
+                    ) : null}
+                    {columnVisibility?.Lopa_Recommendations_Children.Lopa_Recommendation_Comments ? (  
                     <td className="border px-4 py-2 text-center" rowSpan={2}>Comments</td>
+                    ) : null}
                     <td className="border px-4 py-2 text-center" colSpan={5}>Referenced Location</td>
                   </tr>
                   <tr>
@@ -237,9 +245,12 @@ const LopaRecommendation: React.FC = () => {
                     <tr
                       key={data.ID}
                       className={activeRow === index ? "active-row" : ""} >
+                        {columnVisibility?.Lopa_Recommendations_Children.Lopa_Recommendation ? (
                       <td className="border-t border-b border-l">
                         {index + 1}
                       </td>
+                      ) : null}
+                      {columnVisibility?.Lopa_Recommendations_Children.Lopa_Recommendation ? (
                       <td className="border-t border-b border-r">
                         <input
                           type="text"
@@ -249,17 +260,21 @@ const LopaRecommendation: React.FC = () => {
                           onFocus={(e) => handleActiveRow(e, index)}
                         />
                       </td>
+                    ) : null}
+                    {columnVisibility?.Lopa_Recommendations_Children.Lopa_Recommendation_Priority ? (
                       <td className="border">
                         <select
                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none"
                           value={data.Lopa_Recommendation_Priority}
                           onChange={(e) =>handlePriorityChange(e.target.value, index)}>
                           <option></option>
-                          <option>High</option>
-                          <option>Medium</option>
-                          <option>Low</option>
+                          <option value={"High"}>High</option>
+                          <option value={"Medium"}>Medium</option>
+                          <option value={"Low"}>Low</option>
                         </select>
                       </td>
+                    ) : null}
+                    {columnVisibility?.Lopa_Recommendations_Children.Lopa_Recommendation_Responsible_Party ? (
                       <td className="border">
                         <input
                           type="text"
@@ -269,24 +284,28 @@ const LopaRecommendation: React.FC = () => {
                           onFocus={(e) => handleActiveRow(e, index)}
                         />
                       </td>
+                    ) : null}
+                    {columnVisibility?.Lopa_Recommendations_Children.Lopa_Recommendation_Status ? (  
                       <td className="border">
                         <select
                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none"
                           value={data.Lopa_Recommendation_Status}
                           onChange={(e) =>handleStatusChange(e.target.value, index)}
                         >
-                          <option></option>
-                          <option>Proposed</option>
-                          <option>Pending</option>
-                          <option>Under Review</option>
-                          <option>In Progress</option>
-                          <option>Completed</option>
-                          <option>Implemented</option>
-                          <option>Closed</option>
-                          <option>Removed</option>
-                          <option>Not Aplicable</option>
+                          <option value={""}></option>
+                          <option value={"Proposed"}>Proposed</option>
+                          <option value={"Pending"}>Pending</option>
+                          <option value={"Under"}>Under Review</option>
+                          <option value={"In Progress"}>In Progress</option>
+                          <option value={"Completed"}>Completed</option>
+                          <option value={"Implemented"}>Implemented</option>
+                          <option value={"Closed"}>Closed</option>
+                          <option value={"Removed"}>Removed</option>
+                          <option value={"Not Progress"}>Not Progress</option>
                         </select>
                       </td>
+                    ) : null}
+                    {columnVisibility?.Lopa_Recommendations_Children.Lopa_Recommendation_Comments ? (  
                       <td className="border">
                         <input
                           type="text"
@@ -296,6 +315,7 @@ const LopaRecommendation: React.FC = () => {
                           onFocus={(e) => handleActiveRow(e, index)}
                         />
                       </td>
+                    ) : null}
                       <td className="border"></td>
                       <td className="border"></td>
                       <td className="border"></td>

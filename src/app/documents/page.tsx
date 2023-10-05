@@ -5,13 +5,17 @@ import { useDataGlobal } from "../../model/DataGlobalContext";
 import {
   Column_Visibility,
   Drawings,
+  Files,
 } from "@/model/classModel";
+import axios from "axios";
 const Documentss: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const [drawings, setDrawings] = useState<Drawings[]>(dataGlobal.Drawings);
+  const [files, setFiles] = useState<Files[]>(dataGlobal.Files);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [columnVisibility, setColumnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
   const [showError, setShowError] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const handleAddRow = () => {
     const newData = new Drawings();
     setDrawings([...drawings, newData]);
@@ -114,6 +118,44 @@ const Documentss: React.FC = () => {
     updateDataGlobal(dataApa);
   };
   
+  const handleFileChange = (e:React.ChangeEvent<HTMLInputElement>,index:number) => {
+    if (!e.target || !e.target.files || e.target.files.length === 0) {
+      return;
+    }else{
+      setSelectedFile(e.target.files[0]);
+      handleUpload(index);
+    }
+    
+  };
+  const handleUpload = async (index:number) => {
+    if (!selectedFile) {
+      alert('Pilih file terlebih dahulu');
+      return;
+    }
+    const formData = new FormData();
+    formData.append('image', selectedFile);
+
+    try {
+      const response = await axios.post(
+        'https://api.imgbb.com/1/upload?key=cbb6357a9f0e40f62420e8c63d89edad',
+        formData
+      );
+      const data= response.data.data;
+      const fileTemp = new Files(data.id,data.display_url,data.expiration,data.height,data.width,data.delete_url,data.image,data.size,data.thumb,data.time,data.title,data.url,data.url_viewer);
+      const updatedDrawings = [...drawings];
+      updatedDrawings[index].Link = fileTemp.id;
+      
+      setDrawings(updatedDrawings);
+      setFiles([...files,fileTemp]);
+      const dataApa = dataGlobal;
+      dataApa.Drawings = drawings;
+      dataApa.Files = files;
+      updateDataGlobal(dataApa);
+    } catch (error) {
+      console.error('Error:', error);
+      // Handle error here
+    }
+  };
   return (
     <>
       <section className="section-sm">
@@ -253,13 +295,8 @@ const Documentss: React.FC = () => {
                       ): null}
                       {columnVisibility?.Drawings_Children.Link ? (
                       <td className="border">
-                        <input
-                          type="text"
-                          className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none"
-                          value={data.Link}
-                          onChange={(e) => handleLinkChange(e, index)}
-                          onFocus={(e) => handleActiveRow(e, index)}
-                        />
+                        <input type="file" onChange={(e) => handleFileChange(e, index)} />
+                        <a href={'https://ibb.co/'+data.Link}>{data.Link}</a>
                       </td>
                       ): null}
                     </tr>

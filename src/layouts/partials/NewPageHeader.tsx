@@ -1,6 +1,5 @@
 import { useDataGlobal } from '../../model/DataGlobalContext';
 const NewPageHeader: React.FC = () => {
-  
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("1")

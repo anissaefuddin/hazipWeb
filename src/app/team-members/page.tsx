@@ -1,20 +1,21 @@
-'use client'
-import React, { useState, useEffect, useRef } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+"use client";
+import React, { useState, useEffect, useRef } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import PageHeader from "@/partials/PageHeader";
 import { v4 as uuidv4 } from 'uuid';
 import Link from "next/link"
 import { useDataGlobal } from '../../model/DataGlobalContext';
-import { Team_Members ,Sessions,Team_Members_Sessions} from '@/model/classModel';
+import { Team_Members ,Sessions,Team_Members_Sessions,Column_Visibility} from '@/model/classModel';
 import CSVExport from '../../Components/CSVExport';
 
 const Teammember: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const initialSessions: Sessions[] = dataGlobal.Sessions;
   const initialTeamMembers: Team_Members[] = dataGlobal.Team_Members;
-  const initialAttendances: Team_Members_Sessions[] =dataGlobal.Team_Members_Sessions;
+  const initialAttendances: Team_Members_Sessions[] = dataGlobal.Team_Members_Sessions;
   const [teamMembers, setTeamMembers] = useState<Team_Members[]>(initialTeamMembers);
   const [sessions, setSessions] = useState<Sessions[]>(initialSessions);
+  const [columnVisibility, setColumnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
   const [attendances, setAttendances] = useState<Team_Members_Sessions[]>(initialAttendances);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
@@ -23,7 +24,7 @@ const Teammember: React.FC  = () => {
     setTeamMembers([...teamMembers, newTeamMember]);
     sessions.map((session) => {
       const newAttendance = {
-        ID:  uuidv4().toLowerCase().replace(/-/g, ''),
+        ID: uuidv4().toLowerCase().replace(/-/g, ""),
         Team_Member_ID: newTeamMember.ID,
         Session_ID: session.ID,
         Value: "", // You can set the default value as needed
@@ -36,7 +37,7 @@ const Teammember: React.FC  = () => {
     updateDataGlobal(dataApa);
   };
   const handleCloseError = () => {
-    setShowError(false)
+    setShowError(false);
   };
   const handleRemoveActiveRow = () => {
     if (activeRow !== null) {
@@ -45,9 +46,9 @@ const Teammember: React.FC  = () => {
       updatedTeamMembers.splice(activeRow, 1);
       setTeamMembers(updatedTeamMembers);
       const updatedAttendances = [...attendances];
-      attendances.map((data,index) => {
-        if(tempID == data.Team_Member_ID){
-          updatedAttendances.splice(index,1);
+      attendances.map((data, index) => {
+        if (tempID == data.Team_Member_ID) {
+          updatedAttendances.splice(index, 1);
         }
       });
       const dataApa = dataGlobal;
@@ -56,56 +57,65 @@ const Teammember: React.FC  = () => {
       updateDataGlobal(dataApa);
       setActiveRow(null);
       setShowError(false);
-    }else{
+    } else {
       setShowError(true);
     }
   };
-  const handleActiveRow = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
-   setActiveRow(index)
+  const handleActiveRow = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+  ) => {
+    setActiveRow(index);
   };
   const moveUp = () => {
     if (activeRow !== null) {
-      if(activeRow>0){
-      const updatedTeamMembers = [...teamMembers];
-      const temp = updatedTeamMembers[activeRow];
-      updatedTeamMembers[activeRow] =updatedTeamMembers[activeRow-1];
-      updatedTeamMembers[activeRow-1]= temp;
-      setTeamMembers(updatedTeamMembers);
-      dataGlobal.Team_Members = teamMembers;
-      setActiveRow(activeRow-1);
-      setShowError(false);
+      if (activeRow > 0) {
+        const updatedTeamMembers = [...teamMembers];
+        const temp = updatedTeamMembers[activeRow];
+        updatedTeamMembers[activeRow] = updatedTeamMembers[activeRow - 1];
+        updatedTeamMembers[activeRow - 1] = temp;
+        setTeamMembers(updatedTeamMembers);
+        dataGlobal.Team_Members = teamMembers;
+        setActiveRow(activeRow - 1);
+        setShowError(false);
       }
-    }else{
+    } else {
       setShowError(true);
     }
   };
 
   const moveDown = () => {
     if (activeRow !== null) {
-      if(activeRow< teamMembers.length - 1){
-      const updatedTeamMembers = [...teamMembers];
-      const temp = updatedTeamMembers[activeRow];
-      updatedTeamMembers[activeRow] =updatedTeamMembers[activeRow+1];
-      updatedTeamMembers[activeRow+1]= temp;
-      setTeamMembers(updatedTeamMembers);
-      dataGlobal.Team_Members = teamMembers;
-      setActiveRow(activeRow+1);
-      setShowError(false);
+      if (activeRow < teamMembers.length - 1) {
+        const updatedTeamMembers = [...teamMembers];
+        const temp = updatedTeamMembers[activeRow];
+        updatedTeamMembers[activeRow] = updatedTeamMembers[activeRow + 1];
+        updatedTeamMembers[activeRow + 1] = temp;
+        setTeamMembers(updatedTeamMembers);
+        dataGlobal.Team_Members = teamMembers;
+        setActiveRow(activeRow + 1);
+        setShowError(false);
       }
-    }else{
+    } else {
       setShowError(true);
     }
   };
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleNameChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+  ) => {
     const updatedTeamMembers = [...teamMembers];
-    
+
     updatedTeamMembers[index].Name = e.target.value;
     setTeamMembers(updatedTeamMembers);
     const dataApa = dataGlobal;
     dataApa.Team_Members = teamMembers;
     updateDataGlobal(dataApa);
   };
-  const handleCompanyChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleCompanyChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+  ) => {
     const updatedTeamMembers = [...teamMembers];
     updatedTeamMembers[index].Company = e.target.value;
     setTeamMembers(updatedTeamMembers);
@@ -113,7 +123,10 @@ const Teammember: React.FC  = () => {
     dataApa.Team_Members = teamMembers;
     updateDataGlobal(dataApa);
   };
-  const handleDepartementChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleDepartementChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+  ) => {
     const updatedTeamMembers = [...teamMembers];
     updatedTeamMembers[index].Departement = e.target.value;
     setTeamMembers(updatedTeamMembers);
@@ -121,7 +134,10 @@ const Teammember: React.FC  = () => {
     dataApa.Team_Members = teamMembers;
     updateDataGlobal(dataApa);
   };
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleTitleChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+  ) => {
     const updatedTeamMembers = [...teamMembers];
     updatedTeamMembers[index].Title = e.target.value;
     setTeamMembers(updatedTeamMembers);
@@ -129,7 +145,10 @@ const Teammember: React.FC  = () => {
     dataApa.Team_Members = teamMembers;
     updateDataGlobal(dataApa);
   };
-  const handleExpertiseChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleExpertiseChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+  ) => {
     const updatedTeamMembers = [...teamMembers];
     updatedTeamMembers[index].Expertise = e.target.value;
     setTeamMembers(updatedTeamMembers);
@@ -137,7 +156,10 @@ const Teammember: React.FC  = () => {
     dataApa.Team_Members = teamMembers;
     updateDataGlobal(dataApa);
   };
-  const handleExperienceChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleExperienceChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+  ) => {
     const updatedTeamMembers = [...teamMembers];
     updatedTeamMembers[index].Experience = e.target.value;
     setTeamMembers(updatedTeamMembers);
@@ -145,7 +167,10 @@ const Teammember: React.FC  = () => {
     dataApa.Team_Members = teamMembers;
     updateDataGlobal(dataApa);
   };
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleEmailChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+  ) => {
     const updatedTeamMembers = [...teamMembers];
     updatedTeamMembers[index].E__Mail_Address = e.target.value;
     setTeamMembers(updatedTeamMembers);
@@ -153,7 +178,10 @@ const Teammember: React.FC  = () => {
     dataApa.Team_Members = teamMembers;
     updateDataGlobal(dataApa);
   };
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handlePhoneChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+  ) => {
     const updatedTeamMembers = [...teamMembers];
     updatedTeamMembers[index].Phone_Number = e.target.value;
     setTeamMembers(updatedTeamMembers);
@@ -161,7 +189,10 @@ const Teammember: React.FC  = () => {
     dataApa.Team_Members = teamMembers;
     updateDataGlobal(dataApa);
   };
-  const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleCommentChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number,
+  ) => {
     const updatedTeamMembers = [...teamMembers];
     updatedTeamMembers[index].Team_Member_Comments = e.target.value;
     setTeamMembers(updatedTeamMembers);
@@ -172,20 +203,43 @@ const Teammember: React.FC  = () => {
 
   return (
     <>
-    <PageHeader title="Team Members" />
       <section className="section-sm">
         <div className="container">
-        <div className="row">
+          <div className="row">
             <div className="w-1/6">
               <ul>
-              <li className="mb-4 lg:mb-2"><Link href={'/overview'} className="block hover:text-gray-900 font-medium text-gray-600" >Overview</Link></li>
-                <li className="mb-4 lg:mb-2"><Link href={"/team-members"} className="block hover:text-gray-900 text-lg text-black">Team Member</Link></li>
-                <li className="mb-4 lg:mb-2"><Link href={"/sessions"} className="block hover:text-gray-900 font-medium text-gray-600">Sessions</Link></li>
-                <li className="mb-4 lg:mb-2"><Link href={"/attendances"} className="block hover:text-gray-900 font-medium text-gray-600">Attendances</Link></li>
-                <li className="mb-4 lg:mb-2"><Link href={"/documents"} className="block hover:text-gray-900 font-medium text-gray-600">Documents</Link></li>
-                <li className="mb-4 lg:mb-2"><Link href={"/setting-columns"} className="block hover:text-gray-900 font-medium text-gray-600">Setting Column</Link></li>
-                </ul>
-                </div>
+                <li className="mb-4 lg:mb-2">
+                  <Link href={"/overview"} className="block hover:text-gray-900 font-medium text-gray-600">
+                    Overview
+                  </Link>
+                </li>
+                <li className="mb-4 lg:mb-2">
+                  <Link href={"/team-members"} className="block hover:text-gray-900 text-lg text-black">
+                    Team Member
+                  </Link>
+                </li>
+                <li className="mb-4 lg:mb-2">
+                  <Link href={"/sessions"} className="block hover:text-gray-900 font-medium text-gray-600">
+                    Sessions
+                  </Link>
+                </li>
+                <li className="mb-4 lg:mb-2">
+                  <Link href={"/attendances"} className="block hover:text-gray-900 font-medium text-gray-600">
+                    Attendances
+                  </Link>
+                </li>
+                <li className="mb-4 lg:mb-2">
+                  <Link href={"/documents"} className="block hover:text-gray-900 font-medium text-gray-600">
+                    Documents
+                  </Link>
+                </li>
+                <li className="mb-4 lg:mb-2">
+                  <Link href={"/setting-columns"} className="block hover:text-gray-900 font-medium text-gray-600">
+                    Setting Column
+                  </Link>
+                </li>
+              </ul>
+            </div>
             <div className="w-5/6">
       <h1>Team Members</h1>
       <button className="hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center" onClick={handleAddRow}><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-plus-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/></svg></button>
@@ -203,56 +257,74 @@ const Teammember: React.FC  = () => {
       <table className='table-auto'>
         <thead className='bg-slate-300'>
           <tr>
-            <td className="border px-4 py-2">Name</td>
-            <td className="border px-4 py-2">Company</td>
-            <td className="border px-4 py-2">Title</td>
-            <td className="border px-4 py-2">Departement</td>
-            <td className="border px-4 py-2">Expertise</td>
-            <td className="border px-4 py-2">Experience</td>
-            <td className="border px-4 py-2">Phone Number</td>
-            <td className="border px-4 py-2">Email</td>
-            <td className="border px-4 py-2">Comment</td>
+            {columnVisibility?.Team_Members_Children.Name ? (<td className="border px-4 py-2">Name</td>) : null}
+            {columnVisibility?.Team_Members_Children.Company ? (<td className="border px-4 py-2">Company</td>) : null}
+            {columnVisibility?.Team_Members_Children.Title ? (<td className="border px-4 py-2">Title</td>) : null}
+            {columnVisibility?.Team_Members_Children.Department ? (<td className="border px-4 py-2">Departement</td>) : null}
+            {columnVisibility?.Team_Members_Children.Expertise ? (<td className="border px-4 py-2">Expertise</td>) : null}
+            {columnVisibility?.Team_Members_Children.Experience ? (<td className="border px-4 py-2">Experience</td>) : null}
+            {columnVisibility?.Team_Members_Children.Phone_Number ? (<td className="border px-4 py-2">Phone Number</td>) : null}
+            {columnVisibility?.Team_Members_Children.E__Mail_Address ? (<td className="border px-4 py-2">Email</td>) : null}
+            {columnVisibility?.Team_Members_Children.Team_Member_Comments ? (<td className="border px-4 py-2">Comment</td>) : null}
           </tr>
         </thead>
         <tbody>
           {teamMembers.map((member,index) => (
            <tr key={member.ID} className={activeRow === index ? 'active-row' : ''}>
+            {columnVisibility?.Team_Members_Children.Name ? (
               <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Name} onChange={(e) => handleNameChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
+              ) : null}
+              {columnVisibility?.Team_Members_Children.Company ? (
               <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Company} onChange={(e) => handleCompanyChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
+              ) : null}
+              {columnVisibility?.Team_Members_Children.Title ? (
               <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Title} onChange={(e) => handleTitleChange(e, index)} onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
+              ) : null}
+              {columnVisibility?.Team_Members_Children.Department ? (
               <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Departement} onChange={(e) => handleDepartementChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
+              ) : null}
+              {columnVisibility?.Team_Members_Children.Expertise ? (
               <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Expertise} onChange={(e) => handleExpertiseChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
+              ) : null}
+              {columnVisibility?.Team_Members_Children.Experience ? (
               <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Experience} onChange={(e) => handleExperienceChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
+              ) : null}
+              {columnVisibility?.Team_Members_Children.Phone_Number ? (
               <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Phone_Number} onChange={(e) => handlePhoneChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
+              ) : null}
+              {columnVisibility?.Team_Members_Children.E__Mail_Address ? (
               <td className="border">
                 <input type="email" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.E__Mail_Address} onChange={(e) => handleEmailChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
+              ) : null}
+              {columnVisibility?.Team_Members_Children.Team_Member_Comments ? (
               <td className="border">
                 <input type="text" className='appearance-none bg-transparent border-none w-full leading-tight focus:outline-none' 
                 value={member.Team_Member_Comments} onChange={(e) => handleCommentChange(e, index)}  onFocus={(e) => handleActiveRow(e,index)}/>
               </td>
+              ) : null}
            </tr>
             ))}
         </tbody>
@@ -266,4 +338,3 @@ const Teammember: React.FC  = () => {
 };
 
 export default Teammember;
-

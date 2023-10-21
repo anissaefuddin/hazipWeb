@@ -18,7 +18,8 @@
     "electron-store": "^8.1.0",
     "sass": "^1.69.4",
     "tailwind-bootstrap-grid": "^5.0.1",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/node": "^18.11.18",

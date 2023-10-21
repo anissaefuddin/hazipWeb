@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDataGlobal } from "../model/DataGlobalContext";
 import {
   Overview,
@@ -14,10 +14,14 @@ import Sidebar from "../components/Sidebar";
 const Overviews: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const [overview, setOverview] = useState<Overview>(dataGlobal.Overview);
-  const [columnVisibility, setColumnVisibility] =
-    useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
+  const [columnVisibility, setColumnVisibility] = useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
   const { main }: { main: INavigationLink[] } = menu;
   const pathname = usePathname();
+
+  useEffect(() => {
+    setColumnVisibility(dataGlobal.Settings.Column_Visibility);
+  })
+
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedOverview = { ...overview };
     updatedOverview.Study_Name = e.target.value;

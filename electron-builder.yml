@@ -1,0 +1,14 @@
+appId: com.example.nextron
+productName: LenHazid
+copyright: Copyright © 2023 
+directories:
+  output: dist
+  buildResources: resources
+win:
+  icon: public/images/favicon.png
+files:
+  - from: .
+    filter:
+      - package.json
+      - app
+publish: null

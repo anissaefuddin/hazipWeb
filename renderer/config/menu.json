@@ -1,0 +1,103 @@
+{
+  "main": [
+    {
+      "name": "Study Data",
+      "url": "/overview",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "Overview",
+          "url": "/overview"
+        },
+        {
+          "name": "Team Member",
+          "url": "/team-members"
+        },
+        {
+          "name": "Sessions",
+          "url": "/sessions"
+        },
+        {
+          "name": "Attendances",
+          "url": "/attendances"
+        },
+        {
+          "name": "Documents",
+          "url": "/documents"
+        },
+        {
+          "name": "Column Setting",
+          "url": "/setting-columns"
+        }
+      ]
+    },
+    {
+      "name": "Hazard Type",
+      "url": "/nodes"
+    },
+    {
+      "name": "Guide Word",
+      "url": "/deviations"
+    },
+    {
+      "name": "PHA Worksheet",
+      "url": "/pha-worksheet"
+    },
+    {
+      "name": "Recommendation",
+      "url": "pha-recommendation",
+      "hasChildren" :true,
+      "children": [
+        {
+          "name": "PHA Recommendation",
+          "url": "/pha-recommendation"
+        },
+        {
+          "name": "LOPA Recommendation",
+          "url": "/lopa-recommendation"
+        },
+        {
+          "name": "Check List Recommendation",
+          "url": "/checklist-recommendation"
+        }
+      ]
+    },
+    {
+      "name": "Safeguard",
+      "url": "/safeguards"
+    },
+    {
+      "name": "Risk Matrix",
+      "url": "/risk-matrix",
+      "hasChildren":true,
+      "children": [
+        {
+          "name": "Risk Matrix",
+          "url": "/risk-matrix"
+        },
+        {
+          "name": "Likelihood Categories",
+          "url": "/likelihoods"
+        },
+        {
+          "name": "Concequences Categories",
+          "url": "/concequences"
+        },
+        {
+          "name": "Risk Ranking",
+          "url": "/risk-rankings"
+        }
+      ]
+    }
+  ],
+  "footer": [
+    {
+      "name": "Elements",
+      "url": "/elements"
+    },
+    {
+      "name": "Privacy Policy",
+      "url": "/privacy-policy"
+    }
+  ]
+}

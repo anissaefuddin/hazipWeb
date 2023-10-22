@@ -152,7 +152,6 @@ if (isProd) {
     await mainWindow.loadURL(`http://localhost:${port}/overview`)
     mainWindow.webContents.openDevTools()
     mainWindow.once('ready-to-show', () => {
-    mainWindow.webContents.send('pesan-dari-utama', 'Halo, renderer!');
     });
   }
 })()
@@ -161,9 +160,6 @@ app.on('window-all-closed', () => {
   app.quit()
 })
 
-ipcMain.on('message', async (event, arg) => {
-  event.reply('message', `${arg} World!`)
-})
 ipcMain.on('save-data', (event, dataToSave) => {
   fs.writeFileSync(pathFile, dataToSave, 'utf-8');  
 });

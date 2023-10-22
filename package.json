@@ -1,8 +1,8 @@
 {
   "private": true,
-  "name": "LenHazid",
+  "name": "lenhazid",
   "description": "Support your reporting business",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": "anissaefuddin@gmail.com>",
   "main": "app/background.js",
   "scripts": {

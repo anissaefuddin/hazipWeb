@@ -6,18 +6,15 @@ import {
   Column_Visibility,
 } from "../model/classModel";
 import menu from "../config/menu.json";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { INavigationLink } from "../components/Header";
 import Sidebar from "../components/Sidebar";
+
 
 const Overviews: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const [overview, setOverview] = useState<Overview>(dataGlobal.Overview);
   const [columnVisibility, setColumnVisibility] = useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
   const { main }: { main: INavigationLink[] } = menu;
-  const pathname = usePathname();
-
   useEffect(() => {
     setColumnVisibility(dataGlobal.Settings.Column_Visibility);
   })
@@ -160,8 +157,6 @@ const Overviews: React.FC = () => {
     dataApa.Overview = overview;
     updateDataGlobal(dataApa);
   };
-  console.log("testOV");
-  console.log(pathname);
   return (
     <>
       <div className="container">

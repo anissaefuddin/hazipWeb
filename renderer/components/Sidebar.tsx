@@ -32,7 +32,6 @@ const Sidebar: React.FC<SidebarProps> = ({index}) => {
   useEffect(() => {
     window.scroll(0, 0);
   }, [pathname]);
-  console.log(pathname)
   return (
     <ul className="mt-4 overflow-x-hidden">
       {main[index].children?.map((child, i) => (

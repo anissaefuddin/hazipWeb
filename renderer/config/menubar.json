@@ -1,0 +1,33 @@
+{
+  "main": [
+    {
+      "name": "File",
+      "url": "",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "New File",
+          "url": "new"
+        },
+        {
+          "name": "Save File",
+          "url": "safe"
+        },
+        {
+          "name": "Open File",
+          "url": "open"
+        }
+      ]
+    }
+  ],
+  "footer": [
+    {
+      "name": "Elements",
+      "url": "/elements"
+    },
+    {
+      "name": "Privacy Policy",
+      "url": "/privacy-policy"
+    }
+  ]
+}

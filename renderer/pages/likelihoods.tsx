@@ -141,7 +141,7 @@ const LikelihoodCategories: React.FC = () => {
             </ul>
             </div>
             <div className="w-5/6">
-              <h3>Likelihood Categorys</h1>
+            <h3>Likelihood Categorys</h3>
               <button
                 className="hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center"
                 onClick={handleAddRow}

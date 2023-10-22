@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from "uuid";
 import { useDataGlobal } from "../model/DataGlobalContext";
 import {Sessions,Team_Members,Team_Members_Sessions,Column_Visibility} from "../model/classModel";
 import Sidebar from "../components/Sidebar";
+import {ButtonExportExcelSession} from '../components/ExportJsonToExcel'; 
+
 const Session: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const initialAttendances: Team_Members_Sessions[] =dataGlobal.Team_Members_Sessions;
@@ -201,6 +203,7 @@ const Session: React.FC = () => {
                   <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
                 </svg>
               </button>
+              <ButtonExportExcelSession DataJson={sessions} RelasiDataJson={members} NameFile={"Export_Session"} />
               {showError && (
                 <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
                   <strong className="font-bold">

@@ -1,14 +1,13 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, } from "react";
 import { useDataGlobal } from "../model/DataGlobalContext";
 import { Lopa_Recommendations,Column_Visibility } from "../model/classModel";
-import Link from "next/link";
 import Sidebar from "../components/Sidebar";
 
 const LopaRecommendation: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const initialLopa_Recommendation: Lopa_Recommendations[] = dataGlobal.Lopa_Recommendations;
-  const [columnVisibility, setColumnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
+  const [columnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
   const [lopas, setLopa] = useState<Lopa_Recommendations[]>(initialLopa_Recommendation,);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);

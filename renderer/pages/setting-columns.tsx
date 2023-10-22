@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
@@ -156,8 +157,6 @@ const Teammember: React.FC = () => {
   const [safeguardIDschecklist,setSafeguardIDschecklist]= useState(columnVisibility?.Check_Lists_Children.Check_List_Questions_Children.Safeguard_IDs);
   
   useEffect(() => {
-    if(columnVisibility !=  null){
-    }
   });
   // Overview
   const handleCheckboxChangeStudyName = (e: React.ChangeEvent<HTMLInputElement>) => {

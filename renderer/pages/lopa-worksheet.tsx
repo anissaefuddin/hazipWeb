@@ -1,13 +1,13 @@
 'use client'
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, } from 'react';
 import { useDataGlobal } from '../model/DataGlobalContext';
-import { Check_List_Recommendations,Nodes, Deviations,Team_Members, Consequences,Risk_Rankings, Severities, Likelihoods,Pha_Recommendations, Lopa_Recommendations } from '../model/classModel';
+import { Team_Members, Lopa_Recommendations } from '../model/classModel';
 import Sidebar from '../components/Sidebar';
 
 const PHAWorksheet: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const [lopas, setLopa] = useState<Lopa_Recommendations[]>(dataGlobal.Lopa_Recommendations);
-  const [members, setMembers] = useState<Team_Members[]>(dataGlobal.Team_Members);
+  const [members] = useState<Team_Members[]>(dataGlobal.Team_Members);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {

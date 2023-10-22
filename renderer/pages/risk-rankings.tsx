@@ -1,8 +1,7 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, } from "react";
 import { useDataGlobal } from "../model/DataGlobalContext";
-import { Likelihoods, Risk_Rankings } from "../model/classModel";
-import Link from "next/link";
+import {  Risk_Rankings } from "../model/classModel";
 import Sidebar from "../components/Sidebar";
 
 const RiskRankins: React.FC = () => {

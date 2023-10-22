@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { useDataGlobal } from "../model/DataGlobalContext";
 import { Safeguards } from "../model/classModel";
 const SageguardsPage: React.FC = () => {

@@ -1,6 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
+import React, { useState,  } from "react";
 import { useDataGlobal } from "../model/DataGlobalContext";
 import {
   Column_Visibility,
@@ -14,7 +13,7 @@ const Documentss: React.FC = () => {
   const [drawings, setDrawings] = useState<Drawings[]>(dataGlobal.Drawings);
   const [files, setFiles] = useState<Files[]>(dataGlobal.Files);
   const [activeRow, setActiveRow] = useState<number | null>(null);
-  const [columnVisibility, setColumnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
+  const [columnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
   const [showError, setShowError] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const handleAddRow = () => {
@@ -29,7 +28,6 @@ const Documentss: React.FC = () => {
   };
   const handleRemoveActiveRow = () => {
     if (activeRow !== null) {
-      const tempID = drawings[activeRow].ID;
       const updatedDrawings = [...drawings];
       updatedDrawings.splice(activeRow, 1);
       setDrawings(updatedDrawings);
@@ -110,6 +108,7 @@ const Documentss: React.FC = () => {
     dataApa.Drawings = drawings;
     updateDataGlobal(dataApa);
   };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleLinkChange = (e: React.ChangeEvent<HTMLInputElement>,index: number,) => {
     const updatedDrawings = [...drawings];
     updatedDrawings[index].Link = e.target.value;

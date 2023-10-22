@@ -1,11 +1,9 @@
 "use client";
 
-import Logo from "./Logo";
 import menu from "../config/menu.json";
 import Link from "next/link";
-import config from "../config/config.json";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 //  child navigation link interface
 export interface IChildNavigationLink {

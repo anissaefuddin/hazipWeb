@@ -1,19 +1,21 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useDataGlobal } from "../model/DataGlobalContext";
 import { Likelihoods, Severities, Intersections } from "../model/classModel";
-import Link from "next/link";
 import Sidebar from "../components/Sidebar";
 const Concequencess: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
-  const [likelihoods, setLikelihoods] = useState<Likelihoods[]>(dataGlobal.Risk_Criteria.Likelihoods,);
+  const [likelihoods] = useState<Likelihoods[]>(dataGlobal.Risk_Criteria.Likelihoods,);
   const [intersections, setIntersections] = useState<Intersections[]>(dataGlobal.Risk_Criteria.Intersections,);
   const [severities, setseverities] = useState<Severities[]>(dataGlobal.Risk_Criteria.Severities,);
   const [filteredSeverities, setFilteredSeverities] = useState(severities);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const [severityType, setSeverityType] = useState("Safety");
+  useEffect(() => {
+    handleTypeChange("Safety");
+  }, []);
   const handleAddRow = () => {
     const newData = new Severities();
     newData.Severity_Type = severityType;
@@ -37,7 +39,6 @@ const Concequencess: React.FC = () => {
     );
     setFilteredSeverities(filteredData);
     updateDataGlobal(dataApa);
-    console.log(severities);
   };
   const handleCloseError = () => {
     setShowError(false);
@@ -116,12 +117,14 @@ const Concequencess: React.FC = () => {
       (severity) => severity.Severity_Type === value,
     );
     setFilteredSeverities(filteredData);
-  };
+  }; 
   const handleCodeChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    index: number,
+    id: string,
   ) => {
     const updatedData = [...severities];
+    const index  = updatedData.findIndex(
+      (data) => data.ID === id);
     updatedData[index].Code = e.target.value;
     setseverities(updatedData);
     const dataApa = dataGlobal;
@@ -130,9 +133,11 @@ const Concequencess: React.FC = () => {
   };
   const handleDescriptionChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    index: number,
+    id: string,
   ) => {
     const updatedData = [...severities];
+    const index  = updatedData.findIndex(
+      (data) => data.ID === id);
     updatedData[index].RM_Description = e.target.value;
     setseverities(updatedData);
     const dataApa = dataGlobal;
@@ -141,9 +146,11 @@ const Concequencess: React.FC = () => {
   };
   const handleTMELChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    index: number,
+    id: string,
   ) => {
     const updatedData = [...severities];
+    const index  = updatedData.findIndex(
+      (data) => data.ID === id);
     updatedData[index].RM_Tmel = e.target.value;
     setseverities(updatedData);
     const dataApa = dataGlobal;
@@ -247,7 +254,7 @@ const Concequencess: React.FC = () => {
                           type="text"
                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none"
                           value={data.Code}
-                          onChange={(e) => handleCodeChange(e, index)}
+                          onChange={(e) => handleCodeChange(e, data.ID)}
                           onFocus={(e) => handleActiveRow(e, index)}
                         />
                       </td>
@@ -256,7 +263,7 @@ const Concequencess: React.FC = () => {
                           type="text"
                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none"
                           value={data.RM_Description}
-                          onChange={(e) => handleDescriptionChange(e, index)}
+                          onChange={(e) => handleDescriptionChange(e, data.ID)}
                           onFocus={(e) => handleActiveRow(e, index)}
                         />
                       </td>
@@ -265,7 +272,7 @@ const Concequencess: React.FC = () => {
                           type="text"
                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none"
                           value={data.RM_Tmel}
-                          onChange={(e) => handleTMELChange(e, index)}
+                          onChange={(e) => handleTMELChange(e, data.ID)}
                           onFocus={(e) => handleActiveRow(e, index)}
                         />
                       </td>

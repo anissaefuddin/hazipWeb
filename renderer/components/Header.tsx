@@ -1,6 +1,4 @@
 "use client";
-
-import Logo from "./Logo";
 import menu from "../config/menu.json";
 import Link from "next/link";
 import config from "../config/config.json";
@@ -24,7 +22,7 @@ export interface INavigationLink {
 const Header = () => {
   // distructuring the main menu from menu object
   const { main }: { main: INavigationLink[] } = menu;
-  const { navigation_button, settings } = config;
+  const {settings } = config;
   // get current path
   const pathname = usePathname();
 
@@ -35,9 +33,9 @@ const Header = () => {
   return (
     <header
       className={`header z-30 ${settings.sticky_header && "sticky top-0"}`}>
-      <div className="order-0">
+      {/* <div className="order-0">
         <Logo />
-      </div>
+      </div> */}
       <ul className="flex border-b">
         {main.map((menu, i) => (
           <li className="-mb-px mr-1" key={`menu-${i}`}>

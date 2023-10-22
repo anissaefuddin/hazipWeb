@@ -1,15 +1,14 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useDataGlobal } from "../model/DataGlobalContext";
 import { Likelihoods, Intersections, Severities } from "../model/classModel";
-import Link from "next/link";
 import Sidebar from "../components/Sidebar";
 const LikelihoodCategories: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const [likelihoods, setLikelihoods] = useState<Likelihoods[]>(dataGlobal.Risk_Criteria.Likelihoods,);
   const [intersections, setIntersections] = useState<Intersections[]>(dataGlobal.Risk_Criteria.Intersections,);
-  const [severities, setseverities] = useState<Severities[]>(dataGlobal.Risk_Criteria.Severities,);
+  const [severities] = useState<Severities[]>(dataGlobal.Risk_Criteria.Severities,);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {

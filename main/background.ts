@@ -1,16 +1,15 @@
 import path from 'path'
-import { app, ipcMain, Menu, MenuItem, BrowserWindow,dialog} from 'electron'
+import { app, ipcMain, Menu, dialog} from 'electron'
 import serve from 'electron-serve'
 import { createWindow } from './helpers'
 import { Check_List_Recommendations, DataGlobal, Drawings, Files, Lopa_Comments, Lopa_Recommendations, Nodes, Overview, Parking_Lot, Pha_Comments, Pha_Recommendations, Revalidation_History, Risk_Criteria, Safeguards, Sessions, Settings, Team_Members, Team_Members_Sessions } from './classModel';
-const fs = require('fs');
-let mainWindow;
+import fs from 'fs';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let dataGlobal = <DataGlobal>(
   new DataGlobal(new Overview(),new Settings(),[new Team_Members()], [new Sessions()], [new Team_Members_Sessions()], [new Revalidation_History()], [new Nodes()], [new Safeguards()], 
   [new Pha_Recommendations()],[new Pha_Comments()],[new Lopa_Recommendations()],[new Lopa_Comments()],[new Parking_Lot()], [new Drawings()], new Risk_Criteria(), [new Check_List_Recommendations()], [new Files()])
 );
 let pathFile = "";
-let nameFile = "";
 const isProd = process.env.NODE_ENV === 'production'
 
 if (isProd) {
@@ -49,14 +48,12 @@ if (isProd) {
                 if (err) {
                   console.error('Gagal membaca berkas JSON:', err);
                 } else {
-                  mainWindow.webContents.send('path-json-file', filePath);
                   mainWindow.webContents.send('open-json-file', data);
                   pathFile = filePath;
-                  nameFile = path.basename(filePath);
                   dialog.showMessageBox({
                     type: 'info',
                     title: 'Operasi Berhasil',
-                    message: 'Data berhasil dibuka!',
+                    message: ' Data berhasil dibuka!',
                     buttons: ['OK'],
                   }).then((response) => {
                     if (response.response === 0) {

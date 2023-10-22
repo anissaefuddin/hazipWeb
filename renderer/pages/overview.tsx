@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { useState, useEffect } from "react";
 import { useDataGlobal } from "../model/DataGlobalContext";
 import {
@@ -14,6 +15,7 @@ const Overviews: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const [overview, setOverview] = useState<Overview>(dataGlobal.Overview);
   const [columnVisibility, setColumnVisibility] = useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { main }: { main: INavigationLink[] } = menu;
   useEffect(() => {
     setColumnVisibility(dataGlobal.Settings.Column_Visibility);
@@ -113,14 +115,7 @@ const Overviews: React.FC = () => {
     dataApa.Overview = overview;
     updateDataGlobal(dataApa);
   };
-  const handleSubUnitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const updatedOverview = { ...overview };
-    updatedOverview.Sub__Unit = e.target.value;
-    setOverview(updatedOverview);
-    const dataApa = dataGlobal;
-    dataApa.Overview = overview;
-    updateDataGlobal(dataApa);
-  };
+
   const handleReportNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedOverview = { ...overview };
     updatedOverview.Report_Number = e.target.value;

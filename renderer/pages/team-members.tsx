@@ -1,7 +1,6 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
-import Link from "next/link"
 import { useDataGlobal } from '../model/DataGlobalContext';
 import { Team_Members ,Sessions,Team_Members_Sessions,Column_Visibility} from '../model/classModel';
 import Sidebar from "../components/Sidebar";
@@ -9,18 +8,15 @@ import {ButtonExportExcelTeamMember} from '../components/ExportJsonToExcel';
 
 const Teammember: React.FC  = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
-  const initialSessions: Sessions[] = dataGlobal.Sessions;
-  const initialTeamMembers: Team_Members[] = dataGlobal.Team_Members;
-  const initialAttendances: Team_Members_Sessions[] = dataGlobal.Team_Members_Sessions;
-  const [teamMembers, setTeamMembers] = useState<Team_Members[]>(initialTeamMembers);
-  const [sessions, setSessions] = useState<Sessions[]>(initialSessions);
-  const [columnVisibility, setColumnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
-  const [attendances, setAttendances] = useState<Team_Members_Sessions[]>(initialAttendances);
+  const [members, setMembers] = useState(dataGlobal.Team_Members);
+  const [sessions] = useState<Sessions[]>(dataGlobal.Sessions);
+  const [columnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
+  const [attendances, setAttendances] = useState<Team_Members_Sessions[]>(dataGlobal.Team_Members_Sessions);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {
     const newTeamMember = new Team_Members();
-    setTeamMembers([...teamMembers, newTeamMember]);
+    setMembers([...members, newTeamMember]);
     sessions.map((session) => {
       const newAttendance = {
         ID: uuidv4().toLowerCase().replace(/-/g, ""),
@@ -32,7 +28,7 @@ const Teammember: React.FC  = () => {
     });
     const dataApa = dataGlobal;
     dataApa.Team_Members_Sessions = attendances;
-    dataApa.Team_Members = teamMembers;
+    dataApa.Team_Members = members;
     updateDataGlobal(dataApa);
   };
   const handleCloseError = () => {
@@ -40,22 +36,25 @@ const Teammember: React.FC  = () => {
   };
   const handleRemoveActiveRow = () => {
     if (activeRow !== null) {
-      const tempID = teamMembers[activeRow].ID;
-      const updatedTeamMembers = [...teamMembers];
-      updatedTeamMembers.splice(activeRow, 1);
-      setTeamMembers(updatedTeamMembers);
+      const tempID = members[activeRow].ID;
+      const updatedMembers = [...members];
+      updatedMembers.splice(activeRow, 1);
       const updatedAttendances = [...attendances];
       attendances.map((data, index) => {
         if (tempID == data.Team_Member_ID) {
           updatedAttendances.splice(index, 1);
         }
       });
-      const dataApa = dataGlobal;
-      dataApa.Team_Members_Sessions = updatedAttendances;
-      dataApa.Team_Members = teamMembers;
-      updateDataGlobal(dataApa);
+      dataGlobal.Team_Members_Sessions = updatedAttendances;
+      dataGlobal.Team_Members = updatedMembers;
+      setMembers(updatedMembers);
+      updateDataGlobal(dataGlobal);
       setActiveRow(null);
       setShowError(false);
+      console.log(activeRow)
+      console.log(updatedMembers)
+      console.log(members)
+      console.log(dataGlobal.Team_Members)
     } else {
       setShowError(true);
     }
@@ -69,12 +68,12 @@ const Teammember: React.FC  = () => {
   const moveUp = () => {
     if (activeRow !== null) {
       if (activeRow > 0) {
-        const updatedTeamMembers = [...teamMembers];
-        const temp = updatedTeamMembers[activeRow];
-        updatedTeamMembers[activeRow] = updatedTeamMembers[activeRow - 1];
-        updatedTeamMembers[activeRow - 1] = temp;
-        setTeamMembers(updatedTeamMembers);
-        dataGlobal.Team_Members = teamMembers;
+        const updatedMembers = [...members];
+        const temp = updatedMembers[activeRow];
+        updatedMembers[activeRow] = updatedMembers[activeRow - 1];
+        updatedMembers[activeRow - 1] = temp;
+        setMembers(updatedMembers);
+        dataGlobal.Team_Members = members;
         setActiveRow(activeRow - 1);
         setShowError(false);
       }
@@ -85,13 +84,13 @@ const Teammember: React.FC  = () => {
 
   const moveDown = () => {
     if (activeRow !== null) {
-      if (activeRow < teamMembers.length - 1) {
-        const updatedTeamMembers = [...teamMembers];
-        const temp = updatedTeamMembers[activeRow];
-        updatedTeamMembers[activeRow] = updatedTeamMembers[activeRow + 1];
-        updatedTeamMembers[activeRow + 1] = temp;
-        setTeamMembers(updatedTeamMembers);
-        dataGlobal.Team_Members = teamMembers;
+      if (activeRow < members.length - 1) {
+        const updatedMembers = [...members];
+        const temp = updatedMembers[activeRow];
+        updatedMembers[activeRow] = updatedMembers[activeRow + 1];
+        updatedMembers[activeRow + 1] = temp;
+        setMembers(updatedMembers);
+        dataGlobal.Team_Members = members;
         setActiveRow(activeRow + 1);
         setShowError(false);
       }
@@ -103,100 +102,100 @@ const Teammember: React.FC  = () => {
     e: React.ChangeEvent<HTMLInputElement>,
     index: number,
   ) => {
-    const updatedTeamMembers = [...teamMembers];
+    const updatedMembers = [...members];
 
-    updatedTeamMembers[index].Name = e.target.value;
-    setTeamMembers(updatedTeamMembers);
+    updatedMembers[index].Name = e.target.value;
+    setMembers(updatedMembers);
     const dataApa = dataGlobal;
-    dataApa.Team_Members = teamMembers;
+    dataApa.Team_Members = members;
     updateDataGlobal(dataApa);
   };
   const handleCompanyChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number,
   ) => {
-    const updatedTeamMembers = [...teamMembers];
-    updatedTeamMembers[index].Company = e.target.value;
-    setTeamMembers(updatedTeamMembers);
+    const updatedMembers = [...members];
+    updatedMembers[index].Company = e.target.value;
+    setMembers(updatedMembers);
     const dataApa = dataGlobal;
-    dataApa.Team_Members = teamMembers;
+    dataApa.Team_Members = members;
     updateDataGlobal(dataApa);
   };
   const handleDepartementChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number,
   ) => {
-    const updatedTeamMembers = [...teamMembers];
-    updatedTeamMembers[index].Departement = e.target.value;
-    setTeamMembers(updatedTeamMembers);
+    const updatedMembers = [...members];
+    updatedMembers[index].Departement = e.target.value;
+    setMembers(updatedMembers);
     const dataApa = dataGlobal;
-    dataApa.Team_Members = teamMembers;
+    dataApa.Team_Members = members;
     updateDataGlobal(dataApa);
   };
   const handleTitleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number,
   ) => {
-    const updatedTeamMembers = [...teamMembers];
-    updatedTeamMembers[index].Title = e.target.value;
-    setTeamMembers(updatedTeamMembers);
+    const updatedMembers = [...members];
+    updatedMembers[index].Title = e.target.value;
+    setMembers(updatedMembers);
     const dataApa = dataGlobal;
-    dataApa.Team_Members = teamMembers;
+    dataApa.Team_Members = members;
     updateDataGlobal(dataApa);
   };
   const handleExpertiseChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number,
   ) => {
-    const updatedTeamMembers = [...teamMembers];
-    updatedTeamMembers[index].Expertise = e.target.value;
-    setTeamMembers(updatedTeamMembers);
+    const updatedMembers = [...members];
+    updatedMembers[index].Expertise = e.target.value;
+    setMembers(updatedMembers);
     const dataApa = dataGlobal;
-    dataApa.Team_Members = teamMembers;
+    dataApa.Team_Members = members;
     updateDataGlobal(dataApa);
   };
   const handleExperienceChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number,
   ) => {
-    const updatedTeamMembers = [...teamMembers];
-    updatedTeamMembers[index].Experience = e.target.value;
-    setTeamMembers(updatedTeamMembers);
+    const updatedMembers = [...members];
+    updatedMembers[index].Experience = e.target.value;
+    setMembers(updatedMembers);
     const dataApa = dataGlobal;
-    dataApa.Team_Members = teamMembers;
+    dataApa.Team_Members = members;
     updateDataGlobal(dataApa);
   };
   const handleEmailChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number,
   ) => {
-    const updatedTeamMembers = [...teamMembers];
-    updatedTeamMembers[index].E__Mail_Address = e.target.value;
-    setTeamMembers(updatedTeamMembers);
+    const updatedMembers = [...members];
+    updatedMembers[index].E__Mail_Address = e.target.value;
+    setMembers(updatedMembers);
     const dataApa = dataGlobal;
-    dataApa.Team_Members = teamMembers;
+    dataApa.Team_Members = members;
     updateDataGlobal(dataApa);
   };
   const handlePhoneChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number,
   ) => {
-    const updatedTeamMembers = [...teamMembers];
-    updatedTeamMembers[index].Phone_Number = e.target.value;
-    setTeamMembers(updatedTeamMembers);
+    const updatedMembers = [...members];
+    updatedMembers[index].Phone_Number = e.target.value;
+    setMembers(updatedMembers);
     const dataApa = dataGlobal;
-    dataApa.Team_Members = teamMembers;
+    dataApa.Team_Members = members;
     updateDataGlobal(dataApa);
   };
   const handleCommentChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number,
   ) => {
-    const updatedTeamMembers = [...teamMembers];
-    updatedTeamMembers[index].Team_Member_Comments = e.target.value;
-    setTeamMembers(updatedTeamMembers);
+    const updatedMembers = [...members];
+    updatedMembers[index].Team_Member_Comments = e.target.value;
+    setMembers(updatedMembers);
     const dataApa = dataGlobal;
-    dataApa.Team_Members = teamMembers;
+    dataApa.Team_Members = members;
     updateDataGlobal(dataApa);
   };
 
@@ -215,7 +214,7 @@ const Teammember: React.FC  = () => {
       <button className="hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center" onClick={handleRemoveActiveRow}><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16"><path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/></svg></button>
       <button className="hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center" onClick={moveUp}><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16"><path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z"/></svg></button>
       <button className="hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center" onClick={moveDown}><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16"><path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z"/></svg></button>
-      <ButtonExportExcelTeamMember DataJson={teamMembers} NameFile={"Export_TeamMember"} />
+      <ButtonExportExcelTeamMember DataJson={members} NameFile={"Export_TeamMember"} />
       {showError && <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
   <strong className="font-bold">Tidak ada row yang dipilih!</strong>
   <span className="block sm:inline"> Pilih Row terlebih dahulu</span>
@@ -238,7 +237,7 @@ const Teammember: React.FC  = () => {
           </tr>
         </thead>
         <tbody>
-          {teamMembers.map((member,index) => (
+          {members.map((member,index) => (
            <tr key={member.ID} className={activeRow === index ? 'active-row' : ''}>
             {columnVisibility?.Team_Members_Children.Name ? (
               <td className="border">

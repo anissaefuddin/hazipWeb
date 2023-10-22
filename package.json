@@ -1,9 +1,9 @@
 {
   "private": true,
-  "name": "my-nextron-app",
-  "description": "My application description",
-  "version": "1.0.0",
-  "author": "Yoshihide Shiono <shiono.yoshihide@gmail.com>",
+  "name": "LenHazid",
+  "description": "Support your reporting business",
+  "version": "0.0.1",
+  "author": "anissaefuddin@gmail.com>",
   "main": "app/background.js",
   "scripts": {
     "dev": "nextron",
@@ -24,9 +24,13 @@
   "devDependencies": {
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.26",
+    "@typescript-eslint/eslint-plugin": "^6.8.0",
+    "@typescript-eslint/parser": "^6.8.0",
     "autoprefixer": "^10.4.16",
     "electron": "^26.2.2",
     "electron-builder": "^24.6.4",
+    "eslint": "^8.52.0",
+    "eslint-plugin-react": "^7.33.2",
     "next": "^13.5.6",
     "nextron": "^8.12.0",
     "postcss": "^8.4.30",

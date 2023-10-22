@@ -1,15 +1,15 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { useDataGlobal } from "../model/DataGlobalContext";
-import {Sessions,Team_Members,Consequences,Safeguard_IDs,Nodes,Pha_Recommendation_IDs,Deviations,Causes,Column_Visibility} from "../model/classModel";
+import {Sessions,Consequences,Safeguard_IDs,Nodes,Pha_Recommendation_IDs,Deviations,Causes,Column_Visibility} from "../model/classModel";
 const NodesPage: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const initialSessions: Sessions[] = dataGlobal.Sessions;
   const initialNodes: Nodes[] = dataGlobal.Nodes;
-  const [sessions, setSessions] = useState<Sessions[]>(initialSessions);
+  const [sessions] = useState<Sessions[]>(initialSessions);
   const [nodes, setNodes] = useState<Nodes[]>(initialNodes);
   const [activeRow, setActiveRow] = useState<number | null>(null);
-  const [columnVisibility, setColumnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
+  const [columnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {
     const newNodes = new Nodes();
@@ -157,6 +157,7 @@ const NodesPage: React.FC = () => {
     data.Nodes = nodes;
     updateDataGlobal(data);
   };
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleDrawingChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number,

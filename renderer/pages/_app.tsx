@@ -1,6 +1,7 @@
 import React from "react";
 import type { AppProps } from "next/app";
 import "../styles/main.scss";
+import "../styles/style.css"
 import Layout from "./layout";
 import { DataGlobalProvider } from "../model/DataGlobalContext";
 

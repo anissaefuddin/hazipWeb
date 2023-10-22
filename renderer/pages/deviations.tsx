@@ -1,12 +1,12 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useDataGlobal } from "../model/DataGlobalContext";
-import { Sessions, Team_Members, Nodes, Deviations, Causes, Consequences, Safeguard_IDs, Pha_Recommendation_IDs, Column_Visibility} from "../model/classModel";
+import { Nodes, Deviations, Causes, Consequences, Safeguard_IDs, Pha_Recommendation_IDs, Column_Visibility} from "../model/classModel";
 const NodesPage: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const initialNodes: Nodes[] = dataGlobal.Nodes;
-  const [nodes, setNodes] = useState<Nodes[]>(initialNodes);
-  const [columnVisibility, setColumnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
+  const [nodes] = useState<Nodes[]>(initialNodes);
+  const [columnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
   const [selectedNode, setSelectedNode] = useState(
     nodes.length > 0 ? nodes[0] : null,
   );
@@ -192,7 +192,7 @@ const NodesPage: React.FC = () => {
       
         <div className="container">
           <div className="row">
-            <h1>Guide Word</h1>
+            <h3>Guide Word</h3>
             <div>
               <button
                 className="hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center"
@@ -244,7 +244,7 @@ const NodesPage: React.FC = () => {
               </div>
             )}{" "}
             {/* Pesan error */}
-            <div>
+            <div className="p-0 mb-1">
               <select
                 className=" bg-transparent w-full leading-tight focus:outline-none"
                 value={selectedNode?.ID}

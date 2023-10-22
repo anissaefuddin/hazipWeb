@@ -1,14 +1,12 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
+import React, { useState, useEffect } from "react";
 import { useDataGlobal } from "../model/DataGlobalContext";
-import { Sessions, Settings, Column_Headers } from "../model/classModel";
+import { Column_Headers } from "../model/classModel";
 import Sidebar from "../components/Sidebar";
 
 const Settingheader: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
-  const [settings, setSettings] = useState<Settings>(dataGlobal.Settings);
-  const [columnHeader, setColumnHeader] = useState<Column_Headers | null>(
+  const [columnHeader] = useState<Column_Headers | null>(
     dataGlobal.Settings.Column_Header,
   );
   const [studyName, setStudyName] = useState(
@@ -33,7 +31,8 @@ const Settingheader: React.FC = () => {
   );
   const [site, setSite] = useState(columnHeader?.Overview_Children.Site);
   const [plant, setPlant] = useState(columnHeader?.Overview_Children.Plant);
-  const [unitGroup, setUnitGroup] = useState(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [unitGroup,setUnitGroup] = useState(
     columnHeader?.Overview_Children.Unit__Group,
   );
   const [unit, setUnit] = useState(columnHeader?.Overview_Children.Unit);
@@ -163,14 +162,9 @@ const Settingheader: React.FC = () => {
     columnHeader?.Nodes_Children.Deviations_Children.Causes_Children
       .Cause_Hackable,
   );
-  const [frequency, setFrequency] = useState(
-    columnHeader?.Nodes_Children.Deviations_Children.Causes_Children.Frequency,
-  );
+
   //concequences child
-  const [consequences, setConsequences] = useState(
-    columnHeader?.Nodes_Children.Deviations_Children.Causes_Children
-      .Consequences_Children.Consequence,
-  );
+
   const [likelihoodIDBeforeSafeguards, setLikelihoodIDBeforeSafeguards] =
     useState(
       columnHeader?.Nodes_Children.Deviations_Children.Causes_Children
@@ -250,10 +244,7 @@ const Settingheader: React.FC = () => {
     columnHeader?.Nodes_Children.Deviations_Children.Causes_Children
       .Consequences_Children.Lopa_Risk_Rank_ID,
   );
-  const [conditionalModifiers, setConditionalModifiers] = useState(
-    columnHeader?.Nodes_Children.Deviations_Children.Causes_Children
-      .Consequences_Children.Conditional_Modifiers,
-  );
+
   const [safeguardIDs, setSafeguardIDs] = useState(
     columnHeader?.Nodes_Children.Deviations_Children.Causes_Children
       .Consequences_Children.Safeguard_IDs,
@@ -279,10 +270,6 @@ const Settingheader: React.FC = () => {
       .Consequences_Children.Scenario_Hackable,
   );
   //Conditional_Modifiers child
-  const [cMLibrary_Id, setCMLibraryId] = useState(
-    columnHeader?.Nodes_Children.Deviations_Children.Causes_Children
-      .Consequences_Children.Conditional_Modifiers_Children.CM_Library_Id,
-  );
   const [cMDescription, setCMDescription] = useState(
     columnHeader?.Nodes_Children.Deviations_Children.Causes_Children
       .Consequences_Children.Conditional_Modifiers_Children.CM_Description,
@@ -406,21 +393,7 @@ const Settingheader: React.FC = () => {
         .Check_List_Recommendation_Comments,
     );
   //parking_lot
-  const [parkingLotIssue, setParkingLotIssue] = useState(
-    columnHeader?.Parking_Lot_Children.Parking_Lot_Issue,
-  );
-  const [response, setResponse] = useState(
-    columnHeader?.Parking_Lot_Children.Response,
-  );
-  const [responsibleParty, setResponsibleParty] = useState(
-    columnHeader?.Parking_Lot_Children.Responsible_Party,
-  );
-  const [startDateParkingLot, setStartDateParkingLot] = useState(
-    columnHeader?.Parking_Lot_Children.Start_Date,
-  );
-  const [endDateParkingLot, setEndDateParkingLot] = useState(
-    columnHeader?.Parking_Lot_Children.End_Date,
-  );
+  
   //Drawings
   const [drawing, setDrawing] = useState(
     columnHeader?.Drawings_Children.Drawing,
@@ -436,9 +409,7 @@ const Settingheader: React.FC = () => {
   );
   const [link, setLink] = useState(columnHeader?.Drawings_Children.Link);
   //check list
-  const [checkListDescription, setCheckListDescription] = useState(
-    columnHeader?.Check_Lists_Children.Check_List_Description,
-  );
+  
   const [checkListComments, setCheckListComments] = useState(
     columnHeader?.Check_Lists_Children.Check_List_Comments,
   );
@@ -465,8 +436,7 @@ const Settingheader: React.FC = () => {
   );
 
   useEffect(() => {
-    if (columnHeader != null) {
-    }
+   
   });
   // Overview
   const handleChangeStudyName = (
@@ -974,16 +944,6 @@ const Settingheader: React.FC = () => {
     updateDataGlobal(data);
   };
   //concequences child
-  const handleChangeConsequences = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setConsequences(e.target.value);
-    const data = dataGlobal;
-    if (data.Settings.Column_Header != null)
-      data.Settings.Column_Header.Nodes_Children.Deviations_Children.Causes_Children.Consequences_Children.Consequence =
-        e.target.value;
-    updateDataGlobal(data);
-  };
   const handleChangeLikelihoodIDBeforeSafeguards = (
     e: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -1151,16 +1111,6 @@ const Settingheader: React.FC = () => {
     const data = dataGlobal;
     if (data.Settings.Column_Header != null)
       data.Settings.Column_Header.Nodes_Children.Deviations_Children.Causes_Children.Consequences_Children.Lopa_Risk_Rank_ID =
-        e.target.value;
-    updateDataGlobal(data);
-  };
-  const handleChangeConditionalModifiers = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setConditionalModifiers(e.target.value);
-    const data = dataGlobal;
-    if (data.Settings.Column_Header != null)
-      data.Settings.Column_Header.Nodes_Children.Deviations_Children.Causes_Children.Consequences_Children.Conditional_Modifiers =
         e.target.value;
     updateDataGlobal(data);
   };
@@ -1668,7 +1618,6 @@ const Settingheader: React.FC = () => {
   return (
     <>
       <div className="grid grid-cols-3"></div>
-      
         <div className="container">
           <div className="row">
             <div className="w-1/6">

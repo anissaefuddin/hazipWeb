@@ -1,16 +1,14 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { useDataGlobal } from "../model/DataGlobalContext";
 import { Pha_Recommendations, Team_Members,Column_Visibility } from "../model/classModel";
-import Link from "next/link";
 import Sidebar from "../components/Sidebar";
 
 const PhaRecommendation: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
-  const initialLopa_Recommendation: Pha_Recommendations[] =dataGlobal.Pha_Recommendations;
-  const [lopas, setLopa] = useState<Pha_Recommendations[]>(initialLopa_Recommendation,);
-  const [columnVisibility, setColumnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
-  const [members, setMembers] = useState<Team_Members[]>(dataGlobal.Team_Members,);
+  const [lopas, setLopa] = useState<Pha_Recommendations[]>(dataGlobal.Pha_Recommendations);
+  const [columnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
+  const [members] = useState<Team_Members[]>(dataGlobal.Team_Members,);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {
@@ -129,7 +127,6 @@ const PhaRecommendation: React.FC = () => {
   };
   return (
     <>
-      
         <div className="container">
           <div className="row">
             <div className="w-1/6">
@@ -318,7 +315,6 @@ const PhaRecommendation: React.FC = () => {
             </div>
           </div>
         </div>
-      
     </>
   );
 };

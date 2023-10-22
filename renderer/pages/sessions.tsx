@@ -1,6 +1,5 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
+import React, { useState} from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useDataGlobal } from "../model/DataGlobalContext";
 import {Sessions,Team_Members,Team_Members_Sessions,Column_Visibility} from "../model/classModel";
@@ -12,8 +11,8 @@ const Session: React.FC = () => {
   const initialAttendances: Team_Members_Sessions[] =dataGlobal.Team_Members_Sessions;
   const [attendances, setAttendances] =useState<Team_Members_Sessions[]>(initialAttendances);
   const [sessions, setSessions] = useState(dataGlobal.Sessions);
-  const [members, setMembers] = useState<Team_Members[]>(dataGlobal.Team_Members,);
-  const [columnVisibility, setColumnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
+  const [members] = useState<Team_Members[]>(dataGlobal.Team_Members,);
+  const [columnVisibility] =useState<Column_Visibility | null>(dataGlobal.Settings.Column_Visibility);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
   const handleAddRow = () => {
@@ -49,6 +48,7 @@ const Session: React.FC = () => {
       });
       dataGlobal.Sessions = updatedSessions;
       dataGlobal.Team_Members_Sessions = updatedAttendances;
+      setSessions(updatedSessions);
       updateDataGlobal(dataGlobal);
       setActiveRow(null);
       setShowError(false);

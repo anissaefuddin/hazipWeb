@@ -1,8 +1,7 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useDataGlobal } from "../model/DataGlobalContext";
 import {Likelihoods,Severities,Risk_Rankings,Intersections} from "../model/classModel";
-import Link from "next/link";
 import Sidebar from "../components/Sidebar";
 
 const Riskmatrics: React.FC = () => {
@@ -10,13 +9,13 @@ const Riskmatrics: React.FC = () => {
   const [intersections, setIntersections] = useState<Intersections[]>(
     dataGlobal.Risk_Criteria.Intersections,
   );
-  const [severities, setseverities] = useState<Severities[]>(
+  const [severities] = useState<Severities[]>(
     dataGlobal.Risk_Criteria.Severities,
   );
-  const [likelihoods, setLikelihoods] = useState<Likelihoods[]>(
+  const [likelihoods] = useState<Likelihoods[]>(
     dataGlobal.Risk_Criteria.Likelihoods,
   );
-  const [riskRankings, setriskRankings] = useState<Risk_Rankings[]>(
+  const [riskRankings] = useState<Risk_Rankings[]>(
     dataGlobal.Risk_Criteria.Risk_Rankings,
   );
   const [filteredSeveritys, setFilteredSeveritys] = useState(severities);
@@ -37,7 +36,6 @@ const Riskmatrics: React.FC = () => {
     likelihoodID: string,
     newValue: string,
   ) => {
-    // Update the attendanceData state based on user selection
     const updatedData = intersections.map((intersection) => {
       if (
         intersection.Severity_ID === severityID &&
@@ -48,6 +46,9 @@ const Riskmatrics: React.FC = () => {
       return intersection;
     });
     setIntersections(updatedData);
+    const data= dataGlobal;
+    data.Risk_Criteria.Intersections = updatedData;
+    updateDataGlobal(data);
   };
   const getBackgroundColor = (severityID: string, likelihoodID: string) => {
     const data = intersections.find(
@@ -62,7 +63,6 @@ const Riskmatrics: React.FC = () => {
   };
   return (
     <>
-      
         <div className="container">
           <div className="row">
             <div className="w-1/6">
@@ -86,13 +86,15 @@ const Riskmatrics: React.FC = () => {
                 </select>
               </div>
               <table className="table-auto">
+                <thead></thead>
+                <tbody>
                 {filteredSeveritys.map((severity, index) => (
                   <tr key={severity.ID}>
                     {index === 0 ? (
                       <td rowSpan={filteredSeveritys.length} className="rotate">
                         <b>Concequences</b>
                       </td>) : ("")}
-                    <td className="border">{severity.RM_Description}</td>
+                    <td className="border pl-3 pr-3">{severity.Code}</td>
                     {likelihoods.map((likelihood) => (
                       <td
                         key={likelihood.ID}
@@ -113,7 +115,7 @@ const Riskmatrics: React.FC = () => {
                               key={riskRangking.ID}
                               value={riskRangking.ID}
                             >
-                              {riskRangking.Priority}
+                              {riskRangking.Code}
                             </option>
                           ))}
                         </select>
@@ -125,8 +127,8 @@ const Riskmatrics: React.FC = () => {
                   <td></td>
                   <td></td>
                   {likelihoods.map((likelihood) => (
-                    <td key={likelihood.ID} className="border">
-                      {likelihood.RM_Description}
+                    <td key={likelihood.ID} className="border pt-2 pb-2 text-center">
+                      {likelihood.Code}
                     </td>
                   ))}
                 </tr>
@@ -137,11 +139,11 @@ const Riskmatrics: React.FC = () => {
                     <b>Likelihoods</b>
                   </td>
                 </tr>
+                </tbody>
               </table>
             </div>
           </div>
         </div>
-      
     </>
   );
 };

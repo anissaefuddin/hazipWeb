@@ -8,6 +8,7 @@ import {
 } from "../model/classModel";
 import axios from "axios";
 import Sidebar from "../components/Sidebar";
+import { ButtonExportExcelTeamMember } from "../components/ExportJsonToExcel";
 const Documentss: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const [drawings, setDrawings] = useState<Drawings[]>(dataGlobal.Drawings);
@@ -188,6 +189,10 @@ const Documentss: React.FC = () => {
                   <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
                 </svg>
               </button>
+              <ButtonExportExcelTeamMember
+              DataJson={drawings}
+              NameFile={"Export_Documents"}
+            />
               {showError && (
                 <div
                   className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert" >
@@ -210,11 +215,11 @@ const Documentss: React.FC = () => {
               <table className="table-auto">
                 <thead className="bg-slate-300">
                   <tr>
-                    {columnVisibility?.Drawings_Children.Drawing ? (<td className="border px-4 py-2">Drawing</td>) : null}
-                    {columnVisibility?.Drawings_Children.Revision ? (<td className="border px-4 py-2">Revision</td> ): null}
-                    {columnVisibility?.Drawings_Children.Document_Type ? (<td className="border px-4 py-2">Document Type</td> ): null}
-                    {columnVisibility?.Drawings_Children.Drawing_Description ? (<td className="border px-4 py-2">Description</td> ): null}
-                    {columnVisibility?.Drawings_Children.Link ? (<td className="border px-4 py-2">Link</td> ): null}
+                    {columnVisibility?.Drawings_Children.Drawing ? (<td className="border px-4 py-2 font-bold text-center">Drawing</td>) : null}
+                    {columnVisibility?.Drawings_Children.Revision ? (<td className="border px-4 py-2 font-bold text-center">Revision</td> ): null}
+                    {columnVisibility?.Drawings_Children.Document_Type ? (<td className="border px-4 py-2 font-bold text-center">Document Type</td> ): null}
+                    {columnVisibility?.Drawings_Children.Drawing_Description ? (<td className="border px-4 py-2 font-bold text-center">Description</td> ): null}
+                    {columnVisibility?.Drawings_Children.Link ? (<td className="border px-4 py-2 font-bold text-center">Link</td> ): null}
                   </tr>
                 </thead>
                 <tbody>

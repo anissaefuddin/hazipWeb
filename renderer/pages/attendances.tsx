@@ -7,6 +7,7 @@ import {
   Team_Members_Sessions,
 } from "../model/classModel";
 import Sidebar from "../components/Sidebar";
+import { ButtonExportExcelAttendances } from "../components/ExportJsonToExcel";
 const Attendances: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const initialSessions: Sessions[] = dataGlobal.Sessions;
@@ -47,18 +48,12 @@ const Attendances: React.FC = () => {
           </div>
           <div className="w-5/6">
             <h3>Attendances</h3>
-            <button className="hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="26"
-                height="26"
-                fill="currentColor"
-                className="bi bi-printer-fill"
-                viewBox="0 0 16 16">
-                <path d="M5 1a2 2 0 0 0-2 2v1h30V3a2 2 0 0 0-2-2H5zm6 8H5a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1z" />
-                <path d="M0 7a2 2 0 0 1 2-2h32a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2h-1v-2a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2H2a2 2 0 0 1-2-2V7zm2.5 1a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
-              </svg>
-            </button>
+            <ButtonExportExcelAttendances
+              DataJson={attendances}
+              DataMember={members}
+              DataSession={sessions}
+              NameFile={"Export_Attendances"}
+            />
             {members.length > 0 ? (
               <table className="table-auto">
                 <thead></thead>
@@ -66,7 +61,7 @@ const Attendances: React.FC = () => {
                   {members.map((teamMember, index) => (
                     <tr key={teamMember.ID}>
                       {index === 0 ? (
-                        <td rowSpan={members.length} className="rotate">
+                        <td rowSpan={members.length} className="rotate border p-0">
                           <b>Member</b>
                         </td>
                       ) : (
@@ -110,7 +105,7 @@ const Attendances: React.FC = () => {
                     ))}
                   </tr>
                   <tr>
-                    <td colSpan={2} className="border"></td>
+                    <td colSpan={2} className=""></td>
                     <td
                       colSpan={sessions.length + 1}
                       className="text-center border">

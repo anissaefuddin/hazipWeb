@@ -18,7 +18,6 @@ export class DataGlobal {
     public Risk_Criteria : Risk_Criteria,
     // public Check_Lists : Check_Lists[]=[],
     public Check_List_Recommendations : Check_List_Recommendations[]=[],
-    public Files : Files [] = []
   ) {}
 }
 
@@ -952,43 +951,6 @@ export class Drawings{
     public Document_Type 	: string = "",
     public Drawing_Description 	: string = "",
     public Link 	: string = ""
-  ){}
-}
-export class Files{
-  constructor(
-    public id : string = "",
-    public display_url : string = "",
-    public expiration : number = 0,
-    public height : number = 0,
-    public width : number = 0,
-    public delete_url : string = "",
-    public image : Images | null = null,
-    public size : number = 0,
-    public thumb : Thumb | null = null,
-    public time : number = 0,
-    public title : string = "",
-    public url : string = "",
-    public url_viewer : string = "",
-  ){}
-}
-export class Images{
-  constructor(
-    public extension : string = "",
-    public filename : string = "",
-    public expiration : number = 0,
-    public mime : string = "",
-    public name : string = "",
-    public url : string = "",
-  ){}
-}
-export class Thumb{
-  constructor(
-    public extension : string = "",
-    public filename : string = "",
-    public expiration : number = 0,
-    public mime : string = "",
-    public name : string = "",
-    public url : string = "",
   ){}
 }
 export class Intersections{

@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import Header from "../components/Header";
+
 import { useDataGlobal } from "../model/DataGlobalContext";
 
 // eslint-disable-next-line react/prop-types
@@ -11,10 +12,12 @@ const Layout = ({ children }) => {
     window.ipc.on("open-json-file", (data: string) => {
       const jsonData = JSON.parse(data);
       updateDataGlobal(jsonData);
-      window.ipc.send("save-data-json", dataGlobal);
+      window.ipc.send("save-data-json", dataGlobal);      
       setRefreshKey(refreshKey + 1);
     });
-
+    window.ipc.on("update-title", (data: string) => {
+      window.ipc.send("update-title", data);
+    });
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     window.ipc.on("save-json-file", (data: string) => {
       window.ipc.send("save-data", JSON.stringify(dataGlobal));
@@ -22,6 +25,10 @@ const Layout = ({ children }) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     window.ipc.on("save-as-json-file", (data: string) => {
       window.ipc.send("save-data", JSON.stringify(dataGlobal));
+    });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    window.ipc.on("export-json-file", (data: string) => {
+      window.ipc.send("export-data", JSON.stringify(dataGlobal));
     });
   });
   return (

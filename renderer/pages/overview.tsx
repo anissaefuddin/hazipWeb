@@ -327,7 +327,7 @@ const Overviews: React.FC = () => {
                 </div>
               </div>
             ) : null}
-            {columnVisibility?.Overview_Children.Facility_Owner ? (
+            {columnVisibility?.Overview_Children.Plant ? (
               <div className="flex mb-4">
                 <div className="w-1/4 h-12">
                   <label htmlFor="Plant" className="form-label">
@@ -338,7 +338,7 @@ const Overviews: React.FC = () => {
                   <input
                     id="Plant"
                     name="Plant"
-                    value={overview.Facility_Owner}
+                    value={overview.Plant}
                     onChange={(e) => handlePlantChange(e)}
                     className="form-input"
                     placeholder="Plant"

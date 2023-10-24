@@ -1,5 +1,5 @@
 "use client";
-import React, {  useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import { useDataGlobal } from "../model/DataGlobalContext";
 import { Column_Visibility, Drawings } from "../model/classModel";
@@ -127,24 +127,24 @@ const Documentss: React.FC = () => {
   };
   const handleOpenFile = (index: number) => {
     setActiveRow(index);
+    console.log(activeRow)
     window.ipc.send("open-and-save-file", index);
+    window.ipc.on("file-saved",(data: string) => {
+      const parts = data.split("__");
+      const updatedDrawings = [...drawings];
+      updatedDrawings[index].Link = parts[1];
+      setDrawings(updatedDrawings);
+      const dataApa = dataGlobal;
+      dataApa.Drawings = updatedDrawings;
+      updateDataGlobal(dataApa);
+    });
   };
   const handleOpenFileWindow = (filePath: string) => {
     window.ipc.send("open-file", filePath);
   };
-  useEffect(() => {
-    window.ipc.on("file-saved",(data: string) => {
-      const parts = data.split("__");
-      console.log(data)
-      const updatedDrawings = [...drawings];
-      const index = parseInt(parts[0], 10);
-      updatedDrawings[index].Link = parts[1];
-      setDrawings(updatedDrawings);
-      const dataApa = dataGlobal;
-      dataApa.Drawings = drawings;
-      updateDataGlobal(dataApa);
-    });
-  });
+  // useEffect(() => {
+    
+  // });
   return (
     <>
       <div className="container">

@@ -17,6 +17,7 @@
     "electron-log": "^4.4.8",
     "electron-serve": "^1.1.0",
     "electron-store": "^8.1.0",
+    "jszip": "^3.10.1",
     "sass": "^1.69.4",
     "tailwind-bootstrap-grid": "^5.0.1",
     "uuid": "^9.0.1",

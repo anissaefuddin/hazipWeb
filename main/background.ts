@@ -6,13 +6,13 @@ import log from 'electron-log';
 import { Check_List_Recommendations, DataGlobal, Drawings, Files, Lopa_Comments, Lopa_Recommendations, Nodes, Overview, Parking_Lot, Pha_Comments, Pha_Recommendations, Revalidation_History, Risk_Criteria, Safeguards, Sessions, Settings, Team_Members, Team_Members_Sessions } from './classModel';
 import initJson from './initialData.json'
 import fs from 'fs';
+import JSZip from 'jszip';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 let dataGlobal = <DataGlobal>(
   new DataGlobal(new Overview(),new Settings(),[new Team_Members()], [new Sessions()], [new Team_Members_Sessions()], [new Revalidation_History()], [new Nodes()], [new Safeguards()], 
   [new Pha_Recommendations()],[new Pha_Comments()],[new Lopa_Recommendations()],[new Lopa_Comments()],[new Parking_Lot()], [new Drawings()], new Risk_Criteria(), [new Check_List_Recommendations()], [new Files()])
 );
 let pathFile = "";
-let pathFileExport = "";
 const isProd = process.env.NODE_ENV === 'production'
 
 if (isProd) {
@@ -174,37 +174,6 @@ if (isProd) {
           type: 'separator' // Ini adalah garis pemisah
         },
         {
-          label: 'Export',
-          accelerator: process.platform === 'darwin' ? 'Cmd+E' : 'Ctrl+E',
-          click:() =>{
-            dialog.showSaveDialog(mainWindow, {
-              filters: [{ name: 'JSON Files', extensions: ['json'] }]
-            }).then(result => {
-              // console.log(result.filePath)
-              if(!result.canceled){
-                pathFileExport = result.filePath
-                mainWindow.webContents.send('export-json-file',pathFile);
-                dialog.showMessageBox({
-                  type: 'info',
-                  title: 'Operasi Berhasil',
-                  message: 'File already exported!',
-                  buttons: ['OK'],
-                }).then((response) => {
-                  if (response.response === 0) {
-                    console.log('Pengguna menekan tombol OK');
-                  }
-                });
-              }
-            }).catch(err => {
-              console.log(err)
-              log.error(err)
-            })
-          }
-        },
-        {
-          type: 'separator' // Ini adalah garis pemisah
-        },
-        {
           label: 'Exit',
           accelerator: process.platform === 'darwin' ? 'Cmd+Q' : 'Ctrl+Q',
           click: () => {
@@ -256,9 +225,7 @@ if (isProd) {
         }).then((response) => {
           if (response.response === 0) {
             console.log('Pengguna menekan tombol OK');
-            const combinedString = index.toString() + "__" + destinationFilePath;
-            event.reply('file-saved', combinedString);
-            mainWindow.webContents.send('save-link',dataGlobal);
+            event.reply('file-saved', destinationFilePath);
           }
         });
       } catch (error) {
@@ -268,7 +235,74 @@ if (isProd) {
       
     }
   });
-  
+  ipcMain.on('import-files',async () => {
+    const { filePaths } = await dialog.showOpenDialog({
+      filters: [{ name: 'Zip Files', extensions: ['zip'] }],
+    });
+    if (filePaths && filePaths.length > 0) {
+      const filePath = filePaths[0];
+      const zipData = await fs.promises.readFile(filePath);
+      const zip = new JSZip();
+     
+      // Memuat arsip ZIP
+      await zip.loadAsync(zipData);
+
+      // Ekstrak semua file dari arsip ZIP ke folder output
+      for (const [fileName, fileData] of Object.entries(zip.files)) {
+        if (!fileData.dir) {
+           // Menentukan direktori tujuan untuk menyimpan berkas
+          const destinationDirectory = app.getPath('userData');
+          const filePath = path.join(destinationDirectory, fileName);
+          const fileContent = await fileData.async('nodebuffer');
+          await fs.promises.writeFile(filePath, fileContent);
+          console.log('File berhasil diekstrak:', filePath);
+          dialog.showMessageBox({
+            type: 'info',
+            title: 'Operation success',
+            message: 'Files successfull imported at '+destinationDirectory,
+            buttons: ['OK'],
+          }).then((response) => {
+            if (response.response === 0) {
+              console.log('Pengguna menekan tombol OK');
+            }
+          });
+        }
+      }
+    }
+  });
+  ipcMain.on('export-files',async (event,dataDrawings) => {
+    const zip = new JSZip();
+    const drawings = <Drawings[]>dataDrawings;
+    for (const file of drawings) {
+      const fileName = path.basename(file.Link);
+      const fileData = await fs.promises.readFile(file.Link);
+      zip.file(fileName, fileData);
+    }
+
+    const zipData = await zip.generateAsync({ type: 'nodebuffer' });
+
+    // Menyimpan arsip ZIP ke lokasi yang diinginkan
+    const { filePath } = await dialog.showSaveDialog(mainWindow, {
+      title: 'Save Arsip ZIP',
+      defaultPath: 'archive.zip',
+      filters: [{ name: 'ZIP Files', extensions: ['zip'] }],
+    });
+
+    if (filePath) {
+      await fs.promises.writeFile(filePath, zipData);
+      console.log('Arsip ZIP berhasil dibuat:', filePath);
+      dialog.showMessageBox({
+        type: 'info',
+        title: 'Operation success',
+        message: 'Files successfull compressed at '+filePath,
+        buttons: ['OK'],
+      }).then((response) => {
+        if (response.response === 0) {
+          console.log('Pengguna menekan tombol OK');
+        }
+      });
+    }
+  });
 })()
 
 app.on('window-all-closed', () => {
@@ -293,7 +327,7 @@ ipcMain.on('open-file', async (event,filePath:string) => {
     dialog.showMessageBox({
       type: 'info',
       title: 'Warning',
-      message: 'File not found, please reupload the file or re import full files!',
+      message: 'File not found, please import full files from original source!',
       buttons: ['OK'],
     }).then((response) => {
       if (response.response === 0) {
@@ -304,29 +338,3 @@ ipcMain.on('open-file', async (event,filePath:string) => {
   }
   
 });
-
-ipcMain.on('export-data', (event, dataToSave) => {
-  const dataGlobals = <DataGlobal>JSON.parse(dataToSave);
-  if(dataGlobals.Drawings!==null){
-    console.log(dataGlobals.Drawings)
-    dataGlobals.Drawings.map((data) => {
-        if(data.Link != ""){
-          const pet = data.Link;
-          data.Link = convertFileToBase64(pet);
-        }
-    })
-  }
-  fs.writeFileSync(pathFileExport, JSON.stringify(dataGlobals), 'utf-8');
-});
-
-
-function convertFileToBase64(filePath) {
-  try {
-    const fileData = fs.readFileSync(filePath);
-    const base64Data = fileData.toString('base64');
-    return base64Data;
-  } catch (error) {
-    console.error('Gagal mengonversi file ke Base64:', error);
-    return null;
-  }
-}

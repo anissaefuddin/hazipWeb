@@ -645,28 +645,28 @@ const PhaWerksheet: React.FC = () => {
               <button
                 className="hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center"
                 onClick={handleAddRow} >
-                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-plus-circle-fill" viewBox="0 0 16 16" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-plus-circle-fill" viewBox="0 0 16 16" >
                   <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z" />
                 </svg>
               </button>
               <button
                 className=" hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center"
                 onClick={handleRemoveActiveRow} >
-                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash-fill" viewBox="0 0 16 16" >
                   <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h30a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                 </svg>
               </button>
               <button
                 className=" hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center"
                 onClick={moveUp} >
-                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16" >
                   <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h32a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z" />
                 </svg>
               </button>
               <button
                 className=" hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center"
                 onClick={moveDown} >
-                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16" >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16" >
                   <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h32a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
                 </svg>
               </button>
@@ -691,7 +691,7 @@ const PhaWerksheet: React.FC = () => {
               </div>
             )}{" "}
             {/* Pesan error */}
-            <div className="table-wrp block overflow-x-auto relative min-h-fit overflow-auto ">
+            <div className="table-wrp block overflow-x-auto relative overflow-auto" style={{minHeight:700}}>
               <table className="w-full h-max">
                 <thead className="bg-slate-300 sticky top-0">
                   <tr>
@@ -852,7 +852,7 @@ const PhaWerksheet: React.FC = () => {
                                     <tr key={concequence.ID}>
                                       <td
                                         className={"border align-top"}
-                                        height={getMaxRecommendationSafeguard(indexNode,indexDeviation,indexCause,indexConsequence,) * 13.125}>
+                                        height={13.125}>
                                         <select
                                           className="appearance-none bg-transparent border-none w-full h-full leading-tight focus:outline-none p-1"
                                           onChange={(e) => handleTypeConcequenceChange(e,indexNode,indexDeviation,indexCause,indexConsequence,)}>

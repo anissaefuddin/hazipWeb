@@ -199,6 +199,7 @@ if (isProd) {
 
   
   ipcMain.on('open-and-save-file', async (event,index) => {
+    console.log(index)
     const { filePaths } = await dialog.showOpenDialog(mainWindow, {
       properties: ['openFile'],
       filters: [{ name: 'All Files', extensions: ['*'] }, { name: 'Text Files', extensions: ['txt', 'text', 'docx', 'pdf'] }],

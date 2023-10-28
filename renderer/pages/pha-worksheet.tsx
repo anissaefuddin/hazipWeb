@@ -35,6 +35,11 @@ const PhaWerksheet: React.FC = () => {
         newNodes.Deviations = [new Deviations()];
         const updatedNodes = [...nodes];
         updatedNodes.splice(activeRow + 1, 0, newNodes);
+        updatedNodes[activeRow+1].Deviations[0] = new Deviations();
+        updatedNodes[activeRow+1].Deviations[0].Causes[0] = new Causes();
+        updatedNodes[activeRow+1].Deviations[0].Causes[0].Consequences[0] = new Consequences();
+        updatedNodes[activeRow+1].Deviations[0].Causes[0].Consequences[0].Safeguard_IDs = [new Safeguard_IDs()];
+        updatedNodes[activeRow+1].Deviations[0].Causes[0].Consequences[0].Pha_Recommendation_IDs = [new Pha_Recommendation_IDs()];
         setNode(updatedNodes);
         const data = dataGlobal;
         data.Nodes = updatedNodes;
@@ -48,6 +53,10 @@ const PhaWerksheet: React.FC = () => {
         const updatedDeviation = [...nodes[indexNode].Deviations];
         const updatedNodes = [...nodes];
         updatedDeviation.splice(indexDeviation + 1, 0, newData);
+        updatedDeviation[indexDeviation+1].Causes[0] = new Causes();
+        updatedDeviation[indexDeviation+1].Causes[0].Consequences[0] = new Consequences();
+        updatedDeviation[indexDeviation+1].Causes[0].Consequences[0].Safeguard_IDs = [new Safeguard_IDs()];
+        updatedDeviation[indexDeviation+1].Causes[0].Consequences[0].Pha_Recommendation_IDs = [new Pha_Recommendation_IDs()];
         updatedNodes[indexNode].Deviations = updatedDeviation;
         setNode(updatedNodes);
         const data = dataGlobal;
@@ -83,6 +92,8 @@ const PhaWerksheet: React.FC = () => {
         const updatedNodes = [...nodes];
         updatedConsequence.splice(indexConcequence + 1, 0, newData);
         updatedNodes[indexNode].Deviations[indexDeviation].Causes[indexCause].Consequences = updatedConsequence;
+        updatedNodes[indexNode].Deviations[indexDeviation].Causes[indexCause].Consequences[indexConcequence+1].Safeguard_IDs[0] = new Safeguard_IDs();
+        updatedNodes[indexNode].Deviations[indexDeviation].Causes[indexCause].Consequences[indexConcequence+1].Pha_Recommendation_IDs[0] = new Pha_Recommendation_IDs();
         setNode(updatedNodes);
         const data = dataGlobal;
         data.Nodes[indexNode].Deviations[indexDeviation].Causes[indexCause].Consequences = updatedConsequence;
@@ -207,21 +218,60 @@ const PhaWerksheet: React.FC = () => {
     setIndexNode(index);
     setActiveRowSelected("node");
   };
-  const countConcequencePerDeviation = (indexNod: number, indexDev: number) => {
-    let result = 0;
-    let countSafeguard = 0;
-    let countRecommendation = 0;
-    nodes[indexNod].Deviations[indexDev].Causes.map((cause) => {
-      cause.Consequences.map((concequence) => {
-        countSafeguard = countSafeguard + concequence.Safeguard_IDs.length;
-        countRecommendation = countRecommendation + concequence.Pha_Recommendation_IDs.length;
-      });
-    });
-    if (countSafeguard >= countRecommendation) result = countSafeguard;
-    else result = countRecommendation;
 
-    return result;
-  };
+  const getMaxSFRMPerConcequences = (sf : number, rm : number) => {
+    if(sf >= rm) {
+      return sf;
+    }else{
+      return rm;
+    }
+  }
+
+  const getBaseHeight = (indexNod : number, indexDev: number,indexCaus : number, indexConcequence : number,kondisi : string) => {
+    const a = nodes[indexNod].Deviations[indexDev].Causes[indexCaus].Consequences[indexConcequence].Safeguard_IDs.length;
+    const b = nodes[indexNod].Deviations[indexDev].Causes[indexCaus].Consequences[indexConcequence].Pha_Recommendation_IDs.length;
+    const based = 28.5;
+    console.log(a)
+    console.log(b)
+    console.log(based)
+    if(a > b){
+      if(kondisi=="a"){
+        return based;
+      }else{
+        return (based*a)/b;
+      }
+    }else if(b>a && kondisi=="b"){
+      return based*a;
+    }else if(b>a && kondisi=="a"){
+      return (based*b)/a;
+    }else{
+      return based;
+    }
+  }
+
+  const countAllSafeguardOrRecommendationPerDeviation = (indexNod : number, indexDev: number) => {
+    let sum=0;
+    nodes[indexNod].Deviations[indexDev].Causes.map((cause)=>{
+      cause.Consequences.map((concequence)=>{
+            sum = sum + getMaxSFRMPerConcequences(concequence.Safeguard_IDs.length,concequence.Pha_Recommendation_IDs.length);
+          })
+
+      })
+    return sum;
+  }
+  const countAllSafeguardOrRecommendationPerCauses= (indexNod : number, indexDev: number,indexCaus : number) => {
+    let sum=0;
+    nodes[indexNod].Deviations[indexDev].Causes[indexCaus].Consequences.map((concequence)=>{
+            sum = sum + getMaxSFRMPerConcequences(concequence.Safeguard_IDs.length,concequence.Pha_Recommendation_IDs.length);
+          })
+    return sum;
+  }
+  const countAllSafeguardOrRecommendationPerConceqence= (indexNod : number, indexDev: number,indexCaus : number, indexConcequence : number) => {
+    return getMaxSFRMPerConcequences(nodes[indexNod].Deviations[indexDev].Causes[indexCaus].Consequences[indexConcequence].Safeguard_IDs.length,
+      nodes[indexNod].Deviations[indexDev].Causes[indexCaus].Consequences[indexConcequence].Pha_Recommendation_IDs.length);
+  }
+
+
   const getMaxRecommendationSafeguard = (indexNod: number,indexDev: number,indexCau: number,indexCon: number,) => {
     let result = 0;
     const safeguard =nodes[indexNod].Deviations[indexDev].Causes[indexCau].Consequences[indexCon].Safeguard_IDs.length;
@@ -254,6 +304,19 @@ const PhaWerksheet: React.FC = () => {
     setActiveRowSelected("cause");
   };
   const handleActiveRowConsequence = (e: React.ChangeEvent<HTMLInputElement>,id: string,indexNode: number,indexDeviation: number,indexCause: number,indexConcequence: number,) => {
+    setActiveRow(null);
+    setIdDeviation("");
+    setIdCause("");
+    setIdConcequence(id);
+    setIdSafeguard("");
+    setIdRecommendation("");
+    setIndexNode(indexNode);
+    setIndexDeviation(indexDeviation);
+    setIndexCause(indexCause);
+    setIndexConcequence(indexConcequence);
+    setActiveRowSelected("consequence");
+  };
+  const handleActiveRowConsequenceta = (e: React.ChangeEvent<HTMLTextAreaElement>,id: string,indexNode: number,indexDeviation: number,indexCause: number,indexConcequence: number,) => {
     setActiveRow(null);
     setIdDeviation("");
     setIdCause("");
@@ -476,6 +539,19 @@ const PhaWerksheet: React.FC = () => {
       updateDataGlobal(datas);
     }
   };
+  const handleConcequenceCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>,nodeIndex: number,indexDeviation: number,indexCause: number,indexConsequence: number,) => {
+    const consequence =nodes[nodeIndex].Deviations[indexDeviation].Causes[indexCause].Consequences;
+    if (consequence !== undefined) {
+      const updatedConsequence = [...consequence];
+      const updatedNodes = [...nodes];
+      updatedConsequence[indexConsequence].Recommended_Sil = e.target.value;
+      updatedNodes[nodeIndex].Deviations[indexDeviation].Causes[indexCause].Consequences = updatedConsequence;
+      setNode(updatedNodes);
+      const datas = dataGlobal;
+      datas.Nodes = updatedNodes;
+      updateDataGlobal(datas);
+    }
+  };
   const handleTypeConcequenceChange = (e: React.ChangeEvent<HTMLSelectElement>,nodeIndex: number,indexDeviation: number,indexCause: number,indexConsequence: number,) => {
     const consequence =nodes[nodeIndex].Deviations[indexDeviation].Causes[indexCause].Consequences;
     if (consequence !== undefined) {
@@ -486,7 +562,10 @@ const PhaWerksheet: React.FC = () => {
       setNode(updatedNodes);
       const datas = dataGlobal;
       datas.Nodes = updatedNodes;
+      
+      // datas.Nodes[nodeIndex].Deviations[indexDeviation].Causes[indexCause].Consequences = updatedConsequence;
       updateDataGlobal(datas);
+      console.log(datas.Nodes)
     }
   };
   const handleSaverityChange = (e: React.ChangeEvent<HTMLSelectElement>,nodeIndex: number,indexDeviation: number,indexCause: number,indexConsequence: number,state: string,) => {
@@ -592,7 +671,7 @@ const PhaWerksheet: React.FC = () => {
       const updatedRecommendation = [...recommendation];
       const updatedNodes = [...nodes];
       updatedRecommendation[indexRecommendation].ID = e.target.value;
-      updatedNodes[nodeIndex].Deviations[indexDeviation].Causes[indexCause].Consequences[indexConsequence].Safeguard_IDs = updatedRecommendation;
+      updatedNodes[nodeIndex].Deviations[indexDeviation].Causes[indexCause].Consequences[indexConsequence].Pha_Recommendation_IDs = updatedRecommendation;
       setNode(updatedNodes);
       const datas = dataGlobal;
       datas.Nodes = updatedNodes;
@@ -635,7 +714,7 @@ const PhaWerksheet: React.FC = () => {
     const y = likelihoods.find(
       (likelihood)=> likelihood.ID==likelihoodID
     )?.Code;
-    return isNaN(parseFloat(x)*parseFloat(y)) ? '' : parseFloat(x)*parseFloat(y);
+    return isNaN(parseFloat(x)*parseFloat(y)) ? "" : parseFloat(x)*parseFloat(y);
   };
   return (
     <>
@@ -660,14 +739,14 @@ const PhaWerksheet: React.FC = () => {
                 className=" hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center"
                 onClick={moveUp} >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-up-square-fill" viewBox="0 0 16 16" >
-                  <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h32a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z" />
+                  <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h28a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z" />
                 </svg>
               </button>
               <button
                 className=" hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center"
                 onClick={moveDown} >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-down-square-fill" viewBox="0 0 16 16" >
-                  <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h32a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
+                  <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h28a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z" />
                 </svg>
               </button>
             </div>
@@ -732,12 +811,12 @@ const PhaWerksheet: React.FC = () => {
                       </td>
                       {/* GUIDE WORD CATEGORY */}
                       <td className="p-0 align-top">
-                        <table className="w-full">
+                        <table className="w-full h-full">
                           <tbody>
                           {node.Deviations.map((deviation, indexDeviation) => (
                             <tr key={deviation.ID} className={ idDeviation === deviation.ID ? "active-row" : "" } >
                               <td className={"border  align-top"}
-                                height={countConcequencePerDeviation(indexNode,indexDeviation,) * 13.125}>
+                                style={{height:countAllSafeguardOrRecommendationPerDeviation(indexNode,indexDeviation,) * 28.5}}>
                                 <input
                                   type="text"
                                   className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
@@ -754,21 +833,22 @@ const PhaWerksheet: React.FC = () => {
                       {/* GUIDE WORD */}
                       <td className="p-0 align-top">
                         <table className="w-full h-full">
-                          <tbody>
+                          <tbody> 
                           {node.Deviations.map((deviation, indexDeviation) => (
                             <tr key={deviation.ID} className={ idDeviation === deviation.ID ? "active-row" : "" } >
                               <td className={ "border-t border-b border-l  align-top " }
-                                height={ countConcequencePerDeviation( indexNode, indexDeviation, ) * 13.125 } >
+                                 style={{height:countAllSafeguardOrRecommendationPerDeviation(indexNode,indexDeviation,) * 28.5}}>
                                 {indexDeviation + 1}
                               </td>
                               <td className={"border-t border-b border-r  align-top "}
-                                height={countConcequencePerDeviation(indexNode,indexDeviation,) * 13.125}>
+                                 style={{height:countAllSafeguardOrRecommendationPerDeviation(indexNode,indexDeviation,) * 28.5}}>
                                 <input
                                   type="text"
                                   className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
                                   value={deviation.Guide_Word}
                                   onChange={(e) =>handleGuideWordChange(e,indexNode,indexDeviation,)}
-                                  onFocus={(e) =>handleActiveRowDeviation(e,deviation.ID,indexDeviation,indexNode,)} />
+                                  onFocus={(e) =>handleActiveRowDeviation(e,deviation.ID,indexDeviation,indexNode,)} 
+                                  title={""+countAllSafeguardOrRecommendationPerDeviation(indexNode,indexDeviation,)+""}/>
                               </td>
                             </tr>
                           ))}
@@ -777,29 +857,33 @@ const PhaWerksheet: React.FC = () => {
                       </td>
                       {/* POSSIBLE HAZARD */}
                       <td className="p-0 align-top">
+                      <table className="w-full h-full" >
+                          <tbody>
                         {node.Deviations.map((deviation, indexDeviation) => (
-                          <table className="w-full" key={deviation.ID}>
-                            <tbody>
+                          <React.Fragment key={deviation.ID}>
                             {deviation.Causes.map((cause, indexCause) => (
-                              <tr key={cause.ID} className={ idCause === cause.ID ? "active-row" : "" } >
+                              <tr key={cause.ID} className={ idCause === cause.ID ? "active-row" : "" }>
                                 <td className={ "border-t border-b border-l align-top" }
-                                  height={ countConcequencePerDeviation( indexNode, indexDeviation, ) * 13.125 } >
-                                  {indexDeviation + 1}.{indexCause + 1}
+                                  style={{height:countAllSafeguardOrRecommendationPerCauses( indexNode, indexDeviation, indexCause) *  28.5}} >
+                                  {indexDeviation + 1}.{indexCause + 1}  
                                 </td>
                                 <td className={ "border-t border-b border-r align-top" }
-                                  height={ countConcequencePerDeviation( indexNode, indexDeviation, ) * 13.125 } >
+                                  style={{height:countAllSafeguardOrRecommendationPerCauses( indexNode, indexDeviation, indexCause) *  28.5}} >
                                   <input
                                     type="text"
                                     className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
                                     value={cause.Cause}
                                     onChange={(e) =>handleCauseChange(e,indexNode,indexDeviation,indexCause,)}
-                                    onFocus={(e) =>handleActiveRowCause(e,cause.ID,indexDeviation,indexNode,indexCause,)}/>
+                                    onFocus={(e) =>handleActiveRowCause(e,cause.ID,indexDeviation,indexNode,indexCause,)}
+                                    title={""+countAllSafeguardOrRecommendationPerCauses( indexNode, indexDeviation,indexCause)+""}/>
                                 </td>
                               </tr>
                             ))}
-                            </tbody>
-                          </table>
+                            </React.Fragment>
                         ))}
+                        
+                        </tbody>
+                          </table>
                       </td>
                       {/* CONCEQUENCES */}
                       <td className="p-0 align-top">
@@ -810,18 +894,16 @@ const PhaWerksheet: React.FC = () => {
                               <React.Fragment key={cause.ID}>
                                 {cause.Consequences.map(
                                   (concequence, indexConsequence) => (
-                                    
-                                    <tr
-                                      key={concequence.ID}
+                                    <tr key={concequence.ID}
                                       className={idConcequence === concequence.ID? "active-row": ""}>
                                       <td
                                         className={"border-t border-b border-l align-top"}
-                                        height={getMaxRecommendationSafeguard(indexNode,indexDeviation,indexCause,indexConsequence,) * 13.125}>
+                                        style={{height:countAllSafeguardOrRecommendationPerConceqence(indexNode,indexDeviation,indexCause,indexConsequence,) * 28.5}}>
                                         {indexDeviation + 1}.{indexCause + 1}.{indexConsequence + 1}
                                       </td>
                                       <td
                                         className={"border-t border-b border-r  align-top"}
-                                        height={getMaxRecommendationSafeguard(indexNode,indexDeviation,indexCause,indexConsequence,) * 13.125}>
+                                        style={{height:countAllSafeguardOrRecommendationPerConceqence(indexNode,indexDeviation,indexCause,indexConsequence,) * 28.5}}>
                                         <input
                                           type="text"
                                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
@@ -842,21 +924,20 @@ const PhaWerksheet: React.FC = () => {
                       {/* CONCEQUENCES CATEGORY */}
                       <td className="p-0 align-top">
                         {node.Deviations.map((deviation, indexDeviation) => (
-                          <table className="w-full  h-full" key={deviation.ID}>
+                          <table className="w-full " key={deviation.ID}>
                             <tbody>
                             {deviation.Causes.map((cause, indexCause) => (
                               <React.Fragment key={cause.ID}>
                                 {cause.Consequences.map(
                                   (concequence, indexConsequence) => (
-                                    
                                     <tr key={concequence.ID}>
                                       <td
                                         className={"border align-top"}
-                                        height={13.125}>
+                                        style={{height:countAllSafeguardOrRecommendationPerConceqence(indexNode,indexDeviation,indexCause,indexConsequence,) * 28.5}}>
                                         <select
-                                          className="appearance-none bg-transparent border-none w-full h-full leading-tight focus:outline-none p-1"
+                                          className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
                                           onChange={(e) => handleTypeConcequenceChange(e,indexNode,indexDeviation,indexCause,indexConsequence,)}>
-                                          <option value=""></option>
+                                          <option value="">{""}</option>
                                           <option value="Safety">Safety</option>
                                           <option value="Asset">Asset</option>
                                           <option value="Environmental">Environmental</option>
@@ -882,16 +963,15 @@ const PhaWerksheet: React.FC = () => {
                               <React.Fragment key={cause.ID}>
                                 {cause.Consequences.map(
                                   (concequence, indexConsequence) => (
-                                    
                                     <tr key={concequence.ID}>
                                       <td
                                         className={"border align-top"}
-                                        height={getMaxRecommendationSafeguard(indexNode,indexDeviation,indexCause,indexConsequence,) * 13.125}>
+                                        style={{height:countAllSafeguardOrRecommendationPerConceqence(indexNode,indexDeviation,indexCause,indexConsequence,) * 28.5}}>
                                         <select
                                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
                                           onChange={(e) => handleSaverityChange( e, indexNode, indexDeviation, indexCause, indexConsequence, "before", ) }
-                                          value={ concequence?.Consequence_Severity_ID_Before_Safeguards || "" } >
-                                          <option value={""}></option>
+                                          >
+                                          <option value={""}>{""}</option>
                                           {severities .filter(
                                               (severity) => severity.Severity_Type === concequence.Consequence_Type_ID, )
                                             .map((severity) => (
@@ -911,24 +991,23 @@ const PhaWerksheet: React.FC = () => {
                       {/* LIKELY HOOD BEFORE */}
                       <td className="p-0 align-top">
                         {node.Deviations.map((deviation, indexDeviation) => (
-                          <table className="w-full  h-full" key={deviation.ID}>
+                          <table className="w-full" key={deviation.ID}>
                             <tbody>
                             {deviation.Causes.map((cause, indexCause) => (
                               <React.Fragment key={cause.ID}>
                                 {cause.Consequences.map(
                                   (concequence, indexConsequence) => (
-                                    
                                     <tr key={concequence.ID}>
                                       <td
                                         className={"border align-top"}
-                                        height={ getMaxRecommendationSafeguard( indexNode, indexDeviation, indexCause, indexConsequence, ) * 13.125 }
+                                        style={{height:countAllSafeguardOrRecommendationPerConceqence(indexNode,indexDeviation,indexCause,indexConsequence,) * 28.5}}
                                       >
                                         <select
                                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
                                           onChange={(e) =>
-                                           handleLikelyhoodChange(e, indexNode, indexDeviation, indexCause, indexConsequence, "before") }
-                                          value={ concequence?.Likelihood_ID_Before_Safeguards || "" } >
-                                          <option value={""}></option>
+                                           handleLikelyhoodChange(e, indexNode, indexDeviation, indexCause, indexConsequence, "before",) }
+                                           >
+                                          <option value={""}>{""}</option>
                                           {likelihoods.map((likelihood) => (
                                             <option key={likelihood.ID} value={likelihood.ID}>{likelihood.Code}</option>
                                           ))}
@@ -946,17 +1025,16 @@ const PhaWerksheet: React.FC = () => {
                       {/* RISK BEFORE SAFEGUARD */}
                       <td className="p-0 align-top">
                         {node.Deviations.map((deviation, indexDeviation) => (
-                          <table className="w-full h-full" key={deviation.ID}>
+                          <table className="w-full" key={deviation.ID}>
                             <tbody>
                             {deviation.Causes.map((cause, indexCause) => (
                               <React.Fragment key={cause.ID}>
                                 {cause.Consequences.map(
                                   (concequence, indexConsequence) => (
-                                    
                                     <tr key={concequence.ID}>
                                       <td
-                                        className={"border align-top text-center"}
-                                        height={getMaxRecommendationSafeguard(indexNode,indexDeviation,indexCause,indexConsequence,) * 13.125}
+                                        className="border align-top text-center p-1 pt-1"
+                                        height={getMaxRecommendationSafeguard(indexNode,indexDeviation,indexCause,indexConsequence,) * 28.5}
                                         style={{backgroundColor: getBackgroundColor(concequence.Consequence_Severity_ID_Before_Safeguards,concequence.Likelihood_ID_Before_Safeguards,),}}>
                                         {getValueCross(concequence.Consequence_Severity_ID_Before_Safeguards,concequence.Likelihood_ID_Before_Safeguards,)}
                                       </td>
@@ -974,7 +1052,7 @@ const PhaWerksheet: React.FC = () => {
                         {node.Deviations.map((deviation, indexDeviation) => (
                           <React.Fragment key={deviation.ID}>
                             {deviation.Causes.map((cause, indexCause) => (
-                              <table className="w-full  h-full" key={cause.ID}>
+                              <table className="w-full" key={cause.ID}>
                                 <tbody>
                                 {cause.Consequences.map(
                                   (concequence, indexConsequence) => (
@@ -983,17 +1061,18 @@ const PhaWerksheet: React.FC = () => {
                                         (safeguard, indexSafeguard) => (
                                           <tr
                                             key={safeguard.ID}
-                                            className={idSafeguard === safeguard.ID? "active-row": ""}>
-                                            <td className={"border align-top"}>
+                                            className={idSafeguard === safeguard.ID && safeguard.ID != ""? "active-row": ""}>
+                                            <td className={"border align-top"}
+                                            style={{height:getBaseHeight(indexNode,indexDeviation,indexCause,indexConsequence,"a")}}>
                                               <select
                                                 className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
                                                 onChange={(e) =>handleSafeguardChange(e,indexNode,indexDeviation,indexCause,indexConsequence,indexSafeguard,)}
                                                 value={safeguard?.ID || ""}
                                                 onFocus={() =>handleActiveRowSafeguard(safeguard.ID,indexNode,indexDeviation,indexCause,indexConsequence,indexSafeguard,)}>
-                                                <option value={""}></option>
+                                                <option value={"-"}></option>
                                                 {safeguards.map(
-                                                  ( dataSafeguard, indexDataSafeguard, ) => (
-                                                    <option key={dataSafeguard.ID} value={dataSafeguard.ID} > {indexDataSafeguard + 1}
+                                                  ( dataSafeguard) => (
+                                                    <option key={dataSafeguard.ID} value={dataSafeguard.ID} > {dataSafeguard.Safeguard}
                                                     </option>
                                                   ),
                                                 )}
@@ -1023,7 +1102,7 @@ const PhaWerksheet: React.FC = () => {
                                     <tr key={concequence.ID}>
                                       <td
                                         className={"border align-top"}
-                                        height={getMaxRecommendationSafeguard(indexNode,indexDeviation,indexCause,indexConsequence,) * 13.125}>
+                                        style={{height:countAllSafeguardOrRecommendationPerConceqence(indexNode,indexDeviation,indexCause,indexConsequence,) * 28.5}}>
                                         <select
                                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
                                           onChange={(e) => handleSaverityChange( e, indexNode, indexDeviation, indexCause, indexConsequence, "on", ) }
@@ -1058,7 +1137,7 @@ const PhaWerksheet: React.FC = () => {
                                     <tr key={concequence.ID}>
                                       <td
                                         className={"border align-top"}
-                                        height={getMaxRecommendationSafeguard(indexNode,indexDeviation,indexCause,indexConsequence,) * 13.125}>
+                                        style={{height:countAllSafeguardOrRecommendationPerConceqence(indexNode,indexDeviation,indexCause,indexConsequence,) * 28.5}}>
                                         <select
                                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
                                           onChange={(e) => handleLikelyhoodChange( e, indexNode, indexDeviation, indexCause, indexConsequence, "on", ) } value={concequence.Likelihood_ID} >
@@ -1081,7 +1160,7 @@ const PhaWerksheet: React.FC = () => {
                       {/* INITIAL RISK	 */}
                       <td className="p-0 align-top">
                         {node.Deviations.map((deviation, indexDeviation) => (
-                          <table className="w-full h-full" key={deviation.ID}>
+                          <table className="w-full" key={deviation.ID}>
                             <tbody>
                             {deviation.Causes.map((cause, indexCause) => (
                               <React.Fragment key={cause.ID}>
@@ -1089,9 +1168,8 @@ const PhaWerksheet: React.FC = () => {
                                   (concequence, indexConsequence) => (
                                     <tr key={concequence.ID}>
                                       <td
-                                        className={"border align-top  text-center"}
-                                        height={getMaxRecommendationSafeguard(indexNode,indexDeviation,indexCause,indexConsequence,) * 13.125}
-                                        style={{backgroundColor: getBackgroundColor(concequence.Consequence_Severity_ID,concequence.Likelihood_ID,),}}>
+                                        className={"border align-top  text-center  p-1 pt-1"}
+                                        style={{backgroundColor: getBackgroundColor(concequence.Consequence_Severity_ID,concequence.Likelihood_ID,),height:countAllSafeguardOrRecommendationPerConceqence(indexNode,indexDeviation,indexCause,indexConsequence,) * 28.5}}>
                                         {getValueCross(concequence.Consequence_Severity_ID,concequence.Likelihood_ID,)}
                                       </td>
                                     </tr>
@@ -1114,9 +1192,11 @@ const PhaWerksheet: React.FC = () => {
                                   (concequence, indexConsequence) => (
                                     <React.Fragment key={concequence.ID}>
                                       {concequence.Pha_Recommendation_IDs.map((recommendation,indexRecommendation,) => (
-                                          <tr key={recommendation.ID} className={ idSafeguard === recommendation.ID ? "active-row" : "" }
+                                          <tr key={recommendation.ID} className={ idRecommendation === recommendation.ID && recommendation.ID != "" ? "active-row" : "" }
                                           >
-                                            <td className={"border"}>
+                                            <td className={"border"}
+                                            style={{height:getBaseHeight(indexNode,indexDeviation,indexCause,indexConsequence,"b")}}
+                                            >
                                               <select
                                                 className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
                                                 onChange={(e) =>handleRecommendationChange(e,indexNode,indexDeviation,indexCause,indexConsequence,indexRecommendation,)}
@@ -1157,9 +1237,10 @@ const PhaWerksheet: React.FC = () => {
                                   (concequence, indexConsequence) => (
                                     <React.Fragment key={concequence.ID}>
                                       {concequence.Pha_Recommendation_IDs.map((recommendation,indexRecommendation,) => (
-                                          <tr key={recommendation.ID} className={ idSafeguard === recommendation.ID ? "active-row" : "" }
+                                          <tr key={recommendation.ID} className={ idSafeguard === recommendation.ID && recommendation.ID != ""? "active-row" : "" }
                                           >
-                                            <td className={"border"}>
+                                            <td className={"border"}
+                                            style={{height:getBaseHeight(indexNode,indexDeviation,indexCause,indexConsequence,"b")}}>
                                               <select
                                                 className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
                                                 onChange={(e) =>handleActionPartyChange(e,indexNode,indexDeviation,indexCause,indexConsequence,indexRecommendation,recommendation.ID)}
@@ -1199,9 +1280,10 @@ const PhaWerksheet: React.FC = () => {
                                   (concequence, indexConsequence) => (
                                     <React.Fragment key={concequence.ID}>
                                       {concequence.Pha_Recommendation_IDs.map((recommendation,indexRecommendation,) => (
-                                          <tr key={recommendation.ID} className={ idSafeguard === recommendation.ID ? "active-row" : "" }
+                                          <tr key={recommendation.ID} className={ idSafeguard === recommendation.ID && recommendation.ID != "" ? "active-row" : "" }
                                           >
-                                            <td className={"border"}>
+                                            <td className={"border"}
+                                            style={{height:getBaseHeight(indexNode,indexDeviation,indexCause,indexConsequence,"b")}}>
                                               <select
                                                 className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
                                                 onChange={(e) =>handleStatusChange(e,indexNode,indexDeviation,indexCause,indexConsequence,indexRecommendation,recommendation.ID)}
@@ -1242,7 +1324,7 @@ const PhaWerksheet: React.FC = () => {
                                     <tr key={concequence.ID}>
                                       <td
                                         className={"border align-top"}
-                                        height={getMaxRecommendationSafeguard(indexNode,indexDeviation,indexCause,indexConsequence,) * 13.125}>
+                                        style={{height:countAllSafeguardOrRecommendationPerConceqence(indexNode,indexDeviation,indexCause,indexConsequence,) * 28.5}}>
                                         <select
                                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
                                           onChange={(e) => handleSaverityChange(e,indexNode,indexDeviation,indexCause,indexConsequence,"after",)}
@@ -1277,7 +1359,7 @@ const PhaWerksheet: React.FC = () => {
                                     <tr key={concequence.ID}>
                                       <td
                                         className={"border align-top"}
-                                        height={getMaxRecommendationSafeguard(indexNode,indexDeviation,indexCause,indexConsequence,) * 13.125}>
+                                        style={{height:countAllSafeguardOrRecommendationPerConceqence(indexNode,indexDeviation,indexCause,indexConsequence,) * 28.5}}>
                                         <select className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
                                           onChange={(e) => handleLikelyhoodChange( e, indexNode, indexDeviation, indexCause, indexConsequence, "after", ) }
                                           value={concequence?.Likelihood_ID_After_Recommendations || ""}>
@@ -1301,7 +1383,7 @@ const PhaWerksheet: React.FC = () => {
                       {/* Residual RISK	 */}
                       <td className="p-0 align-top">
                         {node.Deviations.map((deviation, indexDeviation) => (
-                          <table className="w-full h-full" key={deviation.ID}>
+                          <table className="w-full" key={deviation.ID}>
                             <tbody>
                             {deviation.Causes.map((cause, indexCause) => (
                               <React.Fragment key={cause.ID}>
@@ -1309,9 +1391,8 @@ const PhaWerksheet: React.FC = () => {
                                   (concequence, indexConsequence) => (
                                     <tr key={concequence.ID}>
                                       <td
-                                        className={"border  text-center"}
-                                        height={getMaxRecommendationSafeguard(indexNode,indexDeviation,indexCause,indexConsequence,) * 13.125}
-                                        style={{backgroundColor: getBackgroundColor(concequence.Consequence_Severity_ID_After_Recommendations,concequence.Likelihood_ID_After_Recommendations,),}}>
+                                        className={"border  text-center p-1 pt-1"}
+                                        style={{backgroundColor: getBackgroundColor(concequence.Consequence_Severity_ID_After_Recommendations,concequence.Likelihood_ID_After_Recommendations,),height:countAllSafeguardOrRecommendationPerConceqence(indexNode,indexDeviation,indexCause,indexConsequence,) * 28.5}}>
                                         {getValueCross(concequence.Consequence_Severity_ID_After_Recommendations,concequence.Likelihood_ID_After_Recommendations,)}
                                       </td>
                                     </tr>
@@ -1324,7 +1405,34 @@ const PhaWerksheet: React.FC = () => {
                         ))}
                       </td>
                       {/* REMARKS	 */}
-                      <td className="p-0 align-top"></td>
+                      <td className="p-0 align-top">
+                      {node.Deviations.map((deviation, indexDeviation) => (
+                          <table className="w-full " key={deviation.ID}>
+                            <tbody>
+                            {deviation.Causes.map((cause, indexCause) => (
+                              <React.Fragment key={cause.ID}>
+                                {cause.Consequences.map(
+                                  (concequence, indexConsequence) => (
+                                    <tr key={concequence.ID}>
+                                      <td
+                                        className={"border align-top"}
+                                        style={{height:countAllSafeguardOrRecommendationPerConceqence(indexNode,indexDeviation,indexCause,indexConsequence,) * 28.5}}>
+                                        <textarea
+                                          className="appearance-none bg-transparent border-none p-0 w-full h-full leading-tight focus:outline-none text-sm"
+                                          value={concequence.Recommended_Sil}
+                                          onChange={(e) => handleConcequenceCommentChange(e, indexNode, indexDeviation, indexCause, indexConsequence)}
+                                          onFocus={(e) => handleActiveRowConsequenceta(e, concequence.ID, indexNode, indexDeviation, indexCause, indexConsequence)}
+                                        />
+                                      </td>
+                                    </tr>
+                                  ),
+                                )}
+                              </React.Fragment>
+                            ))}
+                            </tbody>
+                          </table>
+                        ))}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

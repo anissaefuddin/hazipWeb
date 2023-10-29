@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { useDataGlobal } from "../model/DataGlobalContext";
 import { Safeguards } from "../model/classModel";
+import { v4 as uuidv4 } from 'uuid';
 const SageguardsPage: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const [safeguards, setSafeguards] = useState<Safeguards[]>(dataGlobal.Safeguards,);
@@ -76,42 +77,82 @@ const SageguardsPage: React.FC = () => {
   ) => {
     const updatedSafeguard = [...safeguards];
     updatedSafeguard[index].Safeguard = e.target.value;
-    setSafeguards(updatedSafeguard);
-    const data = dataGlobal;
-    data.Safeguards = safeguards;
-    updateDataGlobal(data);
+    if(updatedSafeguard[index].ID ==""){
+      updatedSafeguard[index].ID = uuidv4().toLowerCase().replace(/-/g, '');
+      setSafeguards(updatedSafeguard);
+      const data = dataGlobal;
+      data.Safeguards = safeguards;
+      updateDataGlobal(data);
+    }else{
+      setSafeguards(updatedSafeguard);
+      const data = dataGlobal;
+      data.Safeguards = safeguards;
+      updateDataGlobal(data);
+    }
   };
   const handleIndependentChange = (value: string, index: number) => {
     const updatedSafeguard = [...safeguards];
     updatedSafeguard[index].Safeguard_Independent = value;
-    setSafeguards(updatedSafeguard);
-    const data = dataGlobal;
-    data.Safeguards = safeguards;
-    updateDataGlobal(data);
+    if(updatedSafeguard[index].ID ==""){
+      updatedSafeguard[index].ID = uuidv4().toLowerCase().replace(/-/g, '');
+      setSafeguards(updatedSafeguard);
+      const data = dataGlobal;
+      data.Safeguards = safeguards;
+      updateDataGlobal(data);
+    }else{
+      setSafeguards(updatedSafeguard);
+      const data = dataGlobal;
+      data.Safeguards = safeguards;
+      updateDataGlobal(data);
+    }
   };
   const handleAuditableChange = (value: string, index: number) => {
     const updatedSafeguard = [...safeguards];
     updatedSafeguard[index].Safeguard_Auditable = value;
-    setSafeguards(updatedSafeguard);
-    const data = dataGlobal;
-    data.Safeguards = safeguards;
-    updateDataGlobal(data);
+    if(updatedSafeguard[index].ID ==""){
+      updatedSafeguard[index].ID = uuidv4().toLowerCase().replace(/-/g, '');
+      setSafeguards(updatedSafeguard);
+      const data = dataGlobal;
+      data.Safeguards = safeguards;
+      updateDataGlobal(data);
+    }else{
+      setSafeguards(updatedSafeguard);
+      const data = dataGlobal;
+      data.Safeguards = safeguards;
+      updateDataGlobal(data);
+    }
   };
   const handleEffectiveChange = (value: string, index: number) => {
     const updatedSafeguard = [...safeguards];
     updatedSafeguard[index].Safeguard_Effective = value;
-    setSafeguards(updatedSafeguard);
-    const data = dataGlobal;
-    data.Safeguards = safeguards;
-    updateDataGlobal(data);
+    if(updatedSafeguard[index].ID ==""){
+      updatedSafeguard[index].ID = uuidv4().toLowerCase().replace(/-/g, '');
+      setSafeguards(updatedSafeguard);
+      const data = dataGlobal;
+      data.Safeguards = safeguards;
+      updateDataGlobal(data);
+    }else{
+      setSafeguards(updatedSafeguard);
+      const data = dataGlobal;
+      data.Safeguards = safeguards;
+      updateDataGlobal(data);
+    }
   };
   const handleIPLChange = (value: string, index: number) => {
     const updatedSafeguard = [...safeguards];
     updatedSafeguard[index].Is_Ipl = value;
-    setSafeguards(updatedSafeguard);
-    const data = dataGlobal;
-    data.Safeguards = safeguards;
-    updateDataGlobal(data);
+    if(updatedSafeguard[index].ID ==""){
+      updatedSafeguard[index].ID = uuidv4().toLowerCase().replace(/-/g, '');
+      setSafeguards(updatedSafeguard);
+      const data = dataGlobal;
+      data.Safeguards = safeguards;
+      updateDataGlobal(data);
+    }else{
+      setSafeguards(updatedSafeguard);
+      const data = dataGlobal;
+      data.Safeguards = safeguards;
+      updateDataGlobal(data);
+    }
   };
   const handleSaIPLCreditChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -119,10 +160,18 @@ const SageguardsPage: React.FC = () => {
   ) => {
     const updatedSafeguard = [...safeguards];
     updatedSafeguard[index].Ipl_Credit = e.target.value;
-    setSafeguards(updatedSafeguard);
-    const data = dataGlobal;
-    data.Safeguards = safeguards;
-    updateDataGlobal(data);
+    if(updatedSafeguard[index].ID ==""){
+      updatedSafeguard[index].ID = uuidv4().toLowerCase().replace(/-/g, '');
+      setSafeguards(updatedSafeguard);
+      const data = dataGlobal;
+      data.Safeguards = safeguards;
+      updateDataGlobal(data);
+    }else{
+      setSafeguards(updatedSafeguard);
+      const data = dataGlobal;
+      data.Safeguards = safeguards;
+      updateDataGlobal(data);
+    }
   };
 
   return (

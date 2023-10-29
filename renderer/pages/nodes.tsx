@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useDataGlobal } from "../model/DataGlobalContext";
 import {Sessions,Consequences,Safeguard_IDs,Nodes,Pha_Recommendation_IDs,Deviations,Causes,Column_Visibility} from "../model/classModel";
 import { ButtonExportExcelNode } from "../components/ExportJsonToExcel";
+import { v4 as uuidv4 } from 'uuid';
 const NodesPage: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const initialSessions: Sessions[] = dataGlobal.Sessions;
@@ -15,8 +16,10 @@ const NodesPage: React.FC = () => {
   const handleAddRow = () => {
     const newNodes = new Nodes();
     newNodes.Deviations = [new Deviations()];
+    newNodes.Deviations[0].ID = uuidv4().toLowerCase().replace(/-/g, '');
     newNodes.Deviations[0].Causes = [new Causes()];
     newNodes.Deviations[0].Causes[0].Consequences = [new Consequences()];
+    newNodes.Deviations[0].Causes[0].Consequences[0].ID = uuidv4().toLowerCase().replace(/-/g, '');
     newNodes.Deviations[0].Causes[0].Consequences[0].Safeguard_IDs = [
       new Safeguard_IDs(),
     ];

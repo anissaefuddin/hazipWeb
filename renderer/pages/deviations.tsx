@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useDataGlobal } from "../model/DataGlobalContext";
 import { Nodes, Deviations, Causes, Consequences, Safeguard_IDs, Pha_Recommendation_IDs, Column_Visibility} from "../model/classModel";
 import { ButtonExportExcelDeviation } from "../components/ExportJsonToExcel";
+import { v4 as uuidv4 } from 'uuid';
 const NodesPage: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const initialNodes: Nodes[] = dataGlobal.Nodes;
@@ -26,7 +27,9 @@ const NodesPage: React.FC = () => {
     if (deviation !== undefined) {
       const newDeviation = new Deviations();
       newDeviation.Causes = [new Causes()];
+      newDeviation.Causes[0].ID = uuidv4().toLowerCase().replace(/-/g, '');
       newDeviation.Causes[0].Consequences = [new Consequences()];
+      newDeviation.Causes[0].Consequences[0].ID = uuidv4().toLowerCase().replace(/-/g, '');
       newDeviation.Causes[0].Consequences[0].Safeguard_IDs = [
         new Safeguard_IDs(),
       ];

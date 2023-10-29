@@ -3,6 +3,7 @@ import React, { useState, } from "react";
 import { useDataGlobal } from "../model/DataGlobalContext";
 import { Lopa_Recommendations,Column_Visibility } from "../model/classModel";
 import Sidebar from "../components/Sidebar";
+import { v4 as uuidv4 } from 'uuid';
 
 const LopaRecommendation: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
@@ -84,18 +85,36 @@ const LopaRecommendation: React.FC = () => {
   ) => {
     const updatedData = [...lopas];
     updatedData[index].Lopa_Recommendation = e.target.value;
-    setLopa(updatedData);
-    const dataApa = dataGlobal;
-    dataApa.Lopa_Recommendations = lopas;
-    updateDataGlobal(dataApa);
+    if(updatedData[index].ID =="")
+    {
+      updatedData[index].ID = uuidv4().toLowerCase().replace(/-/g, '');
+      setLopa(updatedData);
+      const dataApa = dataGlobal;
+      dataApa.Lopa_Recommendations = lopas;
+      updateDataGlobal(dataApa);
+    }else{
+      setLopa(updatedData);
+      const dataApa = dataGlobal;
+      dataApa.Lopa_Recommendations = lopas;
+      updateDataGlobal(dataApa);
+    }
   };
   const handlePriorityChange = (e: string, index: number) => {
     const updatedData = [...lopas];
     updatedData[index].Lopa_Recommendation_Priority = e;
-    setLopa(updatedData);
-    const dataApa = dataGlobal;
-    dataApa.Lopa_Recommendations = lopas;
-    updateDataGlobal(dataApa);
+    if(updatedData[index].ID =="")
+    {
+      updatedData[index].ID = uuidv4().toLowerCase().replace(/-/g, '');
+      setLopa(updatedData);
+      const dataApa = dataGlobal;
+      dataApa.Lopa_Recommendations = lopas;
+      updateDataGlobal(dataApa);
+    }else{
+      setLopa(updatedData);
+      const dataApa = dataGlobal;
+      dataApa.Lopa_Recommendations = lopas;
+      updateDataGlobal(dataApa);
+    }
   };
   const handlePartyChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -103,18 +122,36 @@ const LopaRecommendation: React.FC = () => {
   ) => {
     const updatedData = [...lopas];
     updatedData[index].Lopa_Recommendation_Responsible_Party = e.target.value;
-    setLopa(updatedData);
-    const dataApa = dataGlobal;
-    dataApa.Lopa_Recommendations = lopas;
-    updateDataGlobal(dataApa);
+    if(updatedData[index].ID =="")
+    {
+      updatedData[index].ID = uuidv4().toLowerCase().replace(/-/g, '');
+      setLopa(updatedData);
+      const dataApa = dataGlobal;
+      dataApa.Lopa_Recommendations = lopas;
+      updateDataGlobal(dataApa);
+    }else{
+      setLopa(updatedData);
+      const dataApa = dataGlobal;
+      dataApa.Lopa_Recommendations = lopas;
+      updateDataGlobal(dataApa);
+    }
   };
   const handleStatusChange = (e: string, index: number) => {
     const updatedData = [...lopas];
     updatedData[index].Lopa_Recommendation_Status = e;
-    setLopa(updatedData);
-    const dataApa = dataGlobal;
-    dataApa.Lopa_Recommendations = lopas;
-    updateDataGlobal(dataApa);
+    if(updatedData[index].ID =="")
+    {
+      updatedData[index].ID = uuidv4().toLowerCase().replace(/-/g, '');
+      setLopa(updatedData);
+      const dataApa = dataGlobal;
+      dataApa.Lopa_Recommendations = lopas;
+      updateDataGlobal(dataApa);
+    }else{
+      setLopa(updatedData);
+      const dataApa = dataGlobal;
+      dataApa.Lopa_Recommendations = lopas;
+      updateDataGlobal(dataApa);
+    }
   };
 
   const handleCommentChange = (
@@ -123,10 +160,19 @@ const LopaRecommendation: React.FC = () => {
   ) => {
     const updatedData = [...lopas];
     updatedData[index].Lopa_Recommendation_Comments = e.target.value;
-    setLopa(updatedData);
-    const dataApa = dataGlobal;
-    dataApa.Lopa_Recommendations = lopas;
-    updateDataGlobal(dataApa);
+    if(updatedData[index].ID =="")
+    {
+      updatedData[index].ID = uuidv4().toLowerCase().replace(/-/g, '');
+      setLopa(updatedData);
+      const dataApa = dataGlobal;
+      dataApa.Lopa_Recommendations = lopas;
+      updateDataGlobal(dataApa);
+    }else{
+      setLopa(updatedData);
+      const dataApa = dataGlobal;
+      dataApa.Lopa_Recommendations = lopas;
+      updateDataGlobal(dataApa);
+    }
   };
 
   return (

@@ -127,11 +127,11 @@ const Documentss: React.FC = () => {
   };
   const handleOpenFile = (index: number) => {
     setActiveRow(index);
-    console.log(activeRow)
+    const updatedDrawings = JSON.parse(JSON.stringify(drawings));
     window.ipc.send("open-and-save-file", index);
     window.ipc.on("file-saved",(data: string) => {
-      const updatedDrawings = [...drawings];
       updatedDrawings[index].Link = data;
+      updatedDrawings[index].Document_Type = path.extname(data);
       setDrawings(updatedDrawings);
       const dataApa = dataGlobal;
       dataApa.Drawings = updatedDrawings;

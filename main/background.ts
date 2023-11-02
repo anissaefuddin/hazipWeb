@@ -215,9 +215,9 @@ if (isProd) {
 
       try {
         // Membaca isi berkas sumber
-        const fileContent = fs.readFileSync(sourceFilePath, 'utf-8');
+        const fileContent = fs.readFileSync(sourceFilePath, 'binary');
         // Menyimpan isi berkas ke berkas tujuan
-        fs.writeFileSync(destinationFilePath, fileContent);
+        fs.writeFileSync(destinationFilePath, fileContent,'binary');
         dialog.showMessageBox({
           type: 'info',
           title: 'Operation success',

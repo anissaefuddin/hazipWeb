@@ -2,7 +2,7 @@
   "private": true,
   "name": "lenhazid",
   "description": "Support your reporting business",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "anissaefuddin@gmail.com>",
   "main": "app/background.js",
   "scripts": {

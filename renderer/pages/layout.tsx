@@ -34,7 +34,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Header />
-      <main className="pl-2 pr-2" key={refreshKey}>{children}</main>
+      <main className="pl-2 pr-2 pt-5" key={refreshKey}>{children}</main>
     </>
   );
 };

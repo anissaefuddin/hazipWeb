@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import { useDataGlobal } from "../model/DataGlobalContext";
 import { Pha_Recommendations, Nodes, Deviations, Causes, Consequences, Safeguard_IDs, Intersections, Severities, Risk_Rankings, Likelihoods, Safeguards, Pha_Recommendation_IDs, Team_Members } from "../model/classModel";
 import { v4 as uuidv4 } from 'uuid';
+import SafeguardDropdown from "../components/SafeguardDropdown";
+import RecommendationDropdown from "../components/RecommendationDropdown";
 const PhaWerksheet: React.FC = () => {
   const { dataGlobal, updateDataGlobal } = useDataGlobal();
   const [nodes, setNode] = useState<Nodes[]>(dataGlobal.Nodes);
@@ -647,25 +649,28 @@ const PhaWerksheet: React.FC = () => {
       updateDataGlobal(datas);
     }
   };
-  const handleSafeguardChange = (e: React.ChangeEvent<HTMLSelectElement>,nodeIndex: number,indexDeviation: number,indexCause: number,indexConsequence: number,indexSafeguard: number,) => {
+
+  const handleSafeguardChange = (e: string,nodeIndex: number,indexDeviation: number,indexCause: number,indexConsequence: number,indexSafeguard: number,) => {
     const safeguard =nodes[nodeIndex].Deviations[indexDeviation].Causes[indexCause].Consequences[indexConsequence].Safeguard_IDs;
+    const datas = dataGlobal;
     if (safeguard !== undefined) {
       const updatedSafeguard = [...safeguard];
       const updatedNodes = [...nodes];
-      updatedSafeguard[indexSafeguard].ID = e.target.value;
+      updatedSafeguard[indexSafeguard].ID = e;
       updatedNodes[nodeIndex].Deviations[indexDeviation].Causes[indexCause].Consequences[indexConsequence].Safeguard_IDs = updatedSafeguard;
       setNode(updatedNodes);
-      const datas = dataGlobal;
+      
       datas.Nodes = updatedNodes;
       updateDataGlobal(datas);
     }
   };
-  const handleRecommendationChange = (e: React.ChangeEvent<HTMLSelectElement>,nodeIndex: number,indexDeviation: number,indexCause: number,indexConsequence: number,indexRecommendation: number,) => {
+
+  const handleRecommendationChange = (e: string,nodeIndex: number,indexDeviation: number,indexCause: number,indexConsequence: number,indexRecommendation: number,) => {
     const recommendation =nodes[nodeIndex].Deviations[indexDeviation].Causes[indexCause].Consequences[indexConsequence].Pha_Recommendation_IDs;
     if (recommendation !== undefined) {
       const updatedRecommendation = [...recommendation];
       const updatedNodes = [...nodes];
-      updatedRecommendation[indexRecommendation].ID = e.target.value;
+      updatedRecommendation[indexRecommendation].ID = e;
       updatedNodes[nodeIndex].Deviations[indexDeviation].Causes[indexCause].Consequences[indexConsequence].Pha_Recommendation_IDs = updatedRecommendation;
       setNode(updatedNodes);
       const datas = dataGlobal;
@@ -711,6 +716,7 @@ const PhaWerksheet: React.FC = () => {
     )?.Code;
     return isNaN(parseFloat(x)*parseFloat(y)) ? "" : parseFloat(x)*parseFloat(y);
   };
+ 
   return (
     <>
         <div className="container">
@@ -765,7 +771,7 @@ const PhaWerksheet: React.FC = () => {
               </div>
             )}{" "}
             {/* Pesan error */}
-            <div className="table-wrp block overflow-x-auto relative overflow-auto" style={{minHeight:700}}>
+            <div className="table-wrp block overflow-x-auto relative overflow-auto" style={{minHeight:550}}>
               <table className="w-full h-max">
                 <thead className="bg-slate-300 sticky top-0">
                   <tr>
@@ -1058,23 +1064,19 @@ const PhaWerksheet: React.FC = () => {
                                       {concequence.Safeguard_IDs.map(
                                         (safeguard, indexSafeguard) => (
                                           <tr
-                                            key={safeguard.ID}
+                                            key={indexSafeguard}
                                             className={idSafeguard === safeguard.ID && safeguard.ID != ""? "active-row": ""}>
                                             <td className={"border align-top  text-sm "}
                                             style={{height:getBaseHeight(indexNode,indexDeviation,indexCause,indexConsequence,"a")}}>
-                                              <select
-                                                className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
-                                                onChange={(e) =>handleSafeguardChange(e,indexNode,indexDeviation,indexCause,indexConsequence,indexSafeguard,)}
-                                                value={safeguard?.ID || ""}
-                                                onFocus={() =>handleActiveRowSafeguard(safeguard.ID,indexNode,indexDeviation,indexCause,indexConsequence,indexSafeguard,)}>
-                                                <option value={"-"}></option>
-                                                {safeguards.map(
-                                                  ( dataSafeguard) => (
-                                                    <option key={dataSafeguard.ID} value={dataSafeguard.ID} > {dataSafeguard.Safeguard}
-                                                    </option>
-                                                  ),
-                                                )}
-                                              </select>
+                                              <SafeguardDropdown dataSafeguards={safeguards} 
+                                              dataValue={safeguard.ID}
+                                              handleActiveRowSafeguard={() =>handleActiveRowSafeguard(safeguard.ID,indexNode,indexDeviation,indexCause,indexConsequence,indexSafeguard,)} 
+                                              handleSafeguardChange={(e) =>handleSafeguardChange(e,indexNode,indexDeviation,indexCause,indexConsequence,indexSafeguard,)} 
+                                              indexNode={indexNode}
+                                              indexDeviation={indexDeviation}
+                                              indexCause={indexCause}
+                                              indexConsequence={indexConsequence}
+                                              indexSafeguard={indexSafeguard}/>
                                             </td>
                                           </tr>
                                         ),
@@ -1195,22 +1197,15 @@ const PhaWerksheet: React.FC = () => {
                                             <td className={"border align-top"}
                                             style={{height:getBaseHeight(indexNode,indexDeviation,indexCause,indexConsequence,"b")}}
                                             >
-                                              <select
-                                                className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
-                                                onChange={(e) =>handleRecommendationChange(e,indexNode,indexDeviation,indexCause,indexConsequence,indexRecommendation,)}
-                                                value={recommendation.ID} 
-                                                onFocus={() =>handleActiveRowRecommendation(recommendation.ID,indexNode,indexDeviation,indexCause,indexConsequence,indexRecommendation,)}>
-                                                <option value={""}></option>
-                                                {recommendations.map(
-                                                  (dataRecommendation,indexDataRecommendation,) => (
-                                                    <option
-                                                      key={dataRecommendation.ID}
-                                                      value={dataRecommendation?.ID || ""}
-                                                    >{indexDataRecommendation +1}-{dataRecommendation.Pha_Recommendation}
-                                                    </option>
-                                                  ),
-                                                )}
-                                              </select>
+                                              <RecommendationDropdown recommendations={recommendations} 
+                                              dataValue={recommendation.ID}
+                                              handleActiveRowRecommendation={() =>handleActiveRowRecommendation(recommendation.ID,indexNode,indexDeviation,indexCause,indexConsequence,indexRecommendation,)} 
+                                              handleRecommendationChange={(e) =>handleRecommendationChange(e,indexNode,indexDeviation,indexCause,indexConsequence,indexRecommendation,)} 
+                                              indexNode={indexNode}
+                                              indexDeviation={indexDeviation}
+                                              indexCause={indexCause}
+                                              indexConsequence={indexConsequence}
+                                              indexRecommendation={indexRecommendation}/>
                                             </td>
                                           </tr>
                                         ),

@@ -99,7 +99,7 @@ const Riskmatrics: React.FC = () => {
                       <td
                         key={likelihood.ID}
                         className="border px-2 py-2"
-                        style={{backgroundColor: getBackgroundColor(severity.ID,likelihood.ID,),}}>
+                        style={{backgroundColor: getBackgroundColor(severity.ID,likelihood.ID,),height:60,width:60}}>
                         <select
                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none"
                           value={

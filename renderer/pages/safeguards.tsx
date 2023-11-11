@@ -8,6 +8,7 @@ const SageguardsPage: React.FC = () => {
   const [safeguards, setSafeguards] = useState<Safeguards[]>(dataGlobal.Safeguards,);
   const [activeRow, setActiveRow] = useState<number | null>(null);
   const [showError, setShowError] = useState(false);
+
   const handleAddRow = () => {
     const newData = new Safeguards();
     setSafeguards([...safeguards, newData]);
@@ -24,7 +25,7 @@ const SageguardsPage: React.FC = () => {
       updatedSafeguard.splice(activeRow, 1);
       setSafeguards(updatedSafeguard);
       const data = dataGlobal;
-      data.Safeguards = safeguards;
+      data.Safeguards = updatedSafeguard;
       updateDataGlobal(data);
       setActiveRow(null);
       setShowError(false);
@@ -173,6 +174,26 @@ const SageguardsPage: React.FC = () => {
       updateDataGlobal(data);
     }
   };
+  
+  const getIndexValues = (id : string) => {
+    const data = dataGlobal;
+    let str = "";
+    data.Nodes.map((node, indexNode) => {
+      node.Deviations.map((deviation, indexDeviation)=>{
+        deviation.Causes.map((cause, indexCause) => {
+          cause.Consequences.map((concequence, indexConsequence) => {
+            for (let i = 0; i < concequence.Safeguard_IDs.length; i++) {
+              if(concequence.Safeguard_IDs[i].ID == id && id != ""){
+                str = "" +(indexNode + 1)+"."+(indexDeviation + 1)+"."+(indexCause + 1)+"."+(indexConsequence + 1)+"."+(i + 1);
+                break;
+              }
+            }
+          })
+        })
+      })
+    })
+    return str;
+  };
 
   return (
     <>
@@ -313,7 +334,7 @@ const SageguardsPage: React.FC = () => {
                         onFocus={(e) => handleActiveRow(e, index)}
                       />
                     </td>
-                    <td className="border px-4 py-2"></td>
+                    <td className="border px-4 py-2"><u>{getIndexValues(data.Safeguard)}</u></td>
                   </tr>
                 ))}
               </tbody>

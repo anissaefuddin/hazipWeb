@@ -27,7 +27,7 @@ const PhaRecommendation: React.FC = () => {
       updatedData.splice(activeRow, 1);
       setLopa(updatedData);
       const dataApa = dataGlobal;
-      dataApa.Pha_Recommendations = lopas;
+      dataApa.Pha_Recommendations = updatedData;
       updateDataGlobal(dataApa);
       setActiveRow(null);
       setShowError(false);
@@ -125,6 +125,26 @@ const PhaRecommendation: React.FC = () => {
     dataApa.Pha_Recommendations = lopas;
     updateDataGlobal(dataApa);
   };
+  const getIndexValues = (id: string) => {
+    const data = dataGlobal;
+    let str = "";
+    data.Nodes.map((node, indexNode) => {
+      node.Deviations.map((deviation, indexDeviation)=>{
+        deviation.Causes.map((cause, indexCause) => {
+          cause.Consequences.map((concequence, indexConsequence) => {
+            for (let i = 0; i < concequence.Pha_Recommendation_IDs.length; i++) {
+              if(concequence.Pha_Recommendation_IDs[i].ID == id && id!= ""){
+                console.log("" +(indexNode + 1)+"."+(indexDeviation + 1)+"."+(indexCause + 1)+"."+(indexConsequence + 1)+"."+(i + 1))
+                str = "" +(indexNode + 1)+"."+(indexDeviation + 1)+"."+(indexCause + 1)+"."+(indexConsequence + 1)+"."+(i + 1);
+                break;
+              }
+            }
+          })
+        })
+      })
+    })
+    return str;
+  };
   return (
     <>
         <div className="container">
@@ -192,28 +212,21 @@ const PhaRecommendation: React.FC = () => {
                 <thead className="bg-slate-300">
                   <tr>
                     {columnVisibility?.Pha_Recommendations_Children.Pha_Recommendation ? (
-                    <td className="border px-4 py-2 text-center" colSpan={2} rowSpan={2} >Recommendation</td>
+                    <td className="border px-4 py-2 text-center" colSpan={2}  >Recommendation</td>
                     ) : null}
                     {columnVisibility?.Pha_Recommendations_Children.Pha_Recommendation_Priority ? (
-                    <td className="border px-4 py-2 text-center" rowSpan={2}>Priority</td>
+                    <td className="border px-4 py-2 text-center" >Priority</td>
                     ) : null}
                     {columnVisibility?.Pha_Recommendations_Children.Pha_Recommendation_Responsible_Party ? (
-                    <td className="border px-4 py-2 text-center" rowSpan={2}>Responsible Party</td>
+                    <td className="border px-4 py-2 text-center" >Responsible Party</td>
                     ) : null}
                     {columnVisibility?.Pha_Recommendations_Children.Pha_Recommendation_Status ? (
-                    <td className="border px-4 py-2 text-center" rowSpan={2}>Status</td>
+                    <td className="border px-4 py-2 text-center" >Status</td>
                     ) : null}
                     {columnVisibility?.Pha_Recommendations_Children.Pha_Recommendation_Comments ? (
-                    <td className="border px-4 py-2 text-center" rowSpan={2}>Comments</td>
+                    <td className="border px-4 py-2 text-center" >Comments</td>
                     ) : null}
-                    <td className="border px-4 py-2 text-center" colSpan={5}>Referenced Location</td>
-                  </tr>
-                  <tr>
-                    <td className="border px-4 py-2 text-center">Reference</td>
-                    <td className="border px-4 py-2 text-center">CAT</td>
-                    <td className="border px-4 py-2 text-center">S</td>
-                    <td className="border px-4 py-2 text-center">LOPA RR</td>
-                    <td className="border px-4 py-2 text-center">LOPA GAP</td>
+                    <td className="border px-4 py-2 text-center" >Referenced</td>
                   </tr>
                 </thead>
                 <tbody>
@@ -303,11 +316,7 @@ const PhaRecommendation: React.FC = () => {
                         />
                       </td>
                       ) : null}
-                      <td className="border"></td>
-                      <td className="border"></td>
-                      <td className="border"></td>
-                      <td className="border"></td>
-                      <td className="border"></td>
+                      <td className="border"><u>{getIndexValues(data.Pha_Recommendation)}</u></td>
                     </tr>
                   ))}
                 </tbody>

@@ -245,28 +245,21 @@ const LopaRecommendation: React.FC = () => {
                 <thead className="bg-slate-300">
                   <tr>
                   {columnVisibility?.Lopa_Recommendations_Children.Lopa_Recommendation ? (
-                  <td className="border px-4 py-2 text-center" colSpan={2} rowSpan={2} >Recommendation</td>
+                  <td className="border px-4 py-2 text-center" colSpan={2}  >Recommendation</td>
                   ) : null}
                   {columnVisibility?.Lopa_Recommendations_Children.Lopa_Recommendation_Priority ? (
-                    <td className="border px-4 py-2 text-center" rowSpan={2}>Priority</td>
+                    <td className="border px-4 py-2 text-center" >Priority</td>
                     ) : null}
                     {columnVisibility?.Lopa_Recommendations_Children.Lopa_Recommendation_Responsible_Party ? (
-                    <td className="border px-4 py-2 text-center" rowSpan={2}>Responsible Party</td>
+                    <td className="border px-4 py-2 text-center">Responsible Party</td>
                     ) : null}
                     {columnVisibility?.Lopa_Recommendations_Children.Lopa_Recommendation_Status ? (
-                    <td className="border px-4 py-2 text-center" rowSpan={2}>Status</td>
+                    <td className="border px-4 py-2 text-center">Status</td>
                     ) : null}
                     {columnVisibility?.Lopa_Recommendations_Children.Lopa_Recommendation_Comments ? (  
-                    <td className="border px-4 py-2 text-center" rowSpan={2}>Comments</td>
+                    <td className="border px-4 py-2 text-center">Comments</td>
                     ) : null}
-                    <td className="border px-4 py-2 text-center" colSpan={5}>Referenced Location</td>
-                  </tr>
-                  <tr>
-                    <td className="border px-4 py-2 text-center">Reference</td>
-                    <td className="border px-4 py-2 text-center">CAT</td>
-                    <td className="border px-4 py-2 text-center">S</td>
-                    <td className="border px-4 py-2 text-center">LOPA RR</td>
-                    <td className="border px-4 py-2 text-center">LOPA GAP</td>
+                    <td className="border px-4 py-2 text-center" >Referenced</td>
                   </tr>
                 </thead>
                 <tbody>
@@ -345,10 +338,6 @@ const LopaRecommendation: React.FC = () => {
                         />
                       </td>
                     ) : null}
-                      <td className="border"></td>
-                      <td className="border"></td>
-                      <td className="border"></td>
-                      <td className="border"></td>
                       <td className="border"></td>
                     </tr>
                   ))}

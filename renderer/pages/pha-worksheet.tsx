@@ -716,6 +716,10 @@ const PhaWerksheet: React.FC = () => {
     )?.Code;
     return isNaN(parseFloat(x)*parseFloat(y)) ? "" : parseFloat(x)*parseFloat(y);
   };
+  const getSafeguardName = (id: string) => {
+    const index = safeguards.findIndex((data) => data.Safeguard === id);
+    return safeguards[index].ID;
+  }
  
   return (
     <>
@@ -1068,6 +1072,7 @@ const PhaWerksheet: React.FC = () => {
                                             className={idSafeguard === safeguard.ID && safeguard.ID != ""? "active-row": ""}>
                                             <td className={"border align-top  text-sm "}
                                             style={{height:getBaseHeight(indexNode,indexDeviation,indexCause,indexConsequence,"a")}}>
+                                              <input type="hidden" value={ getSafeguardName(safeguard.ID)}/>
                                               <SafeguardDropdown dataSafeguards={safeguards} 
                                               dataValue={safeguard.ID}
                                               handleActiveRowSafeguard={() =>handleActiveRowSafeguard(safeguard.ID,indexNode,indexDeviation,indexCause,indexConsequence,indexSafeguard,)} 

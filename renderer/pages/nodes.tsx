@@ -189,7 +189,7 @@ const NodesPage: React.FC = () => {
       
         <div className="container">
           <div className="row">
-            <h3>Hazard Type</h3>
+            <h3>Nodes</h3>
             <div>
               <button
                 className="hover:bg-slate-100 py-2 px-2 rounded inline-flex items-center"
@@ -255,6 +255,7 @@ const NodesPage: React.FC = () => {
               </div>
             )}{" "}
             {/* Pesan error */}
+            
             <table className="table-auto">
               <thead className="bg-slate-300">
                 <tr>

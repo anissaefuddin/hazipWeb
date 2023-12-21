@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDataGlobal } from "../model/DataGlobalContext";
 import { Pha_Recommendations, Nodes, Deviations, Causes, Consequences, Safeguard_IDs, Intersections, Severities, Risk_Rankings, Likelihoods, Safeguards, Pha_Recommendation_IDs, Team_Members } from "../model/classModel";
 import { v4 as uuidv4 } from 'uuid';
@@ -30,6 +30,27 @@ const PhaWerksheet: React.FC = () => {
   const [indexRecommendation, setIndexRecommendation] = useState<number | null>(null);
   const [activeRowSelected, setActiveRowSelected] = useState<string | "">("");
   const [showError, setShowError] = useState(false);
+  const [selectedNode, setSelectedNode] = useState(
+    nodes.length > 0 ? nodes[0] : null,
+  );
+  const [deviations, setDeviation] = useState<Deviations[]>([]);
+  const [firstIndex, setFirstIndex] = useState(1);
+  useEffect(() => {
+    if (selectedNode) {
+      setDeviation(selectedNode?.Deviations || []); // Menggunakan Deviations dari selectedNode jika ada, atau array kosong jika tidak ada
+    } else {
+      setDeviation([]); // Jika selectedNode null atau undefined, inisialisasikan deviation dengan array kosong
+    }
+  }, [selectedNode]);
+  const handleTypeChange = (value: string) => {
+    const selectedNode = nodes.find((node) => node.ID === value);
+    const getIndex = nodes.findIndex((node) => node.ID === value);
+    if (selectedNode) {
+      setSelectedNode(selectedNode);
+      setDeviation(selectedNode?.Deviations);
+      setFirstIndex(getIndex + 1);
+    }
+  };
   const handleAddRow = () => {
     if (activeRowSelected != "") {
       if (activeRowSelected == "node" && activeRow != null) {
@@ -771,99 +792,80 @@ const PhaWerksheet: React.FC = () => {
               </div>
             )}{" "}
             {/* Pesan error */}
+            <div className="p-0 mb-1">
+              <select
+                className=" bg-transparent w-full leading-tight focus:outline-none"
+                value={selectedNode?.ID}
+                onChange={(e) => handleTypeChange(e.target.value)}
+              >
+                {nodes.map((data, index) => (
+                  <option key={data.ID} value={data.ID}>
+                    {index + 1} {data.Node_Description}
+                  </option>
+                ))}
+              </select>
+            </div>
             <div className="table-wrp block overflow-x-auto relative overflow-auto" style={{minHeight:550}}>
               <table className="w-full h-max">
                 <thead className="bg-slate-300 sticky top-0">
                   <tr>
-                    <td className="border px-4 py-2 text-center text-sm">HAZARD TYPE</td>
-                    <td className="border px-4 py-2 text-center text-sm">GUIDE WORD<br />CATEGORY</td>
-                    <td className="border px-4 py-2 text-center text-sm">GUIDE WORD</td>
-                    <td className="border px-4 py-2 text-center text-sm">POSSIBLE <br />HAZARD</td>
-                    <td className="border px-4 py-2 text-center text-sm">CONCEQUENCES</td>
-                    <td className="border px-4 py-2 text-center text-sm">CONCEQUENCES <br />CATEGORY</td>
-                    <td className="border px-4 py-2 text-center text-sm">SAVERITY</td>
-                    <td className="border px-4 py-2 text-center text-sm">LIKELY<br />HOOD</td>
-                    <td className="border px-4 py-2 text-center text-sm">RISK BEFORE<br />SAFEGUARD</td>
-                    <td className="border px-4 py-2 text-center text-sm">SAFEGUARD</td>
-                    <td className="border px-4 py-2 text-center text-sm">SAVERITY</td>
-                    <td className="border px-4 py-2 text-center text-sm">LIKELY<br />HOOD</td>
-                    <td className="border px-4 py-2 text-center text-sm">INITIAL<br />RISK</td>
-                    <td className="border px-4 py-2 text-center text-sm">RECOMMENDATION</td>
-                    <td className="border px-4 py-2 text-center text-sm">ACTION<br />PARTY</td>
-                    <td className="border px-4 py-2 text-center text-sm">STATUS</td>
-                    <td className="border px-4 py-2 text-center text-sm">SAVERITY</td>
-                    <td className="border px-4 py-2 text-center text-sm">LIKELY<br />HOOD</td>
-                    <td className="border px-4 py-2 text-center text-sm">RESIDUAL<br />RISK</td>
-                    <td className="border px-4 py-2 text-center text-sm">REMARK</td>
+                    <td className="border px-4 py-2 text-center text-sm" rowSpan={4}>Deviation</td>
+                    <td className="border px-4 py-2 text-center text-sm pt-0 pb-0" colSpan={17}>Cause</td>
+                    </tr>
+                  <tr>
+                    <td className="border px-4 py-2 text-center text-sm " rowSpan={3}>Cause</td>
+                    <td className="border px-4 py-2 text-center text-sm pt-0 pb-0" colSpan={16} >Concequences</td>
+                  </tr>
+                  <tr>
+                    <td className="border px-4 py-2 text-center text-sm" rowSpan={2}>Concequence</td>
+                    <td className="border px-4 py-2 text-center text-sm" rowSpan={2}>CAT</td>
+                    <td className="border px-4 py-2 text-center text-sm" rowSpan={2}>S Before <br/>Safeguards</td>
+                    <td className="border px-4 py-2 text-center text-sm" rowSpan={2}>L Before <br/>Safeguards</td>
+                    <td className="border px-4 py-2 text-center text-sm" rowSpan={2}>RR Before <br/>Safeguards</td>
+                    <td className="border px-4 py-2 text-center text-sm" colSpan={2}>Safeguards</td>
+                    <td className="border px-4 py-2 text-center text-sm" rowSpan={2}>S</td>
+                    <td className="border px-4 py-2 text-center text-sm" rowSpan={2}>L</td>
+                    <td className="border px-4 py-2 text-center text-sm" rowSpan={2}>RR</td>
+                    <td className="border px-4 py-2 text-center text-sm" rowSpan={2}>LOPA <br/> Required</td>
+                    <td className="border px-4 py-2 text-center text-sm" rowSpan={2}>Pha Recommendation</td>
+                    <td className="border px-4 py-2 text-center text-sm" rowSpan={2}>S After <br/>Recommendations</td>
+                    <td className="border px-4 py-2 text-center text-sm" rowSpan={2}>L After <br/>Recommendations</td>
+                    <td className="border px-4 py-2 text-center text-sm" rowSpan={2}>RR After <br/>Recommendations</td>
+                    <td className="border px-4 py-2 text-center text-sm" rowSpan={2}>Pha <br/>Comment</td>
+                  </tr>
+                  <tr>
+                    <td className="border px-4 py-2 text-center text-sm">Safeguard</td>
+                    <td className="border px-4 py-2 text-center text-sm">IPL</td>
                   </tr>
                 </thead>
                 <tbody>
-                {nodes.map((node, indexNode) => (
-                    <tr key={`apa${indexNode}`}>
-                      {/* Hazard Type */}
-                      <td className={ "border-t border-b border-r  align-top " +(activeRow === indexNode ? "active-row p-0" : " p-0")}>
-                        <input
-                          type="text"
-                          className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm  p-0"
-                          value={node.Node_Description}
-                          onChange={(e) => handleNodesChange(e, indexNode)}
-                          onFocus={(e) => handleActiveRowNode(e, indexNode)}
-                        />
-                      </td>
-                      {/* GUIDE WORD CATEGORY */}
-                      <td className="p-0 align-top">
-                        <table className="w-full ">
-                          <tbody>
-                          {node.Deviations.map((deviation, indexDeviation) => (
-                            <tr key={deviation.ID} className={ idDeviation === deviation.ID ? "active-row p-0" : " p-0" } >
-                              <td className={"border align-top text-sm p-0"}>
-                                <textarea style={{resize:"none",height:countAllSafeguardOrRecommendationPerDeviation(indexNode,indexDeviation,) * 26.5,padding:0}}
-                                          className="appearance-none bg-transparent border-none p-0 w-full leading-tight focus:outline-none text-sm"
-                                          value={deviation.Deviation}
-                                          spellCheck="false"
-                                          onChange={(e) =>handleDeviationChange(e,indexNode,indexDeviation,)}
-                                          onFocus={(e) =>handleActiveRowDeviation(e,deviation.ID,indexDeviation,indexNode,)}
-                                        />
-                              </td>
-                            </tr>
-                          ))}
-                          </tbody>
-                        </table>
-                      </td>
-                      {/* GUIDE WORD */}
-                      <td className="p-0 align-top">
-                        <table className="w-full ">
-                          <tbody> 
-                          {node.Deviations.map((deviation, indexDeviation) => (
-                            <tr key={deviation.ID} className={ idDeviation === deviation.ID ? "active-row p-0" : " p-0" } >
-                              <td className={ "border-t border-b border-l  align-top  p-0 text-sm" }>
-                                {indexDeviation + 1}
-                              </td>
-                              <td className={"border-t border-b border-r  align-top  p-0 text-sm"}>
-                                 <textarea style={{resize:"none",height:countAllSafeguardOrRecommendationPerDeviation(indexNode,indexDeviation,) * 26.5,padding:0}}
-                                          className="appearance-none bg-transparent border-none p-0 w-full  leading-tight focus:outline-none text-sm"
-                                          value={deviation.Guide_Word}
-                                          spellCheck="false"
-                                          onChange={(e) =>handleGuideWordChange(e,indexNode,indexDeviation,)}
-                                  onFocus={(e) =>handleActiveRowDeviation(e,deviation.ID,indexDeviation,indexNode,)} 
-                                        />
-                              </td>
-                            </tr>
-                          ))}
-                          </tbody>
-                        </table>
-                      </td>
-                      {/* POSSIBLE HAZARD */}
+                {deviations.map((deviation, indexDeviation) => (
+                  <tr key={deviation.ID} className={ idDeviation === deviation.ID ? "active-row p-0" : " p-0" } >
+                    {/* DEVIATION */}
+                    <td className={ "border-t border-b border-l  align-top  p-0 text-sm" }>
+                    {indexNode + 1}.{indexDeviation + 1}
+                    </td>
+                    <td className={"border-t border-b border-r  align-top  p-0 text-sm"}>
+                     <textarea style={{resize:"none",height:countAllSafeguardOrRecommendationPerDeviation(indexNode,indexDeviation,) * 26.5,padding:0}}
+                              className="appearance-none bg-transparent border-none p-0 w-full  leading-tight focus:outline-none text-sm"
+                              value={deviation.Deviation}
+                              spellCheck="false"
+                              onChange={(e) =>handleDeviationChange(e,indexNode,indexDeviation,)}
+                      onFocus={(e) =>handleActiveRowDeviation(e,deviation.ID,indexDeviation,indexNode,)} 
+                            />
+                    </td>
+                  
+                      {/* CAUSES */}
                       <td className="p-0 align-top">
                       <table className="w-full " >
                           <tbody>
-                        {node.Deviations.map((deviation, indexDeviation) => (
+                        {deviations.map((deviation, indexDeviation) => (
                           <React.Fragment key={deviation.ID}>
                             {deviation.Causes.map((cause, indexCause) => (
                               <tr key={cause.ID} className={ idCause === cause.ID ? "active-row p-0" : "p-0" }>
                                 <td className={ "border-t border-b border-l align-top  p-0 text-sm" }
                                   style={{height:countAllSafeguardOrRecommendationPerCauses( indexNode, indexDeviation, indexCause) *  26.5}} >
-                                  {indexDeviation + 1}.{indexCause + 1}  
+                                  {indexNode + 1}.{indexDeviation + 1}.{indexCause + 1}  
                                 </td>
                                 <td className={ "border-t border-b border-r align-top  p-0 text-sm" }
                                   style={{height:countAllSafeguardOrRecommendationPerCauses( indexNode, indexDeviation, indexCause) *  26.5}} >
@@ -879,7 +881,6 @@ const PhaWerksheet: React.FC = () => {
                             ))}
                             </React.Fragment>
                         ))}
-                        
                         </tbody>
                           </table>
                       </td>
@@ -887,7 +888,7 @@ const PhaWerksheet: React.FC = () => {
                       <td className="p-0 align-top">
                       <table className="w-full" >
                             <tbody>
-                        {node.Deviations.map((deviation, indexDeviation) => (
+                        {deviations.map((deviation, indexDeviation) => (
                           <React.Fragment key={deviation.ID}>
                             {deviation.Causes.map((cause, indexCause) => (
                               <React.Fragment key={cause.ID}>
@@ -898,7 +899,7 @@ const PhaWerksheet: React.FC = () => {
                                       <td
                                         className={"border-t border-b border-l align-top  p-0 text-sm"}
                                         style={{height:countAllSafeguardOrRecommendationPerConceqence(indexNode,indexDeviation,indexCause,indexConsequence,) * 23.5}}>
-                                        {indexDeviation + 1}.{indexCause + 1}.{indexConsequence + 1}
+                                        {indexNode + 1}.{indexDeviation + 1}.{indexCause + 1}.{indexConsequence + 1}
                                       </td>
                                       <td
                                         className={"border-t border-b border-r  align-top  p-0 text-sm"}
@@ -924,8 +925,8 @@ const PhaWerksheet: React.FC = () => {
                       </td>
                       {/* CONCEQUENCES CATEGORY */}
                       <td className="p-0 align-top">
-                        {node.Deviations.map((deviation, indexDeviation) => (
-                          <table className="w-full " key={"deviation_"+deviation.ID+indexDeviation}>
+                      {deviations.map((deviation, indexDeviation) => (
+                          <table className="w-full " >
                             <tbody>
                             {deviation.Causes.map((cause, indexCause) => (
                               <React.Fragment key={"cause_"+cause.ID+indexDeviation+indexCause} >
@@ -940,11 +941,11 @@ const PhaWerksheet: React.FC = () => {
                                           className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
                                           onChange={(e) => handleTypeConcequenceChange(e,indexNode,indexDeviation,indexCause,indexConsequence,)}>
                                           <option value="">{""}</option>
-                                          <option value="Safety">Safety</option>
-                                          <option value="Asset">Asset</option>
-                                          <option value="Environmental">Environmental</option>
-                                          <option value="Community">Community</option>
-                                          <option value="Reputation">Reputation</option>
+                                          <option value="Safety">S</option>
+                                          <option value="Asset">E</option>
+                                          <option value="Environmental">A</option>
+                                          <option value="Community">C</option>
+                                          <option value="Reputation">R</option>
                                         </select>
                                       </td>
                                     </tr>
@@ -958,7 +959,7 @@ const PhaWerksheet: React.FC = () => {
                       </td>
                       {/* SAVERITY BEFORE*/}
                       <td className="p-0 align-top">
-                        {node.Deviations.map((deviation, indexDeviation) => (
+                      {deviations.map((deviation, indexDeviation) => (
                           <table className="w-full" key={deviation.ID}>
                             <tbody>
                             {deviation.Causes.map((cause, indexCause) => (
@@ -978,7 +979,7 @@ const PhaWerksheet: React.FC = () => {
                                           {severities .filter(
                                               (severity) => severity.Severity_Type === concequence.Consequence_Type_ID, )
                                             .map((severity) => (
-                                              <option key={severity.ID} value={severity.ID} >{severity.Code}</option>
+                                              <option key={severity.ID} value={severity.ID} >{severity.Code} - {severity.RM_Description}</option>
                                             ))}
                                         </select>
                                       </td>
@@ -993,7 +994,7 @@ const PhaWerksheet: React.FC = () => {
                       </td>
                       {/* LIKELY HOOD BEFORE */}
                       <td className="p-0 align-top">
-                        {node.Deviations.map((deviation, indexDeviation) => (
+                      {deviations.map((deviation, indexDeviation) => (
                           <table className="w-full" key={deviation.ID}>
                             <tbody>
                             {deviation.Causes.map((cause, indexCause) => (
@@ -1013,7 +1014,7 @@ const PhaWerksheet: React.FC = () => {
                                            >
                                           <option value={""}>{""}</option>
                                           {likelihoods.map((likelihood) => (
-                                            <option key={likelihood.ID} value={likelihood.ID}>{likelihood.Code}</option>
+                                            <option key={likelihood.ID} value={likelihood.ID}>{likelihood.Code}-{likelihood.RM_Description}</option>
                                           ))}
                                         </select>
                                       </td>
@@ -1028,7 +1029,7 @@ const PhaWerksheet: React.FC = () => {
                       </td>
                       {/* RISK BEFORE SAFEGUARD */}
                       <td className="p-0 align-top">
-                        {node.Deviations.map((deviation, indexDeviation) => (
+                        {deviations.map((deviation, indexDeviation) => (
                           <table className="w-full" key={deviation.ID}>
                             <tbody>
                             {deviation.Causes.map((cause, indexCause) => (
@@ -1053,7 +1054,7 @@ const PhaWerksheet: React.FC = () => {
                       </td>
                       {/* SAFEGUARDS */}
                       <td className="p-0 align-top">
-                        {node.Deviations.map((deviation, indexDeviation) => (
+                      {deviations.map((deviation, indexDeviation) => (
                           <React.Fragment key={deviation.ID}>
                             {deviation.Causes.map((cause, indexCause) => (
                               <table className="w-full" key={cause.ID}>
@@ -1090,9 +1091,17 @@ const PhaWerksheet: React.FC = () => {
                           </React.Fragment>
                         ))}
                       </td>
+                      {/*IPL */}
+                      <td className={"border align-top  text-sm"}
+                                        style={{height:28.5}}>
+                        <select className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm">
+                          <option value={"true"}>Yes</option>
+                          <option value={"false"}>No</option>
+                        </select>
+                      </td>
                       {/* SAVERITY */}
                       <td className="p-0 align-top">
-                        {node.Deviations.map((deviation, indexDeviation) => (
+                      {deviations.map((deviation, indexDeviation) => (
                           <table className="w-full" key={deviation.ID}>
                             <tbody>
                             {deviation.Causes.map((cause, indexCause) => (
@@ -1111,7 +1120,7 @@ const PhaWerksheet: React.FC = () => {
                                           {severities.filter(
                                               (severity) =>
                                                 severity.Severity_Type === concequence.Consequence_Type_ID, ) .map((severity) => (
-                                              <option key={severity.ID} value={severity.ID} > {severity.Code}
+                                              <option key={severity.ID} value={severity.ID} > {severity.Code}-{severity.RM_Description} 
                                               </option>
                                             ))}
                                         </select>
@@ -1127,7 +1136,7 @@ const PhaWerksheet: React.FC = () => {
                       </td>
                       {/* LIKELY HOOD  */}
                       <td className="p-0 align-top">
-                        {node.Deviations.map((deviation, indexDeviation) => (
+                      {deviations.map((deviation, indexDeviation) => (
                           <table className="w-full" key={deviation.ID}>
                             <tbody>
                             {deviation.Causes.map((cause, indexCause) => (
@@ -1143,7 +1152,7 @@ const PhaWerksheet: React.FC = () => {
                                           onChange={(e) => handleLikelyhoodChange( e, indexNode, indexDeviation, indexCause, indexConsequence, "on", ) } value={concequence.Likelihood_ID} >
                                           <option value={""}></option>
                                           {likelihoods.map((likelihood) => (
-                                            <option key={likelihood.ID} value={likelihood?.ID || ""} > {likelihood.Code}
+                                            <option key={likelihood.ID} value={likelihood?.ID || ""} > {likelihood.Code}-{likelihood.RM_Description}
                                             </option>
                                           ))}
                                         </select>
@@ -1159,7 +1168,7 @@ const PhaWerksheet: React.FC = () => {
                       </td>
                       {/* INITIAL RISK	 */}
                       <td className="p-0 align-top">
-                        {node.Deviations.map((deviation, indexDeviation) => (
+                      {deviations.map((deviation, indexDeviation) => (
                           <table className="w-full" key={deviation.ID}>
                             <tbody>
                             {deviation.Causes.map((cause, indexCause) => (
@@ -1181,9 +1190,17 @@ const PhaWerksheet: React.FC = () => {
                           </table>
                         ))}
                       </td>
-                      {/* RECOMMENDATION */}
+                      {/*LOPA REQUIRED */}
+                      <td className={"border align-top  text-sm"}
+                                        style={{height:28.5}}>
+                        <select className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm">
+                          <option value={"true"}>Yes</option>
+                          <option value={"false"}>No</option>
+                        </select>
+                      </td>
+                      {/* PHA RECOMMENDATION */}
                       <td className="p-0 align-top  text-sm">
-                        {node.Deviations.map((deviation, indexDeviation) => (
+                      {deviations.map((deviation, indexDeviation) => (
                           <React.Fragment key={deviation.ID}>
                             {deviation.Causes.map((cause, indexCause) => (
                               <table className="w-full" key={cause.ID}>
@@ -1219,95 +1236,9 @@ const PhaWerksheet: React.FC = () => {
                           </React.Fragment>
                         ))}
                       </td>
-                      {/* ACTION PARTY	 */}
-                      <td className="p-0 align-top  text-sm">
-                      {node.Deviations.map((deviation, indexDeviation) => (
-                          <React.Fragment key={deviation.ID}>
-                            {deviation.Causes.map((cause, indexCause) => (
-                              <table className="w-full" key={cause.ID}>
-                                <tbody>
-                                {cause.Consequences.map(
-                                  (concequence, indexConsequence) => (
-                                    <React.Fragment key={concequence.ID}>
-                                      {concequence.Pha_Recommendation_IDs.map((recommendation,indexRecommendation,) => (
-                                          <tr key={recommendation.ID} className={ idSafeguard === recommendation.ID && recommendation.ID != ""? "active-row" : "" }
-                                          >
-                                            <td className={"border"}
-                                            style={{height:getBaseHeight(indexNode,indexDeviation,indexCause,indexConsequence,"b")}}>
-                                              <select
-                                                className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
-                                                onChange={(e) =>handleActionPartyChange(e,indexNode,indexDeviation,indexCause,indexConsequence,indexRecommendation,recommendation.ID)}
-                                                value={recommendations.find((recom) => recom.ID === recommendation.ID)?.Pha_Recommendation_Responsible_Party} >
-                                                <option value={""}></option>
-                                                {members.map(
-                                                  (dataMember) => (
-                                                    <option
-                                                      key={dataMember.ID}
-                                                      value={dataMember?.ID || ""}
-                                                    >{dataMember.Name}
-                                                    </option>
-                                                  ),
-                                                )}
-                                              </select>
-                                            </td>
-                                          </tr>
-                                        ),
-                                      )}
-                                    </React.Fragment>
-                                  ),
-                                )}
-                                </tbody>
-                              </table>
-                            ))}
-                          </React.Fragment>
-                        ))}
-                      </td>
-                      {/* STATUS		 */}
-                      <td className="p-0 align-top  text-sm">
-                      {node.Deviations.map((deviation, indexDeviation) => (
-                          <React.Fragment key={deviation.ID}>
-                            {deviation.Causes.map((cause, indexCause) => (
-                              <table className="w-full" key={cause.ID}>
-                                <tbody>
-                                {cause.Consequences.map(
-                                  (concequence, indexConsequence) => (
-                                    <React.Fragment key={concequence.ID}>
-                                      {concequence.Pha_Recommendation_IDs.map((recommendation,indexRecommendation,) => (
-                                          <tr key={recommendation.ID} className={ idSafeguard === recommendation.ID && recommendation.ID != "" ? "active-row" : "" }
-                                          >
-                                            <td className={"border"}
-                                            style={{height:getBaseHeight(indexNode,indexDeviation,indexCause,indexConsequence,"b")}}>
-                                              <select
-                                                className="appearance-none bg-transparent border-none w-full leading-tight focus:outline-none text-sm"
-                                                onChange={(e) =>handleStatusChange(e,indexNode,indexDeviation,indexCause,indexConsequence,indexRecommendation,recommendation.ID)}
-                                                value={recommendations.find((recom) => recom.ID === recommendation.ID)?.Pha_Recommendation_Status || ""} >
-                                                <option value={""}></option>
-                                                <option value={"Proposed"}>Proposed</option>
-                                                <option value={"Pending"}>Pending</option>
-                                                <option value={"Under Review"}>Under Review</option>
-                                                <option value={"In Progress"}>In Progress</option>
-                                                <option value={"Completed"}>Completed</option>
-                                                <option value={"Implemented"}>Implemented</option>
-                                                <option value={"Closed"}>Closed</option>
-                                                <option value={"Removed"}>Removed</option>
-                                                <option value={"Not Aplicable"}>Not Aplicable</option>
-                                              </select>
-                                            </td>
-                                          </tr>
-                                        ),
-                                      )}
-                                    </React.Fragment>
-                                  ),
-                                )}
-                                </tbody>
-                              </table>
-                            ))}
-                          </React.Fragment>
-                        ))}
-                      </td>
                       {/* SAVERITY AFTER*/}
                       <td className="p-0 align-top  text-sm">
-                        {node.Deviations.map((deviation, indexDeviation) => (
+                      {deviations.map((deviation, indexDeviation) => (
                           <table className="w-full" key={deviation.ID}>
                             <tbody>
                             {deviation.Causes.map((cause, indexCause) => (
@@ -1326,7 +1257,7 @@ const PhaWerksheet: React.FC = () => {
                                           {severities.filter(
                                               (severity) => severity.Severity_Type === concequence.Consequence_Type_ID,).map((severity) => (
                                               <option key={severity.ID} value={severity.ID}>
-                                                {severity.Code}
+                                                {severity.Code}-{severity.RM_Description}
                                               </option>
                                             ))}
                                         </select>
@@ -1342,7 +1273,7 @@ const PhaWerksheet: React.FC = () => {
                       </td>
                       {/* LIKELY HOOD  AFTER*/}
                       <td className="p-0 align-top  text-sm">
-                        {node.Deviations.map((deviation, indexDeviation) => (
+                      {deviations.map((deviation, indexDeviation) => (
                           <table className="w-full" key={deviation.ID}>
                             <tbody>
                             {deviation.Causes.map((cause, indexCause) => (
@@ -1359,7 +1290,7 @@ const PhaWerksheet: React.FC = () => {
                                           <option value={""}></option>
                                           {likelihoods.map((likelihood) => (
                                             <option key={likelihood.ID} value={likelihood.ID} >
-                                              {likelihood.Code}
+                                              {likelihood.Code}-{likelihood.RM_Description}
                                             </option>
                                           ))}
                                         </select>
@@ -1375,7 +1306,7 @@ const PhaWerksheet: React.FC = () => {
                       </td>
                       {/* Residual RISK	 */}
                       <td className="p-0 align-top  text-sm">
-                        {node.Deviations.map((deviation, indexDeviation) => (
+                      {deviations.map((deviation, indexDeviation) => (
                           <table className="w-full" key={deviation.ID}>
                             <tbody>
                             {deviation.Causes.map((cause, indexCause) => (
@@ -1401,7 +1332,7 @@ const PhaWerksheet: React.FC = () => {
                       <td className="p-0 align-top  text-sm">
                       <table className="w-full ">
                             <tbody>
-                      {node.Deviations.map((deviation, indexDeviation) => (
+                            {deviations.map((deviation, indexDeviation) => (
                         <React.Fragment key={deviation.ID}>
                             {deviation.Causes.map((cause, indexCause) => (
                               <React.Fragment key={cause.ID}>

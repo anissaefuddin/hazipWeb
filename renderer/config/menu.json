@@ -32,15 +32,15 @@
       ]
     },
     {
-      "name": "Hazard Type",
+      "name": "Nodes",
       "url": "/nodes"
     },
     {
-      "name": "Guide Word",
+      "name": "Deviations",
       "url": "/deviations"
     },
     {
-      "name": "PHA Worksheet",
+      "name": "PHA Worksheets",
       "url": "/pha-worksheet"
     },
     {
@@ -49,8 +49,16 @@
       "hasChildren" :true,
       "children": [
         {
-          "name": "Recommendation",
+          "name": "PHA Recommendation",
           "url": "/pha-recommendation"
+        },
+        {
+          "name": "LOPA Recommendation",
+          "url": "/lopa-recommendation"
+        },
+        {
+          "name": "Check List Recommendation",
+          "url": "/checklist-recommendation"
         }
       ]
     },

@@ -1,6 +1,6 @@
 {
   "site": {
-    "title": "Hazip App",
+    "title": "Hazop App",
     "base_url": "#",
     "base_path": "/",
     "trailing_slash": false,

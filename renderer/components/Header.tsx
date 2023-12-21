@@ -33,20 +33,20 @@ const Header = () => {
   }, [pathname]);
   return (
     <header
-      className={`header bg-emerald-600 z-30 ${settings.sticky_header && "sticky top-0 "}`}>
-      <ul className="flex bg-emerald-600">
+      className={`header bg-sky-600 z-30 ${settings.sticky_header && "sticky top-0 "}`}>
+      <ul className="flex bg-sky-600">
         {main.map((menu, i) => (
           <li className="-mb-px mr-1" key={`menu-${i}`}>
             <Link
               href={menu.url}
-              className={`inline-flex items-center h-10 px-2 py-2 -mb-px text-center sm:px-4 -px-1  whitespace-nowrap text-300  bg-emerald-600 text-black-500 hover:text-neutral-200 font-semibold ${
+              className={`inline-flex items-center h-10 px-2 py-2 -mb-px text-center sm:px-4 -px-1  whitespace-nowrap text-300  bg-sky-600 text-black-500 hover:text-neutral-200 font-semibold ${
                 (pathname === `${menu.url}/` ||
                   pathname === menu.url ||
                   menu.children?.map(({ url }) => url).includes(pathname) ||
                   menu.children
                     ?.map(({ url }) => `${url}/`)
                     .includes(pathname)) &&
-                " rounded-t py-2 px-4 text-white bg-emerald-950"
+                " rounded-t py-2 px-4 text-white bg-sky-950"
               }`}>
               <IconHeader menu={menu.name}></IconHeader>
               <span className="mx-1 text-sm sm:text-base">{menu.name}</span>
